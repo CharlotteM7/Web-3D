@@ -8,8 +8,9 @@
 /* Method to declare your own fonts */
 @font-face {
     font-family: cocaColaFont;
-    src: url(assets/fonts/lokicola.ttf);
+    src: url("../assets/fonts/lokicola.ttf") format("truetype");
 }
+
 
 
 /* Extra small devices (portrait phones, less than 576px)
@@ -205,7 +206,7 @@ There is plenty more styling to do than indicated here, in mobile it still defau
 
 .dropdown-menu {
     text-align: -webkit-left;
-    background-color: #eb9a91;
+    background-color: #b6e7f3;
     margin-top: 20px; /* Experiment to move the dropdown menu down */
 }
 
@@ -222,30 +223,27 @@ There is plenty more styling to do than indicated here, in mobile it still defau
 
 /* CSS rule to style the footer */
 .footer {
-    color: #FFF;
-    background-color: #760003;
+    color: #030303;
+    background-color: #760003; 
     height: 50px;
-}
+    }
+    
 
-.navbar-text > a {
-    color: rgb(255, 255, 255);
-    font-size: 8px;
-    text-decoration: none;
-}
-
-.navbar-text > p {
-    color: rgb(64, 228, 15);
-    font-size: 15px;
-    text-decoration: none;
-}
-
-.copyright {
-    padding-top: 13px;
-}
-
-.social {
-    padding-top: 0px;
-}
+    .navbar-text > a {
+        font-size: 10px;
+        }
+        .navbar-text > p {
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        text-decoration: none;
+        }
+        .copyright {
+        padding-top: 8px;
+        }
+        .social {
+        padding-top: 0px;
+        }
+        
 
 @media (min-width: 576px) {
 
@@ -277,28 +275,27 @@ There is plenty more styling to do than indicated here, in mobile it still defau
         min-height: 90px;
     }
 
-    /* CSS rule to style the footer */
-    .footer {
-        background-color: #257600;
-        height: 60px;
+  /* CSS rule to style the footer */
+.footer {
+    color: #030303;
+    background-color: #760003; 
+    height: 50px;
     }
-
     .navbar-text > a {
-        font-size: 10px;
+    font-size: 10px;
     }
-
     .navbar-text > p {
-        color: rgb(228, 75, 15);
-        font-size: 18px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    text-decoration: none;
     }
-
     .copyright {
-        padding-top: 20px;
+    padding-top: 8px;
     }
-
     .social {
-        padding-top: 7px;
+    padding-top: 0px;
     }
+    
 
 }
 
