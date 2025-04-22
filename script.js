@@ -1,11 +1,11 @@
-var scene,
+let scene,
   camera,
   renderer,
   clock,
   mixer,
   actions = [],
   mode,
-  isWirefram = false,
+  isWireframe = false,
   params,
   lights;
 let loadedModel;
@@ -34,7 +34,6 @@ function init() {
   camera.position.set(-5, 25, 20);
 
   // Set up audio
-
   const listener = new THREE.AudioListener();
   camera.add(listener);
 
@@ -133,6 +132,8 @@ function init() {
         actions.forEach((action) => {
           action.timeScale = 1;
           action.reset();
+          action.setLoop(THREE.LoopOnce, 1); // Play the animation only once
+          action.clampWhenFinished = true;
           action.play();
           if (sound.isPlaying) sound.stop();
           sound.play();
@@ -144,8 +145,8 @@ function init() {
   // Add wireframe toggle button
   const wireframeBtn = document.getElementById("toggleWireframe");
   wireframeBtn.addEventListener("click", function () {
-    isWirefram = !isWirefram;
-    toggleWireframe(isWirefram);
+    isWireframe = !isWireframe;
+    toggleWireframe(isWireframe);
   });
 
   // Add rotation button
@@ -167,15 +168,16 @@ function init() {
   playSecondModelAnimationBtn.addEventListener("click", function () {
     if (secondModelActions.length > 0) {
       secondModelActions.forEach((action) => {
+        action.stop(); 
         action.reset();
-        action.setLoop(THREE.LoopOnce); // Play theanimation only once
+        action.setLoop(THREE.LoopOnce, 1); // Play theanimation only once
         action.clampWhenFinished = true; // Stop at the last frame
         action.play();
         if (secondSound.isPlaying) secondSound.stop();
         secondSound.play();
       });
     } else {
-      console.warn("No animation available for thesecond model.");
+      console.warn("No animation available for the second model.");
     }
   });
 
@@ -198,12 +200,12 @@ function init() {
       // Reset animations if applicable
       mixer = new THREE.AnimationMixer(model);
       const animations = gltf.animations; // Array of animation clips
-      action = []; // Clear previous actions
+      actions = []; // Clear previous actions
       animations.forEach((clip) => {
         const action = mixer.clipAction(clip);
         actions.push(action);
       });
-      // If this is the second model, set up its separate mixer and actions
+   
       if (modelPath === "assets/cokeCancrush.glb") {
         secondModelMixer = mixer;
         secondModelActions = actions; // Store the second model's animations separately
@@ -217,7 +219,7 @@ function init() {
   // Add event listener for the switch model button
   const switchBtn = document.getElementById("switchModel");
   switchBtn.addEventListener("click", function () {
-    loadModel("assets/cokeCancrush.glb"); //Path to the new model
+    loadModel("assets/cokeCancrush.glb"); 
   });
 
   window.addEventListener("resize", resize, false);
