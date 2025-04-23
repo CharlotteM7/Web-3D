@@ -5,8 +5,11 @@
 }
 
 body {
+  margin: 0;
   padding-bottom: 5px;
-  background-color: rgb(245, 164, 98);
+  background-color: #fafafa;
+  color: #222;
+  font-family: "Open Sans", sans-serif;
 }
 
 /* ===== Typography ===== */
@@ -21,9 +24,10 @@ h6 {
 
 p {
   font-family: "Open Sans", sans-serif;
+  font-size: 12px;
 }
 
-/* ===== Main Layout ===== */
+/* ===== Layout ===== */
 .container-fluid,
 .row,
 .col-sm-10 {
@@ -34,15 +38,20 @@ p {
 }
 
 .main_contents {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 .card {
-  background-color: rgb(245, 164, 98);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border: 0px solid rgba(0, 0, 0, 0.125);
+  background-color: white;
+  border: 1px solid #cccccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 #main_3d_image {
@@ -53,7 +62,7 @@ p {
 
 #main_text {
   float: left;
-  margin: 5%;
+  margin: 20px 0;
   width: 90%;
   display: block;
   background-color: rgba(255, 255, 255, 0.6);
@@ -71,209 +80,183 @@ p {
 }
 
 #main_text p {
-  font-size: 12px;
-  line-height: 1.2;
-}
-
-/* ===== Logo Styles ===== */
-.logo h1,
-.logo h2 {
-  font-family: cocaColaFont;
-}
-
-.logo p {
-  font-size: 10px;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 /* ===== Navbar Styling ===== */
 .navbar_coca_cola {
-  background-color: #760003;
-  border-width: 0px;
+  background-color: #b80000;
+  border-width: 0;
   min-height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 1055;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .navbar_coca_cola .navbar-brand {
-  color: rgb(245, 235, 235);
+  color: #f5ebeb;
 }
 
 .navbar_coca_cola .navbar-brand:hover {
   color: yellow;
 }
 
-.navbar_coca_cola .navbar-nav > li > a {
-  color: white;
+.navbar_coca_cola .nav-link {
+  color: white !important;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+  margin-right: 15px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.navbar_coca_cola .navbar-nav > li > a:hover,
-.navbar_coca_cola .navbar-nav > li > a:focus {
-  color: yellow;
-}
-
-.navbar_coca_cola .navbar-nav .nav-item > .active,
-.navbar_coca_cola .navbar-nav > .active > a:hover,
-.navbar_coca_cola .navbar-nav > .active > a:focus {
-  color: white;
-  background-color: #ae0011;
+.navbar_coca_cola .nav-link:hover {
+  color: #ffd700 !important;
+  text-decoration: none;
+  transform: translateY(-2px);
 }
 
 .navbar_coca_cola .navbar-toggler {
-  border-color: white;
-  outline: none !important;
+  border: none;
+  background-color: transparent;
 }
 
 .navbar_coca_cola .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='4' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8h24M4 16h24M4 24h24' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
 }
 
 /* ===== Dropdown Styling ===== */
 .dropdown-menu {
-  text-align: -webkit-left;
-  background-color: #eb9a91;
+  text-align: left;
+  background-color: #a60000;
+  color: white;
   margin-top: 20px;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  z-index: 1056;
 }
 
-.dropdown-menu .dropdown-item {
-  color: #f1ee08;
+.dropdown-item {
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.dropdown-menu .dropdown-item:hover {
-  color: #030303;
-  background-color: #e98074;
+.dropdown-item:hover {
+  background-color: #ffd700;
+  color: #000;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+a {
+  color: #b80000;
+}
+a:hover {
+  color: #ffd700;
 }
 
 /* ===== Footer ===== */
 .footer {
-  background-color: #760003;
-  color: #fff;
-  height: 50px;
+  background-color: #222;
+  color: #fafafa;
   text-align: center;
-  padding-top: 10px;
-}
-
-.navbar-text > a {
-  color: rgb(255, 255, 255);
-  font-size: 8px;
-  text-decoration: none;
-}
-
-.navbar-text > p {
-  color: rgb(255, 255, 255);
+  padding: 10px 0;
   font-size: 14px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-text a {
+  color: white;
+  font-size: 10px;
   text-decoration: none;
 }
 
-.copyright {
-  padding-top: 8px;
-}
-.social {
-  padding-top: 0px;
+.navbar-text p {
+  color: white;
+  font-size: 14px;
 }
 
+/* ===== Responsive Media Queries ===== */
 @media (min-width: 576px) {
   body {
-    background-color: rgb(202, 181, 181);
+    background-color: #fafafa;
   }
-
   #main_3d_image {
     background-image: url(assets/images/main_3D_768.jpg);
-    background-repeat: no-repeat;
     height: 288px;
   }
-
   #main_text {
     float: right;
     margin-top: 7%;
   }
-
   .card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
-    /* border-radius: .25rem;*/
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: rgb(202, 181, 181);
+    background-color: #ffffff;
   }
-
-  .navbar_coca_cola {
-    background-color: grey;
-    min-height: 90px;
-  }
-
-  /* CSS rule to style the footer */
   .footer {
-    background-color: #257600;
-    height: 60px;
-  }
-
-  .navbar-text > a {
-    font-size: 10px;
-  }
-
-  .navbar-text > p {
-    color: rgb(228, 75, 15);
-    font-size: 18px;
-  }
-
-  .copyright {
-    padding-top: 20px;
-  }
-
-  .social {
-    padding-top: 7px;
-  }
-}
-
-/* Medium devices (tablets, 768px and up)
-*/
-@media (min-width: 768px) {
-  body {
-    background-color: rgb(218, 216, 148);
-  }
-
-  #main_3d_image {
-    background-image: url(assets/images/main_3D_970.jpg);
-    background-repeat: no-repeat;
-    height: 363px;
-  }
-
-  .card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
-    /* border-radius: .25rem;*/
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: rgb(218, 216, 148);
-  }
-
-  #main_text {
-    float: right;
-    margin-top: 7%;
-  }
-
-  #main_text h2 {
-    color: crimson;
-    font-size: 30px;
-  }
-
-  #main_text h3 {
-    color: darkcyan;
-    font-size: 22px;
-  }
-
-  #main_text p {
-    font-size: 15px;
-  }
-
-  /* ++++++++++++++++++++++++++LOGO+++++++++++++++++++++++*/
-
-  /* CSS rule to style the mobile logo */
-
-  .logo {
-    margin-top: 3px;
+    background-color: #8b0000;
   }
 
   .logo h1 {
     font-family: cocaColaFont;
     font-size: 41px;
-    margin: 0;
+    margin-bottom: -15px;
+    float: left;
+  }
+  .logo h2 {
+    font-family: cocaColaFont;
+    font-size: 43px;
+    margin-bottom: -15px;
+    float: left;
+  }
+  .logo h3 {
+    font-size: 31px;
+    margin-bottom: 3px;
+    float: left;
+  }
+  .logo p {
+    font-size: 10px;
+    margin-top: 45px;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    background-color: #f5f5f5;
+  }
+  #main_3d_image {
+    background-image: url(assets/images/main_3D_970.jpg);
+    height: 363px;
+  }
+  .card {
+    background-color: #ffffff;
+  }
+  #main_text h2 {
+    font-size: 30px;
+    color: #b80000;
+  }
+  #main_text h3 {
+    font-size: 22px;
+    color: #8b0000;
+  }
+  #main_text p {
+    font-size: 15px;
+    color: #333;
+  }
+  .logo h1 {
+    font-size: 41px;
     margin-top: 0px;
     margin-bottom: -15px;
     float: left;
@@ -281,9 +264,7 @@ p {
     padding-left: 0px;
     padding-right: 2px;
   }
-
   .logo h2 {
-    font-family: cocaColaFont;
     font-size: 43px;
     margin-top: 5px;
     margin-bottom: -15px;
@@ -292,7 +273,6 @@ p {
     padding-right: 3px;
     float: left;
   }
-
   .logo h3 {
     font-size: 31px;
     margin-top: 5px;
@@ -301,90 +281,38 @@ p {
     padding-left: 0px;
     float: left;
   }
-
   .logo p {
     font-size: 10px;
     margin-top: 45px;
-    margin-bottom: 0px;
-    padding-top: 0px;
-    padding-left: 8px;
+    margin-left: 0;
+    text-align: center;
+    clear: both;
   }
 
-  .navbar_coca_cola {
-    background-color: grey;
-    min-height: 90px;
-  }
-
-  /* CSS rule to style the footer */
   .footer {
-    background-color: #b890b1;
-    height: 60px;
+    background-color: #222;
   }
-
-  .navbar-text > a {
-    font-size: 10px;
-  }
-
-  .navbar-text > p {
-    color: rgb(12, 5, 3);
+  .navbar-text p {
+    color: #fafafa;
     font-size: 18px;
-  }
-
-  .copyright {
-    padding-top: 20px;
-  }
-
-  .social {
-    padding-top: 7px;
   }
 }
 
-/* Large devices (desktops, 992px and up)
-*/
 @media (min-width: 992px) {
   body {
-    background-color: rgb(185, 185, 178);
+    background-color: #ffffff;
   }
-
   #main_3d_image {
     background-image: url(assets/images/main_3D_1400a.jpg);
-    background-repeat: no-repeat;
     height: 500px;
   }
-
   #main_text {
-    float: right;
     margin-top: 20%;
   }
-
-  #main_text h2 {
-    color: crimson;
-    font-size: 30px;
-  }
-
-  #main_text h3 {
-    color: darkcyan;
-    font-size: 22px;
-  }
-
-  #main_text p {
-    font-size: 15px;
-  }
-
   .card {
-    border: 0px solid rgba(0, 0, 0, 0.125);
-    /* border-radius: .25rem;*/
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: rgb(185, 185, 178);
+    background-color: #ffffff;
   }
-
-  .logo {
-    margin-top: 7px;
-  }
-
   .logo h1 {
-    font-family: cocaColaFont;
     font-size: 59px;
     margin: 0;
     margin-top: 0px;
@@ -394,9 +322,7 @@ p {
     padding-left: 0px;
     padding-right: 0px;
   }
-
   .logo h2 {
-    font-family: cocaColaFont;
     font-size: 65px;
     margin-top: 7px;
     margin-bottom: -25px;
@@ -405,7 +331,6 @@ p {
     padding-right: 6px;
     float: left;
   }
-
   .logo h3 {
     font-size: 40px;
     margin-top: 15px;
@@ -414,40 +339,19 @@ p {
     padding-left: 0px;
     float: left;
   }
-
   .logo p {
     font-size: 14px;
     margin-top: 0px;
     margin-bottom: 0px;
-    padding-top: 65px;
-    padding-left: 12px;
+    padding-top: 25px;
+    padding-left: 8px;
   }
-
-  .navbar_coca_cola {
-    background-color: grey;
-    min-height: 120px;
-  }
-
-  /* CSS rule to style the footer */
   .footer {
-    background-color: rgb(163, 4, 4);
+    background-color: #222;
     height: 75px;
   }
-
-  .navbar-text > a {
-    font-size: 15px;
-  }
-
-  .navbar-text > p {
-    color: rgb(238, 6, 246);
-    font-size: 23px;
-  }
-
-  .copyright {
-    padding-top: 20px;
-  }
-
-  .social {
-    padding-top: 7px;
+  .navbar-text p {
+    color: #fafafa;
+    font-size: 28px;
   }
 }

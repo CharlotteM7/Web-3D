@@ -1,37 +1,44 @@
 body {
-    padding: 0;
-    margin: 0;
-
+  padding: 0;
+  margin: 0;
 }
 
-#btn, #Rotate, #switchModel, #playSecondModelAnimation{
-
-    background: #fea;
-    padding: 15px; 
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+.btn-primary {
+  background-color: #b80000;
+  border-color: #b80000;
+}
+.btn-primary:hover {
+  background-color: #ffd700;
+  border-color: #ffd700;
+  color: #000;
 }
 
-
-#toggleWireframe{ 
- 
-    background: #fea;
-    padding: 15px; 
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+#btn,
+#Rotate,
+#switchModel,
+#playSecondModelAnimation {
+  background: #fea;
+  padding: 25px;
+  font-family: "Oswald", sans-serif;
+}
+#toggleWireframe {
+  background: #fea;
+  padding: 25px;
+  font-family: "Oswald", sans-serif;
 }
 
-
-.container-fluid, .row, .col-sm-10 {
-    padding:0;
-    margin:0;
-    width: 100%;
-    overflow: visible;
+.container-fluid,
+.row,
+.col-sm-10 {
+  padding: 0;
+  margin: 10;
+  width: 100%;
+  overflow: visible;
 }
 
 #gui-container {
-    position: absolute;
-    top: 120px;
-    left: 10px;
-    z-index: 1000;
+  position: absolute;
+  top: 120px;
+  left: 10px;
+  z-index: 1000;
 }
