@@ -20,7 +20,6 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style_button.css">
 
     <!-- Three.js and Extensions -->
     <script src="https://unpkg.com/three@0.106.2/build/three.min.js"></script>
@@ -115,10 +114,12 @@
 
   <!-- 3D Viewer Gallary -->
   <section id="gallary"  class="py-5 bg-light">
+
     <div class="container text-center">
       <h2 class="mb-4">Interact with our 3D Models</h2>
       <canvas id="threeContainer"title="3D Interactive Drinks Model Viewer" aria-label="3D interactive viewer of Coca Cola, Sprite and Dr Pepper models."
       style="width: 100%; height: 500px;"></canvas>
+      <div id="gui-container" style="position: absolute; top: 100px; left: 10px; z-index: 1000;"></div>
       <div class="mt-4">
         <button id="rotateBtn" class="btn btn-secondary">Rotate</button>
         <button id="wireframeBtn" class="btn btn-secondary">Wireframe</button>
