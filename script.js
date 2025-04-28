@@ -22,7 +22,7 @@ function init() {
 
   // Creat the scene
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x00aaff);
+  scene.background = new THREE.Color(0xFAF0E6);
 
   // Set up camera
   camera = new THREE.PerspectiveCamera(
@@ -82,7 +82,8 @@ function init() {
   const guiContainer = document.getElementById("gui-container");
   guiContainer.appendChild(gui.domElement);
 
-  guiContainer.style.position = "fixed";
+  guiContainer.setAttribute("id", "gui-container");
+
   
   const spot = gui.addFolder("Spot");
   spot.open();

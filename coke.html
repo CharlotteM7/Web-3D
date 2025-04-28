@@ -89,27 +89,37 @@
     </div>
     </div>
 
-    <div id="gui-container"></div>
     <div class="container-fluid main-contents">
         <div class="row">
-            <div class="col-sm-10">
-                <div class="card" style="position: relative;">
-                    <div class="card-header">
-                        <h1> Lets drink!</h1>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="threeContainer"></canvas>
-                    </div>
-                    <button id="btn">
-                        Open Can
-                    </button>
-                    <button id="toggleWireframe">Toggle Wireframe</button>
-                    <button id="Rotate">Rotate</button>
-                    <button id="switchModel">Switch Model</button>
-                    <button id="playSecondModelAnimation">Hey. Let's recycle!</button>
+          <div class="col-sm-10">
+            <div class="card" style="position: relative;">
+              <div class="card-header">
+                <h1>Let's drink!</h1>
+              </div>
+      
+              <div class="card-body">
+                <!-- 3D Canvas -->
+                <canvas id="threeContainer"></canvas>
+      
+                <!-- Controls Row -->
+                <div class="controls-row d-flex flex-wrap gap-2 mt-3">
+                  <div id="button-panel">
+                    <button id="btn" class="btn btn-primary">Open Can</button>
+                    <button id="toggleWireframe" class="btn btn-secondary">Toggle Wireframe</button>
+                    <button id="Rotate" class="btn btn-secondary">Rotate</button>
+                    <button id="switchModel" class="btn btn-secondary">Switch Model</button>
+                    <button id="playSecondModelAnimation" class="btn btn-success">Hey. Let's recycle!</button>
+                  </div>
+      
+                  <!-- GUI Panel -->
+                  <div id="gui-container" class="ms-4"></div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      
 
         <script>
             // Function to update the container size (Canvas)

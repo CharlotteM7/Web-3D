@@ -3,16 +3,6 @@ body {
   margin: 0;
 }
 
-.btn-primary {
-  background-color: #b80000;
-  border-color: #b80000;
-}
-.btn-primary:hover {
-  background-color: #ffd700;
-  border-color: #ffd700;
-  color: #000;
-}
-
 #btn,
 #Rotate,
 #switchModel,

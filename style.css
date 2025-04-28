@@ -189,6 +189,16 @@ a:hover {
   font-size: 14px;
 }
 
+#gui-container {
+    position: fixed;
+    top: 1000px;      
+    right: 20px;
+    z-index: 9999;
+    width: 300px;    
+  }
+  
+  
+
 /* ===== Responsive Media Queries ===== */
 @media (min-width: 576px) {
   body {
@@ -328,7 +338,7 @@ a:hover {
     margin-bottom: -25px;
     padding-top: 0px;
     padding-left: 0px;
-    padding-right: 6px;
+    padding-right: 5px;
     float: left;
   }
   .logo h3 {
