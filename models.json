@@ -1,0 +1,19 @@
+{
+  "coke": {
+    "modelPath": "assets/3D/cokeCan.glb",
+    "secondModelPath": "assets/3D/cokeCancrush.glb",
+    "soundPath": "assets/sounds/open.mp3",
+    "secondSoundPath": "assets/sounds/crush.mp3",
+    "animation": true
+  },
+  "sprite": {
+    "modelPath": "assets/3D/spriteice.glb",
+    "soundPath": "assets/sounds/crush.mp3",
+    "animation": true
+  },
+  "drpepper": {
+    "modelPath": "assets/3D/cancondensation.glb",
+    "soundPath": "assets/sounds/crush.mp3",
+    "animation": true
+  }
+}

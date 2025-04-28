@@ -8,12 +8,25 @@ let scene,
   isWireframe = false,
   params,
   lights;
-let loadedModel;
-let secondModelMixer,
-  secondModelActions = [];
-let sound, secondSound;
+  let loadedModel;
+  let secondModelMixer,
+    secondModelActions = [];
+  let sound, secondSound;
+  let loader;
+  let firstModelPath, secondModelPath;
 
 init();
+
+async function fetchDrinkData() {
+  try {
+    const response = await fetch('models.json');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching models.json:', error);
+  }
+}
+
 
 function init() {
   const assetPath = "./";
@@ -36,22 +49,6 @@ function init() {
   // Set up audio
   const listener = new THREE.AudioListener();
   camera.add(listener);
-
-  sound = new THREE.Audio(listener);
-  secondSound = new THREE.Audio(listener);
-
-  const audioLoader = new THREE.AudioLoader();
-  audioLoader.load("assets/sounds/open.mp3", function (buffer) {
-    sound.setBuffer(buffer);
-    sound.setLoop(0);
-    sound.setVolume(1.0);
-  });
-
-  audioLoader.load("assets/sounds/crush.mp3", function (buffer) {
-    secondSound.setBuffer(buffer);
-    secondSound.setLoop(0);
-    secondSound.setVolume(1.0);
-  });
 
   // Add lighting
   const ambient = new THREE.HemisphereLight(0xffffbb, 0x080820, 4);
@@ -81,36 +78,17 @@ function init() {
   const gui = new dat.GUI({ autoPlace: false });
   const guiContainer = document.getElementById("gui-container");
   guiContainer.appendChild(gui.domElement);
-
   guiContainer.setAttribute("id", "gui-container");
 
   
   const spot = gui.addFolder("Spot");
   spot.open();
-  spot.add(params.spot, "enable").onChange((value) => {
-    lights.spot.visible = value;
-  });
-  spot
-    .addColor(params.spot, "color")
-    .onChange((value) => (lights.spot.color = new THREE.Color(value)));
-  spot
-    .add(params.spot, "distance")
-    .min(0)
-    .max(20)
-    .onChange((value) => (lights.spot.distance = value));
-  spot
-    .add(params.spot, "angle")
-    .min(0.1)
-    .max(6.28)
-    .onChange((value) => (lights.spot.angle = value));
-  spot
-    .add(params.spot, "penumbra")
-    .min(0)
-    .max(1)
-    .onChange((value) => (lights.spot.penumbra = value));
-  spot
-    .add(params.spot, "helper")
-    .onChange((value) => (lights.spotHelper.visible = value));
+  spot.add(params.spot, "enable").onChange((value) => { lights.spot.visible = value; });
+  spot.addColor(params.spot, "color").onChange((value) => (lights.spot.color = new THREE.Color(value)));
+  spot.add(params.spot, "distance").min(0).max(20).onChange((value) => (lights.spot.distance = value));
+  spot.add(params.spot, "angle").min(0.1).max(6.28).onChange((value) => (lights.spot.angle = value));
+  spot.add(params.spot, "penumbra").min(0).max(1).onChange((value) => (lights.spot.penumbra = value));
+  spot.add(params.spot, "helper").onChange((value) => (lights.spotHelper.visible = value));
   spot.add(params.spot, "moving");
 
   //Set up renderer
@@ -124,107 +102,162 @@ function init() {
   controls.target.set(1, 2, 0);
   controls.update();
 
-  // Button to control animations
-  mode = "open";
-  const btn = document.getElementById("btn");
-  btn.addEventListener("click", function () {
-    if (actions.length === 2) {
-      if (mode === "open") {
-        actions.forEach((action) => {
-          action.timeScale = 1;
-          action.reset();
-          action.setLoop(THREE.LoopOnce, 1); // Play the animation only once
-          action.clampWhenFinished = true;
-          action.play();
-          if (sound.isPlaying) sound.stop();
-          sound.play();
-        });
+  loader = new THREE.GLTFLoader();
+
+  // Load initial model dynamically
+  fetchDrinkData().then((data) => {
+    const page = window.location.pathname;
+    let drink;
+    if (page.includes("sprite.html")) {
+      drink = "sprite";
+    } else if (page.includes("drpepper.html")) {
+      drink = "drpepper";
+    } else {
+      drink = "coke";
+    }
+
+    if (data && data[drink]) {
+      firstModelPath = data[drink].modelPath;
+      secondModelPath = data[drink].secondModelPath;
+      loadModel(firstModelPath);
+      setupSounds(data[drink]);
+
+      if (drink === "coke") {
+        createArrowButtons();
       }
     }
   });
 
-  // Add wireframe toggle button
-  const wireframeBtn = document.getElementById("toggleWireframe");
-  wireframeBtn.addEventListener("click", function () {
-    isWireframe = !isWireframe;
-    toggleWireframe(isWireframe);
-  });
-
-  // Add rotation button
-  const rotateBtn = document.getElementById("Rotate");
-  rotateBtn.addEventListener("click", function () {
-    if (loadedModel) {
-      const axis = new THREE.Vector3(0, 1, 0);
-      const angle = Math.PI / 8;
-      loadedModel.rotateOnAxis(axis, angle);
-    } else {
-      console.warn("Model not loaded yet");
-    }
-  });
-
-  // Add event listener for the play second model animation button
-  const playSecondModelAnimationBtn = document.getElementById(
-    "playSecondModelAnimation"
-  );
-  playSecondModelAnimationBtn.addEventListener("click", function () {
-    if (secondModelActions.length > 0) {
-      secondModelActions.forEach((action) => {
-        action.stop(); 
-        action.reset();
-        action.setLoop(THREE.LoopOnce, 1); // Play theanimation only once
-        action.clampWhenFinished = true; // Stop at the last frame
-        action.play();
-        if (secondSound.isPlaying) secondSound.stop();
-        secondSound.play();
-      });
-    } else {
-      console.warn("No animation available for the second model.");
-    }
-  });
-
-  // Function to load a model
-  const loader = new THREE.GLTFLoader();
-  function loadModel(modelPath) {
-    // Remove the current model if it exists
-    if (loadedModel) {
-      scene.remove(loadedModel);
-    }
-
-    // Load the new model
-    loader.load(modelPath, function (gltf) {
-      const model = gltf.scene;
-      // Set the position and add it to the scene
-      model.position.set(0, 0, 0); // Same position as the previous model
-      scene.add(model);
-      // Update the reference to the loaded model
-      loadedModel = model;
-      // Reset animations if applicable
-      mixer = new THREE.AnimationMixer(model);
-      const animations = gltf.animations; // Array of animation clips
-      actions = []; // Clear previous actions
-      animations.forEach((clip) => {
-        const action = mixer.clipAction(clip);
-        actions.push(action);
-      });
-   
-      if (modelPath === "assets/cokeCancrush.glb") {
-        secondModelMixer = mixer;
-        secondModelActions = actions; // Store the second model's animations separately
+  const btn = document.getElementById("btn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      if (actions.length > 0) {
+        actions.forEach((action) => {
+          action.timeScale = 1;
+          action.reset();
+          action.setLoop(THREE.LoopOnce, 1);
+          action.clampWhenFinished = true;
+          action.play();
+        });
+        if (currentModelIndex === 0) {
+          if (sound && sound.isPlaying) sound.stop();
+          if (sound) sound.play();
+        } else {
+          if (secondSound && secondSound.isPlaying) secondSound.stop();
+          if (secondSound) secondSound.play();
+        }
+        
       }
     });
   }
 
-  // Initial model load
-  loadModel("assets/cokeCan.glb");
+  const wireframeBtn = document.getElementById("toggleWireframe");
+  if (wireframeBtn) {
+    wireframeBtn.addEventListener("click", function () {
+      isWireframe = !isWireframe;
+      toggleWireframe(isWireframe);
+    });
+  }
 
-  // Add event listener for the switch model button
-  const switchBtn = document.getElementById("switchModel");
-  switchBtn.addEventListener("click", function () {
-    loadModel("assets/cokeCancrush.glb"); 
-  });
+  const rotateBtn = document.getElementById("Rotate");
+  if (rotateBtn) {
+    rotateBtn.addEventListener("click", function () {
+      if (loadedModel) {
+        const axis = new THREE.Vector3(0, 1, 0);
+        const angle = Math.PI / 8;
+        loadedModel.rotateOnAxis(axis, angle);
+      } else {
+        console.warn("Model not loaded yet");
+      }
+    });
+  }
 
   window.addEventListener("resize", resize, false);
   animate();
+}
+
+function createArrowButtons() {
+  const canvasWrapper = document.getElementById("canvasWrapper");
+
+  const leftArrow = document.createElement("button");
+  leftArrow.id = "leftArrow";
+  leftArrow.innerHTML = "⬅️";
+  leftArrow.style.position = "absolute";
+  leftArrow.style.top = "50%";
+  leftArrow.style.left = "10px";
+  leftArrow.style.transform = "translateY(-50%)";
+  leftArrow.style.zIndex = "100";
+  canvasWrapper.appendChild(leftArrow);
+
+  const rightArrow = document.createElement("button");
+  rightArrow.id = "rightArrow";
+  rightArrow.innerHTML = "➡️";
+  rightArrow.style.position = "absolute";
+  rightArrow.style.top = "50%";
+  rightArrow.style.right = "10px";
+  rightArrow.style.transform = "translateY(-50%)";
+  rightArrow.style.zIndex = "100";
+  canvasWrapper.appendChild(rightArrow);
+
+  leftArrow.addEventListener("click", function () {
+    loadModel(firstModelPath);
+    currentModelIndex = 0;
+  });
+
+  rightArrow.addEventListener("click", function () {
+    if (secondModelPath) {
+      loadModel(secondModelPath);
+      currentModelIndex = 1;
+    } else {
+      console.warn("No second model available.");
+    }
+  });
+}
+
+function loadModel(modelPath) {
+  if (loadedModel) {
+    scene.remove(loadedModel);
+  }
+
+  loader.load(modelPath, function (gltf) {
+    const model = gltf.scene;
+    model.position.set(0, 0, 0);
+    scene.add(model);
+    loadedModel = model;
+
+    mixer = new THREE.AnimationMixer(model);
+    const animations = gltf.animations;
+    actions = [];
+    animations.forEach((clip) => {
+      const action = mixer.clipAction(clip);
+      actions.push(action);
+    });
+  });
+}
+
+function setupSounds(drinkData) {
+  const audioLoader = new THREE.AudioLoader();
+  const listener = new THREE.AudioListener();
+  camera.add(listener);
+
+  sound = new THREE.Audio(listener);
+
+  if (drinkData.soundPath) {
+    audioLoader.load(drinkData.soundPath, function (buffer) {
+      sound.setBuffer(buffer);
+      sound.setLoop(false);
+      sound.setVolume(1.0);
+    });
+  }
+
+  if (drinkData.secondSoundPath) {
+    secondSound = new THREE.Audio(listener);
+    audioLoader.load(drinkData.secondSoundPath, function (buffer) {
+      secondSound.setBuffer(buffer);
+      secondSound.setLoop(false);
+      secondSound.setVolume(1.0);
+    });
+  }
 }
 
 function toggleWireframe(enable) {
@@ -238,12 +271,13 @@ function toggleWireframe(enable) {
 function animate() {
   requestAnimationFrame(animate);
 
-  // Update animations for both models
   if (mixer) {
     mixer.update(clock.getDelta());
     if (secondModelMixer) secondModelMixer.update(clock.getDelta());
   }
+
   renderer.render(scene, camera);
+
   const time = clock.getElapsedTime();
   const delta = Math.sin(time) * 5;
   if (params.spot.moving) {

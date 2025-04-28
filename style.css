@@ -1,367 +1,246 @@
-/* ===== Global Setup ===== */
-@font-face {
-  font-family: cocaColaFont;
-  src: url("../assets/fonts/lokicola.ttf") format("truetype");
-}
-
+/* ========== GLOBAL ========== */
 body {
-  margin: 0;
-  padding-bottom: 5px;
+  font-family: 'Open Sans', sans-serif;
   background-color: #fafafa;
-  color: #222;
-  font-family: "Open Sans", sans-serif;
-}
-
-/* ===== Typography ===== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Oswald", sans-serif;
-}
-
-p {
-  font-family: "Open Sans", sans-serif;
-  font-size: 12px;
-}
-
-/* ===== Layout ===== */
-.container-fluid,
-.row,
-.col-sm-10 {
-  padding: 0;
+  color: #333;
   margin: 0;
+  padding: 0;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+}
+
+/* Navbar */
+.navbar {
+  font-family: 'Oswald', sans-serif;
+}
+
+.navbar-brand h1, .navbar-brand h2, .navbar-brand h3, .navbar-brand p {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.navbar-nav .nav-link {
+  font-size: 1rem;
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+}
+
+/* Hero */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: cover;
   width: 100%;
-  overflow: visible;
+  height: 100%;
+  z-index: 1;
+  filter: brightness(2.05);
 }
 
-.main_contents {
-  margin: 10px 0;
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  transform: translateY(-140px);
 }
 
+.hero-content h1,
+.hero-content p {
+  color: #ffffff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+
+/* ========== CANVAS AND 3D AREA ========== */
+#threeContainer {
+  width: 100%;
+  height: 500px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+   box-sizing: border-box;
+  margin-top: 20px;
+}
+
+/* Button Panel */
+#button-panel button {
+  min-width: 150px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-family: 'Oswald', sans-serif;
+}
+
+/* Controls spacing */
+.controls-row {
+  margin-top: 20px;
+}
+
+/* ========== CARDS ========== */
 .card {
-  background-color: white;
-  border: 1px solid #cccccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+  background-color: #212529;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  background-color: #ffffff;
+}
+
+/* Card buttons */
+.card .btn {
+  margin-top: 10px;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  background-color: #111;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+footer small {
+  display: block;
+  margin-top: 10px;
+}
+
+/* ========== MISCELLANEOUS ========== */
+#gui-container {
+  position: absolute;
+  top: 100px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* Hero Section */
+header {
+  background: linear-gradient(to bottom right, #d0e1ff, #ffffff);
+  color: #000;
+  padding: 60px 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+header p {
+  font-size: 1.25rem;
+}
+
+/* About Page Sections */
+.container h2 {
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+
+/* Buttons general look */
+button.btn {
   border-radius: 8px;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
+/* Gallery section */
+#gallary {
+  background-color: #f0f0f0;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-#main_3d_image {
-  background-image: url(assets/images/main_3D.jpg);
-  background-repeat: no-repeat;
-  height: 201px;
+#gallary h2 {
+  margin-bottom: 30px;
 }
 
-#main_text {
-  float: left;
-  margin: 20px 0;
-  width: 90%;
-  display: block;
-  background-color: rgba(255, 255, 255, 0.6);
-  padding: 10px;
-  border-radius: 5px;
-}
-
-#main_text h2 {
-  color: rgba(0, 102, 153, 1);
-  font-size: 20px;
-}
-
-#main_text h3 {
-  font-size: 15px;
-}
-
-#main_text p {
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* ===== Navbar Styling ===== */
-.navbar_coca_cola {
-  background-color: #b80000;
-  border-width: 0;
-  min-height: 70px;
-  position: sticky;
-  top: 0;
-  z-index: 1055;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.navbar_coca_cola .navbar-brand {
-  color: #f5ebeb;
-}
-
-.navbar_coca_cola .navbar-brand:hover {
-  color: yellow;
-}
-
-.navbar_coca_cola .nav-link {
-  color: white !important;
-  font-family: "Oswald", sans-serif;
-  font-weight: 500;
-  margin-right: 15px;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.navbar_coca_cola .nav-link:hover {
-  color: #ffd700 !important;
-  text-decoration: none;
-  transform: translateY(-2px);
-}
-
-.navbar_coca_cola .navbar-toggler {
-  border: none;
-  background-color: transparent;
-}
-
-.navbar_coca_cola .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 32 32' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8h24M4 16h24M4 24h24' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
-}
-
-/* ===== Dropdown Styling ===== */
-.dropdown-menu {
-  text-align: left;
-  background-color: #a60000;
-  color: white;
-  margin-top: 20px;
-  border: none;
-  border-radius: 6px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-in-out;
-  z-index: 1056;
-}
-
-.dropdown-item {
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 14px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #ffd700;
-  color: #000;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-a {
-  color: #b80000;
-}
-a:hover {
-  color: #ffd700;
-}
-
-/* ===== Footer ===== */
-.footer {
-  background-color: #222;
-  color: #fafafa;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 14px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-text a {
-  color: white;
-  font-size: 10px;
-  text-decoration: none;
-}
-
-.navbar-text p {
-  color: white;
-  font-size: 14px;
-}
-
-#gui-container {
-    position: fixed;
-    top: 1000px;      
-    right: 20px;
-    z-index: 9999;
-    width: 300px;    
-  }
-  
-  
-
-/* ===== Responsive Media Queries ===== */
-@media (min-width: 576px) {
-  body {
-    background-color: #fafafa;
-  }
-  #main_3d_image {
-    background-image: url(assets/images/main_3D_768.jpg);
-    height: 288px;
-  }
-  #main_text {
-    float: right;
-    margin-top: 7%;
-  }
-  .card {
-    background-color: #ffffff;
-  }
-  .footer {
-    background-color: #8b0000;
+/* ========== RESPONSIVENESS ========== */
+/* Extra Small Devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  #threeContainer {
+    height: 300px;
+    padding: 1rem;
   }
 
-  .logo h1 {
-    font-family: cocaColaFont;
-    font-size: 41px;
-    margin-bottom: -15px;
-    float: left;
+  header h1 {
+    font-size: 1.8rem;
   }
-  .logo h2 {
-    font-family: cocaColaFont;
-    font-size: 43px;
-    margin-bottom: -15px;
-    float: left;
+
+  header p {
+    font-size: 1rem;
   }
-  .logo h3 {
-    font-size: 31px;
-    margin-bottom: 3px;
-    float: left;
+
+  #button-panel {
+    flex-direction: column;
+    align-items: center;
   }
-  .logo p {
-    font-size: 10px;
-    margin-top: 45px;
+
+  #button-panel button {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 
-@media (min-width: 768px) {
-  body {
-    background-color: #f5f5f5;
-  }
-  #main_3d_image {
-    background-image: url(assets/images/main_3D_970.jpg);
-    height: 363px;
-  }
-  .card {
-    background-color: #ffffff;
-  }
-  #main_text h2 {
-    font-size: 30px;
-    color: #b80000;
-  }
-  #main_text h3 {
-    font-size: 22px;
-    color: #8b0000;
-  }
-  #main_text p {
-    font-size: 15px;
-    color: #333;
-  }
-  .logo h1 {
-    font-size: 41px;
-    margin-top: 0px;
-    margin-bottom: -15px;
-    float: left;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 2px;
-  }
-  .logo h2 {
-    font-size: 43px;
-    margin-top: 5px;
-    margin-bottom: -15px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 3px;
-    float: left;
-  }
-  .logo h3 {
-    font-size: 31px;
-    margin-top: 5px;
-    margin-bottom: 3px;
-    padding-top: 0px;
-    padding-left: 0px;
-    float: left;
-  }
-  .logo p {
-    font-size: 10px;
-    margin-top: 45px;
-    margin-left: 0;
-    text-align: center;
-    clear: both;
+/* Small Devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  #threeContainer {
+    height: 350px;
   }
 
-  .footer {
-    background-color: #222;
+  header h1 {
+    font-size: 2rem;
   }
-  .navbar-text p {
-    color: #fafafa;
-    font-size: 18px;
+
+  header p {
+    font-size: 1.1rem;
   }
 }
 
-@media (min-width: 992px) {
-  body {
-    background-color: #ffffff;
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  #threeContainer {
+    height: 400px;
   }
-  #main_3d_image {
-    background-image: url(assets/images/main_3D_1400a.jpg);
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  header p {
+    font-size: 1.25rem;
+  }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  #threeContainer {
     height: 500px;
   }
-  #main_text {
-    margin-top: 20%;
-  }
-  .card {
-    background-color: #ffffff;
-  }
-  .logo h1 {
-    font-size: 59px;
-    margin: 0;
-    margin-top: 0px;
-    margin-bottom: -20px;
-    float: left;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-  .logo h2 {
-    font-size: 65px;
-    margin-top: 7px;
-    margin-bottom: -25px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 5px;
-    float: left;
-  }
-  .logo h3 {
-    font-size: 40px;
-    margin-top: 15px;
-    margin-bottom: -5px;
-    padding-top: 0px;
-    padding-left: 0px;
-    float: left;
-  }
-  .logo p {
-    font-size: 14px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-top: 25px;
-    padding-left: 8px;
-  }
-  .footer {
-    background-color: #222;
-    height: 75px;
-  }
-  .navbar-text p {
-    color: #fafafa;
-    font-size: 28px;
+}
+
+/* Extra Large Devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  #threeContainer {
+    height: 600px;
   }
 }
