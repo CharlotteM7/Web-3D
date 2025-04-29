@@ -7,15 +7,19 @@ let scene,
   mode,
   isWireframe = false,
   params,
-  lights;
-  let loadedModel;
-  let secondModelMixer,
-    secondModelActions = [];
-  let sound, secondSound;
-  let loader;
-  let firstModelPath, secondModelPath;
+  lights,
+  loadedModel,
+  secondModelMixer,
+  secondModelActions = [],
+  sound,
+  secondSound,
+  loader,
+  firstModelPath,
+  secondModelPath,
+  currentCanvas,
+  currentModelIndex = 0;
 
-init();
+let count = 0;
 
 async function fetchDrinkData() {
   try {
@@ -27,30 +31,45 @@ async function fetchDrinkData() {
   }
 }
 
+function swapContent(id) {
+  document.querySelectorAll('.content').forEach(section => {
+    section.classList.remove('active');
+    section.style.display = 'none';
+  });
 
-function init() {
-  const assetPath = "./";
+  const selected = document.getElementById(id);
+  if (selected) {
+    selected.classList.add('active');
+    selected.style.display = 'block';
+  }
 
+  if (["coke", "sprite", "pepper"].includes(id)) {
+    fetchDrinkData().then((data) => {
+      if (data && data[id]) {
+        firstModelPath = data[id].modelPath;
+        secondModelPath = data[id].secondModelPath;
+        const canvas = selected.querySelector("canvas");
+        const guiContainer = selected.querySelector("#gui-container");
+        const drinkData = data[id];
+        setupViewer(canvas, guiContainer);
+        loadModel(firstModelPath);
+        setupSounds(drinkData);
+      }
+    });
+  }
+}
+
+function setupViewer(canvas, guiContainer) {
   clock = new THREE.Clock();
-
-  // Creat the scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xFAF0E6);
 
-  // Set up camera
-  camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
   camera.position.set(-5, 25, 20);
 
-  // Set up audio
   const listener = new THREE.AudioListener();
   camera.add(listener);
 
-  // Add lighting
   const ambient = new THREE.HemisphereLight(0xffffbb, 0x080820, 4);
   scene.add(ambient);
 
@@ -76,11 +95,9 @@ function init() {
   };
 
   const gui = new dat.GUI({ autoPlace: false });
-  const guiContainer = document.getElementById("gui-container");
+  guiContainer.innerHTML = '';
   guiContainer.appendChild(gui.domElement);
-  guiContainer.setAttribute("id", "gui-container");
 
-  
   const spot = gui.addFolder("Spot");
   spot.open();
   spot.add(params.spot, "enable").onChange((value) => { lights.spot.visible = value; });
@@ -91,127 +108,18 @@ function init() {
   spot.add(params.spot, "helper").onChange((value) => (lights.spotHelper.visible = value));
   spot.add(params.spot, "moving");
 
-  //Set up renderer
-  const canvas = document.getElementById("threeContainer");
-  renderer = new THREE.WebGLRenderer({ canvas: canvas });
+  renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setPixelRatio(window.devicePixelRatio);
-  resize();
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
-  // Add OrbitControls
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target.set(1, 2, 0);
   controls.update();
 
   loader = new THREE.GLTFLoader();
+  currentCanvas = canvas;
 
-  // Load initial model dynamically
-  fetchDrinkData().then((data) => {
-    const page = window.location.pathname;
-    let drink;
-    if (page.includes("sprite.html")) {
-      drink = "sprite";
-    } else if (page.includes("drpepper.html")) {
-      drink = "drpepper";
-    } else {
-      drink = "coke";
-    }
-
-    if (data && data[drink]) {
-      firstModelPath = data[drink].modelPath;
-      secondModelPath = data[drink].secondModelPath;
-      loadModel(firstModelPath);
-      setupSounds(data[drink]);
-
-      if (drink === "coke") {
-        createArrowButtons();
-      }
-    }
-  });
-
-  const btn = document.getElementById("btn");
-  if (btn) {
-    btn.addEventListener("click", function () {
-      if (actions.length > 0) {
-        actions.forEach((action) => {
-          action.timeScale = 1;
-          action.reset();
-          action.setLoop(THREE.LoopOnce, 1);
-          action.clampWhenFinished = true;
-          action.play();
-        });
-        if (currentModelIndex === 0) {
-          if (sound && sound.isPlaying) sound.stop();
-          if (sound) sound.play();
-        } else {
-          if (secondSound && secondSound.isPlaying) secondSound.stop();
-          if (secondSound) secondSound.play();
-        }
-        
-      }
-    });
-  }
-
-  const wireframeBtn = document.getElementById("toggleWireframe");
-  if (wireframeBtn) {
-    wireframeBtn.addEventListener("click", function () {
-      isWireframe = !isWireframe;
-      toggleWireframe(isWireframe);
-    });
-  }
-
-  const rotateBtn = document.getElementById("Rotate");
-  if (rotateBtn) {
-    rotateBtn.addEventListener("click", function () {
-      if (loadedModel) {
-        const axis = new THREE.Vector3(0, 1, 0);
-        const angle = Math.PI / 8;
-        loadedModel.rotateOnAxis(axis, angle);
-      } else {
-        console.warn("Model not loaded yet");
-      }
-    });
-  }
-
-  window.addEventListener("resize", resize, false);
   animate();
-}
-
-function createArrowButtons() {
-  const canvasWrapper = document.getElementById("canvasWrapper");
-
-  const leftArrow = document.createElement("button");
-  leftArrow.id = "leftArrow";
-  leftArrow.innerHTML = "⬅️";
-  leftArrow.style.position = "absolute";
-  leftArrow.style.top = "50%";
-  leftArrow.style.left = "10px";
-  leftArrow.style.transform = "translateY(-50%)";
-  leftArrow.style.zIndex = "100";
-  canvasWrapper.appendChild(leftArrow);
-
-  const rightArrow = document.createElement("button");
-  rightArrow.id = "rightArrow";
-  rightArrow.innerHTML = "➡️";
-  rightArrow.style.position = "absolute";
-  rightArrow.style.top = "50%";
-  rightArrow.style.right = "10px";
-  rightArrow.style.transform = "translateY(-50%)";
-  rightArrow.style.zIndex = "100";
-  canvasWrapper.appendChild(rightArrow);
-
-  leftArrow.addEventListener("click", function () {
-    loadModel(firstModelPath);
-    currentModelIndex = 0;
-  });
-
-  rightArrow.addEventListener("click", function () {
-    if (secondModelPath) {
-      loadModel(secondModelPath);
-      currentModelIndex = 1;
-    } else {
-      console.warn("No second model available.");
-    }
-  });
 }
 
 function loadModel(modelPath) {
@@ -260,20 +168,11 @@ function setupSounds(drinkData) {
   }
 }
 
-function toggleWireframe(enable) {
-  scene.traverse(function (object) {
-    if (object.isMesh) {
-      object.material.wireframe = enable;
-    }
-  });
-}
-
 function animate() {
   requestAnimationFrame(animate);
 
   if (mixer) {
     mixer.update(clock.getDelta());
-    if (secondModelMixer) secondModelMixer.update(clock.getDelta());
   }
 
   renderer.render(scene, camera);
@@ -286,11 +185,15 @@ function animate() {
   }
 }
 
-function resize() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+function countUp() {
+  count++;
+  document.getElementById('counter').textContent = count;
+}
 
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
-  renderer.setSize(width, height);
+function changeLook() {
+  document.body.style.backgroundColor = "#222";
+  document.body.style.color = "#eee";
+  const navbar = document.querySelector('.navbar');
+  if (navbar) navbar.classList.remove('bg-dark');
+  if (navbar) navbar.classList.add('bg-primary');
 }

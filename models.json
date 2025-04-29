@@ -11,7 +11,7 @@
     "soundPath": "assets/sounds/crush.mp3",
     "animation": true
   },
-  "drpepper": {
+  "pepper": {
     "modelPath": "assets/3D/cancondensation.glb",
     "soundPath": "assets/sounds/crush.mp3",
     "animation": true

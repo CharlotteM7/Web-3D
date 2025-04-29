@@ -19,7 +19,11 @@
     <script src="https://kit.fontawesome.com/6ac3910c4e.js" crossorigin="anonymous"></script>
 
     <!-- Custom CSS -->
+
     <link rel="stylesheet" href="style.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Three.js and Extensions -->
     <script src="https://unpkg.com/three@0.106.2/build/three.min.js"></script>
@@ -40,15 +44,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#gallary">Gallary</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('home')">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('about')">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('gallerySection')">Gallery</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="drinksDropdown" role="button" data-bs-toggle="dropdown">Drinks</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="coke.html">Coca Cola</a></li>
-              <li><a class="dropdown-item" href="sprite.html">Sprite</a></li>
-              <li><a class="dropdown-item" href="drpepper.html">Dr Pepper</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('coke')">Coca Cola</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('sprite')">Sprite</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('pepper')">Dr Pepper</a></li>
+              
             </ul>
           </li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -57,22 +62,105 @@
     </div>
   </nav>
 
+
 <!-- Hero Section -->
+ <div id="home" class = "content active">
+  <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
 <header class="hero-section position-relative vh-100 d-flex align-items-center justify-content-center text-center overflow-hidden">
   
-    <video id="heroVideo" class="hero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay loop muted playsinline>
-      <source src="assets/video/dpsplash.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  
-    <div id="heroContent" class="hero-content position-relative text-white">
-      <h1 class="display-4 fw-bold">Experience Refreshment in 3D</h1>
-      <p class="lead">Interact with Coca-Cola, Sprite, and Dr Pepper models</p>
+  <video id="heroVideo" class="hero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay loop muted playsinline>
+    <source src="assets/video/dpsplash.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div id="heroContent" class="hero-content position-relative text-white">
+    <h1 class="display-4 fw-bold">Experience Refreshment in 3D</h1>
+    <p class="lead">Interact with Coca-Cola, Sprite, and Dr Pepper models</p>
+  </div>
+
+</header>
+ </div>
+
+ <div id="counterSection" class="text-center my-4">
+  <p>You've clicked <span id="counter">0</span> times!</p>
+  <button onclick="countUp()" class="btn btn-outline-primary">Click Me</button>
+</div>
+
+<div class="text-center my-4">
+  <button onclick="changeLook()" class="btn btn-outline-success">Dark Mode</button>
+</div>
+
+<!-- Coke Section -->
+  <div id="coke" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Coca-Cola</h1>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-coke" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Coca Cola"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Animate</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
     </div>
-  
-  </header>
-  
-  
+  </div>
+
+  <!-- Sprite Section -->
+  <div id="sprite" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Sprite</h1>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-sprite" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Sprite"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Add Ice</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dr Pepper Section -->
+  <div id="pepper" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Dr Pepper</h1>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-pepper" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Dr Pepper"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Chill</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Features Section -->
   <section id="features" class="py-5 bg-white">
@@ -84,7 +172,8 @@
             <div class="card-body">
               <h5 class="card-title">Coca Cola</h5>
               <p class="card-text">Classic taste, classic style. Now in 3D!</p>
-              <a href="#" class="btn btn-outline-primary">View 3D</a>
+              <a href="#" class="btn btn-outline-primary" onclick="swapContent('coke')">View 3D</a>
+
             </div>
           </div>
         </div>
@@ -94,7 +183,8 @@
             <div class="card-body">
               <h5 class="card-title">Sprite</h5>
               <p class="card-text">Lemon-lime refreshment, reimagined.</p>
-              <a href="#" class="btn btn-outline-primary">View 3D</a>
+              <a href="#" class="btn btn-outline-primary" onclick="swapContent('sprite')">View 3D</a>
+
             </div>
           </div>
         </div>
@@ -104,7 +194,7 @@
             <div class="card-body">
               <h5 class="card-title">Dr Pepper</h5>
               <p class="card-text">23 flavours, infinite imagination.</p>
-              <a href="#" class="btn btn-outline-primary">View 3D</a>
+              <a href="#" class="btn btn-outline-primary" onclick="swapContent('pepper')">View 3D</a>
             </div>
           </div>
         </div>
@@ -112,30 +202,27 @@
     </div>
   </section>
 
-  <!-- 3D Viewer Gallary -->
-  <section id="gallary"  class="py-5 bg-light">
+  <!-- Gallery Section -->
+  <div id="gallerySection" class="content">
+    <section class="container my-5">
+      <h2 class="text-center">3D Image Gallery</h2>
+      <div id="gallery" class="d-flex flex-wrap justify-content-center"></div>
+    </section>
+  </div>
+  
 
-    <div class="container text-center">
-      <h2 class="mb-4">Interact with our 3D Models</h2>
-      <canvas id="threeContainer"title="3D Interactive Drinks Model Viewer" aria-label="3D interactive viewer of Coca Cola, Sprite and Dr Pepper models."
-      style="width: 100%; height: 500px;"></canvas>
-      <div id="gui-container" style="position: absolute; top: 100px; left: 10px; z-index: 1000;"></div>
-      <div class="mt-4">
-        <button id="rotateBtn" class="btn btn-secondary">Rotate</button>
-        <button id="wireframeBtn" class="btn btn-secondary">Wireframe</button>
-        <button id="animateBtn" class="btn btn-success">Animate</button>
+
+
+  <!-- About Section -->
+  <div id="about" class="content">
+    <section class="py-5">
+      <div class="container text-center">
+        <h2>About This Application</h2>
+        <p class="lead">Built with Three.js, Bootstrap 5, and a passion for interactive web experiences.</p>
+        <a href="about.html" class="btn btn-outline-dark">Learn More</a>
       </div>
-    </div>
-  </section>
-
-  <!-- About Teaser Section -->
-  <section id="about" class="py-5">
-    <div class="container text-center">
-      <h2>About This Application</h2>
-      <p class="lead">Built with Three.js, Bootstrap 5, and a passion for interactive web experiences.</p>
-      <a href="about.html" class="btn btn-outline-dark">Learn More</a>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-dark text-light py-4">
@@ -150,8 +237,9 @@
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Your Scripts -->
+  <!-- Scripts -->
   <script src="script.js"></script>
+  <script src="gallery/gallery.js"></script>
 </body>
 
 </html>
