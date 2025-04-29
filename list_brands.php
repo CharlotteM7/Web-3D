@@ -1,16 +1,11 @@
 <?php
-try {
-    // Open the SQLite DB
-    $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+header('Content-Type: application/json');
 
-    // Query only the 'brand' column
-    $stmt = $db->query("SELECT brand FROM drinks ORDER BY brand");
-    $brands = $stmt->fetchAll(PDO::FETCH_COLUMN);
+require __DIR__ . '/application/model/model.php';
 
-    // Return as JSON for easy consumption
-    header('Content-Type: application/json');
-    echo json_encode($brands);
-} catch (PDOException $e) {
-    echo "Error fetching brands: " . $e->getMessage();
-}
+$model  = new Model();
+$brands = $model->getBrands();
+
+echo json_encode($brands);

@@ -1,5 +1,3 @@
-<!doctype html>
-<html lang="en">
 
 <head>
     <!-- Required meta tags -->
@@ -20,7 +18,7 @@
 
     <!-- Custom CSS -->
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -278,7 +276,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Scripts -->
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
   <script src="gallery/gallery.js"></script>
 </body>
 
