@@ -21,15 +21,7 @@ let scene,
 
 let count = 0;
 
-async function fetchDrinkData() {
-  try {
-    const response = await fetch('models.json');
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching models.json:', error);
-  }
-}
+
 
 function swapContent(id) {
   document.querySelectorAll('.content').forEach(section => {
@@ -42,22 +34,26 @@ function swapContent(id) {
     selected.classList.add('active');
     selected.style.display = 'block';
   }
-
   if (["coke", "sprite", "pepper"].includes(id)) {
-    fetchDrinkData().then((data) => {
-      if (data && data[id]) {
-        firstModelPath = data[id].modelPath;
-        secondModelPath = data[id].secondModelPath;
-        const canvas = selected.querySelector("canvas");
-        const guiContainer = selected.querySelector("#gui-container");
-        const drinkData = data[id];
+    // 1) fetch details from your SQLite-backed PHP endpoint
+    fetch(`drink_details.php?brand=${id}`)
+      .then(res => res.json())
+      .then(drinkData => {
+        // 2) pull paths & flags from the returned object
+        firstModelPath   = drinkData.modelPath;
+        secondModelPath  = drinkData.secondModelPath;
+        // 3) set up viewer & load model + sounds + gallery
+        const canvas      = selected.querySelector("canvas");
+        const guiContainer= selected.querySelector("#gui-container");
         setupViewer(canvas, guiContainer);
         loadModel(firstModelPath);
         setupSounds(drinkData);
         loadGallery(id);
-      }
-    });
+      })
+      .catch(err => console.error("Detail load error:", err));
   }
+  
+  
 }
 
 function setupViewer(canvas, guiContainer) {
@@ -222,5 +218,29 @@ function changeLook() {
     if (button) button.textContent = 'Dark Mode';
   }
 }
+$(document).ready(function() {
+  // Fetch brand list from PHP/SQLite
+  $.getJSON('list_brands.php', function(brands) {
+    const $menu = $('#drinkDropdown');
+    $menu.empty();  // clear any placeholder
 
+    brands.forEach(function(brand) {
+      // Capitalise first letter for display
+      const label = brand.charAt(0).toUpperCase() + brand.slice(1);
 
+      // Build <li><a class="dropdown-item">…</a></li>
+      const $link = $('<a>')
+        .addClass('dropdown-item')
+        .attr('href', '#')
+        .text(label)
+        .on('click', function(e) {
+          e.preventDefault();
+          swapContent(brand);
+        });
+
+      $menu.append( $('<li>').append($link) );
+    });
+  }).fail(function() {
+    console.error('Failed to load drink list');
+  });
+});
