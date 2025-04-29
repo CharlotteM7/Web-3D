@@ -1,11 +1,119 @@
 <?php
 class Model {
-    private $dbPath;
+    private PDO    $db;
+    private string $dbPath;
 
     public function __construct() {
-        // Adjust this path so it points at your test.db
+    
         $this->dbPath = __DIR__ . '/../../db/test.db';
+    
+        try {
+            $this->db = new PDO('sqlite:' . $this->dbPath);
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("DB connection failed: " . $e->getMessage());
+        }
     }
+    
+
+
+    public function dbCreateTable(): string {
+        try {
+            $pdo = new PDO('sqlite:' . $this->dbPath);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->exec("
+                CREATE TABLE IF NOT EXISTS drinks (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  brand TEXT UNIQUE NOT NULL,
+                  modelPath TEXT,
+                  secondModelPath TEXT,
+                  soundPath TEXT,
+                  secondSoundPath TEXT,
+                  animation INTEGER DEFAULT 0
+                );
+            ");
+            return "✅ Table `drinks` is ready.";
+        } catch (PDOException $e) {
+            return "❌ Error creating table: " . $e->getMessage();
+        }
+    }
+
+    public function dbInsertData(): string {
+        try {
+            $pdo = new PDO('sqlite:' . $this->dbPath);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            // Prepare the INSERT statement (INSERT OR IGNORE to avoid duplicates)
+            $stmt = $pdo->prepare("
+                INSERT OR IGNORE INTO drinks
+                  (brand, modelPath, secondModelPath, soundPath, secondSoundPath, animation)
+                VALUES
+                  (:brand, :modelPath, :secondModelPath, :soundPath, :secondSoundPath, :animation)
+            ");
+    
+            // Define your seed data here:
+            $drinks = [
+                [
+                    'brand'           => 'coke',
+                    'modelPath'       => 'models/coke.glb',
+                    'secondModelPath' => 'models/coke_extra.glb',
+                    'soundPath'       => 'sounds/coke.mp3',
+                    'secondSoundPath' => 'sounds/coke_pop.mp3',
+                    'animation'       => 1
+                ],
+                [
+                    'brand'           => 'sprite',
+                    'modelPath'       => 'models/sprite.glb',
+                    'secondModelPath' => '',
+                    'soundPath'       => 'sounds/sprite.mp3',
+                    'secondSoundPath' => '',
+                    'animation'       => 0
+                ],
+                [
+                    'brand'           => 'pepper',
+                    'modelPath'       => 'models/pepper.glb',
+                    'secondModelPath' => '',
+                    'soundPath'       => 'sounds/pepper.mp3',
+                    'secondSoundPath' => '',
+                    'animation'       => 1
+                ]
+            ];
+    
+            // Execute the INSERT for each entry
+            foreach ($drinks as $d) {
+                $stmt->execute([
+                    ':brand'           => $d['brand'],
+                    ':modelPath'       => $d['modelPath'],
+                    ':secondModelPath' => $d['secondModelPath'],
+                    ':soundPath'       => $d['soundPath'],
+                    ':secondSoundPath' => $d['secondSoundPath'],
+                    ':animation'       => $d['animation'],
+                ]);
+            }
+    
+            return "✅ Seed data inserted.";
+        } catch (PDOException $e) {
+            return "❌ Seed error: " . $e->getMessage();
+        }
+    }
+    
+    /**
+ * Fetch all rows from the drinks table.
+ *
+ * @return array  Each element is an associative array of a drink record.
+ */
+public function dbGetData(): array {
+    try {
+        $pdo = new PDO('sqlite:' . $this->dbPath);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $pdo->query("SELECT * FROM drinks");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // On error, return an empty array
+        return [];
+    }
+}
+
 
     /** 
      * Return an array of all distinct brand names 
@@ -16,4 +124,14 @@ class Model {
         $stmt = $pdo->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
+
+    
+
+
+
+
+
+
+
+
 }

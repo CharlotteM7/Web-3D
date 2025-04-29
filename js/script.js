@@ -54,7 +54,7 @@ function swapContent(id) {
 }
 
 $(function () {
-  $.getJSON("list_brands.php")
+  $.getJSON("/list_brands.php")
     .done((brands) => {
       const $menu = $("#drinkDropdown").empty();
       brands.forEach((b) => {

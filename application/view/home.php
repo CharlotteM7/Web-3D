@@ -1,4 +1,3 @@
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -276,8 +275,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Scripts -->
-  <script src="js/script.js"></script>
-  <script src="gallery/gallery.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/gallery/gallery.js"></script>
 </body>
 
 </html>
