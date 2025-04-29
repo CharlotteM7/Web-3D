@@ -1,16 +1,20 @@
-$(document).ready(function() {
-  $.getJSON('gallery/hook.php', function(images) {
-    let gallery = $('#gallery'); // Target the main gallery div
+function loadGallery(drink) {
+  const galleryId = `#gallery-${drink}`;
+  const galleryDiv = $(galleryId);
+  galleryDiv.empty(); // clear old thumbnails
 
+  // ✅ Debug line — visibly confirm gallery loaded
+  galleryDiv.append(`<p class="text-muted">Gallery loaded for <strong>${drink}</strong></p>`);
+
+  $.getJSON(`gallery/hook.php?drink=${drink}`, function(images) {
     $.each(images, function(index, imgPath) {
-      let img = $('<img>')
-        .attr('src', imgPath.replace('../', '')) // Clean path if needed
+      const img = $('<img>')
+        .attr('src', imgPath.replace('../', ''))
         .addClass('img-thumbnail m-2')
         .css('max-width', '150px');
-
-      gallery.append(img);
+      galleryDiv.append(img);
     });
   }).fail(function(jqxhr, textStatus, error) {
-    console.error('Error loading gallery: ', textStatus, error);
+    console.error(`Error loading gallery for ${drink}:`, textStatus, error);
   });
-});
+}

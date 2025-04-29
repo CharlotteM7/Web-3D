@@ -54,6 +54,7 @@ function swapContent(id) {
         setupViewer(canvas, guiContainer);
         loadModel(firstModelPath);
         setupSounds(drinkData);
+        loadGallery(id);
       }
     });
   }
@@ -197,3 +198,29 @@ function changeLook() {
   if (navbar) navbar.classList.remove('bg-dark');
   if (navbar) navbar.classList.add('bg-primary');
 }
+
+function changeLook() {
+  const body = document.body;
+  const navbar = document.querySelector('.navbar');
+  const button = document.querySelector('#themeToggle');
+
+  body.classList.toggle('dark-mode');
+
+  if (body.classList.contains('dark-mode')) {
+    if (navbar) {
+      navbar.classList.remove('bg-dark');
+      navbar.classList.add('bg-primary');
+
+    }
+    if (button) button.textContent = 'Light Mode';
+  } else {
+    if (navbar) {
+      navbar.classList.remove('bg-primary');
+      navbar.classList.add('bg-dark');
+    
+    }
+    if (button) button.textContent = 'Dark Mode';
+  }
+}
+
+

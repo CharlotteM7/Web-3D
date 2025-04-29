@@ -33,7 +33,7 @@
     <title>3D Web Page</title>
 </head>
 
-<body id="bodyColor">
+<body>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -79,91 +79,8 @@
   </div>
 
 </header>
- </div>
-
- <div id="counterSection" class="text-center my-4">
-  <p>You've clicked <span id="counter">0</span> times!</p>
-  <button onclick="countUp()" class="btn btn-outline-primary">Click Me</button>
-</div>
-
-<div class="text-center my-4">
-  <button onclick="changeLook()" class="btn btn-outline-success">Dark Mode</button>
-</div>
-
-<!-- Coke Section -->
-  <div id="coke" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Coca-Cola</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-coke" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Coca Cola"></canvas>
-          </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn" class="btn btn-primary m-2">Animate</button>
-              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
-            </div>
-            <div id="gui-container" class="ms-4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sprite Section -->
-  <div id="sprite" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Sprite</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-sprite" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Sprite"></canvas>
-          </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn" class="btn btn-primary m-2">Add Ice</button>
-              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
-            </div>
-            <div id="gui-container" class="ms-4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Dr Pepper Section -->
-  <div id="pepper" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Dr Pepper</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-pepper" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Dr Pepper"></canvas>
-          </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn" class="btn btn-primary m-2">Chill</button>
-              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
-            </div>
-            <div id="gui-container" class="ms-4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Features Section -->
-  <section id="features" class="py-5 bg-white">
+  <section id="features" >
     <div class="container">
       <div class="row text-center">
         <div class="col-md-4 mb-4">
@@ -201,6 +118,92 @@
       </div>
     </div>
   </section>
+ </div>
+
+ <div id="counterSection" class="text-center my-4">
+  <p>You've clicked <span id="counter">0</span> times!</p>
+  <button onclick="countUp()" class="btn btn-outline-primary">Click Me</button>
+</div>
+
+<div class="text-center my-4">
+  <button id="themeToggle" onclick="changeLook()" class="btn btn-outline-success">Dark Mode</button>
+
+</div>
+
+<!-- Coke Section -->
+  <div id="coke" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Coca-Cola</h1>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-coke" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Coca Cola"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Animate</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="gallery-coke" class="d-flex flex-wrap justify-content-center mt-4"></div>
+  </div>
+
+  <!-- Sprite Section -->
+  <div id="sprite" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Sprite</h1>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-sprite" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Sprite"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Add Ice</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
+      <div id="gallery-sprite" class="d-flex flex-wrap justify-content-center mt-4"></div>
+    </div>
+  </div>
+
+  <!-- Dr Pepper Section -->
+  <div id="pepper" class="content">
+    <div class="container py-5">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h1 class="mb-0">Dr Pepper</h1>
+          <div id="gallery-pepper" class="d-flex flex-wrap justify-content-center mt-4"></div>
+        </div>
+        <div class="card-body text-center">
+          <div id="canvasWrapper-pepper" style="position: relative;">
+            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Dr Pepper"></canvas>
+          </div>
+          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+            <div id="button-panel">
+              <button id="btn" class="btn btn-primary m-2">Chill</button>
+              <button id="toggleWireframe" class="btn btn-secondary m-2">Toggle Wireframe</button>
+              <button id="Rotate" class="btn btn-secondary m-2">Rotate</button>
+            </div>
+            <div id="gui-container" class="ms-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Gallery Section -->
   <div id="gallerySection" class="content">
@@ -210,19 +213,60 @@
     </section>
   </div>
   
-
-
-
   <!-- About Section -->
   <div id="about" class="content">
     <section class="py-5">
       <div class="container text-center">
-        <h2>About This Application</h2>
-        <p class="lead">Built with Three.js, Bootstrap 5, and a passion for interactive web experiences.</p>
-        <a href="about.html" class="btn btn-outline-dark">Learn More</a>
-      </div>
-    </section>
+
+
+  <div class="container mt-4">
+    <h1 class="mb-4">About This Web 3D Application</h1>
+
+    <h2>Technologies Used</h2>
+    <ul>
+      <li>HTML5, CSS3, JavaScript (ES6+)</li>
+      <li>Bootstrap 5 for responsive layout</li>
+      <li>Three.js for 3D model rendering and interactivity</li>
+      <li>dat.GUI for real-time lighting controls</li>
+      <li>jQuery</li>
+    </ul>
+
+    <h2>Design and Implementation</h2>
+    <p>This application uses a mobile-first responsive layout and includes navigation, media content,
+      and interactive 3D elements. It is built as a Single Page Application (SPA) using JavaScript content
+      swapping and Three.js rendering pipelines.</p>
+
+    <h2>Interactivity Features</h2>
+    <ul>
+      <li>Load and switch between GLTF models</li>
+      <li>Play animations with audio cues</li>
+      <li>Lighting and camera manipulation</li>
+      <li>Wireframe toggling and object rotation</li>
+    </ul>
+
+    <h2>Testing Strategy</h2>
+    <p>Tested using Chrome DevTools for:</p>
+    <ul>
+      <li>Cross-browser compatibility (Chrome, Firefox, Edge)</li>
+      <li>Responsive behaviour on desktop, tablet, and mobile views</li>
+      <li>Keyboard accessibility</li>
+      <li>Functional testing of all interactive features</li>
+    </ul>
+
+    <h2>Accessibility Considerations</h2>
+    <p>Included keyboard navigation, contrast-checked colour schemes, labelled buttons, and alt-text where possible.</p>
+
+    <h2>Future Improvements</h2>
+    <ul>
+      <li>Integrate model metadata from JSON or SQLite</li>
+      <li>Use AJAX for dynamic content loading</li>
+      <li>Incorporate gallery views and external API image feeds</li>
+      <li>Further optimise loading and model management</li>
+    </ul>
   </div>
+</div>
+</section>
+</div>
 
   <!-- Footer -->
   <footer class="bg-dark text-light py-4">
