@@ -122,8 +122,6 @@
     <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
 
   </div>
-
-
   <!-- Coke Section -->
   <div id="coke" class="content">
     <div class="container py-5">
@@ -146,14 +144,29 @@
             <button id="prev-model">⬅️</button>
             <button id="next-model">➡️</button>
           </div>
+          <div class="control-panel">
+  <div class="btn-group">
+    <button id="cam-front">Front</button>
+    <button id="cam-side">Side</button>
+    <button id="cam-top">Top</button>
+    <button id="cam-ortho">Ortho</button>
+  </div>
+  <div class="btn-group">
+    <button id="light-toggle">Toggle Spot</button>
+    <input type="color" id="light-color" title="Light Color">
+    <input type="range" id="light-int" min="0" max="5" step="0.1">
+  </div>
+  <div class="btn-group">
+    <button id="mat-gloss">Glossy</button>
+    <button id="mat-matte">Matte</button>
+  </div>
+</div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
     <div id="gallery-coke" class="d-flex flex-wrap justify-content-center mt-4"></div>
   </div>
-
-
 
   <!-- Sprite Section -->
   <div id="sprite" class="content">
@@ -173,6 +186,26 @@
               <button id="Rotate-sprite" class="btn btn-secondary m-2">Rotate</button>
             </div>
           </div>
+          <div class="control-panel">
+  <div class="btn-group">
+    <button id="cam-front">Front</button>
+    <button id="cam-side">Side</button>
+    <button id="cam-top">Top</button>
+    <button id="cam-ortho">Ortho</button>
+  </div>
+  <div class="btn-group">
+    <button id="light-toggle">Toggle Spot</button>
+    <input type="color" id="light-color" title="Light Color">
+    <input type="range" id="light-int" min="0" max="5" step="0.1">
+  </div>
+  <div class="btn-group">
+    <button id="mat-gloss">Glossy</button>
+    <button id="mat-matte">Matte</button>
+  </div>
+</div>
+
+
+
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
@@ -199,6 +232,23 @@
               <button id="Rotate-pepper" class="btn btn-secondary m-2">Rotate</button>
             </div>
           </div>
+          <div class="control-panel">
+  <div class="btn-group">
+    <button id="cam-front">Front</button>
+    <button id="cam-side">Side</button>
+    <button id="cam-top">Top</button>
+    <button id="cam-ortho">Ortho</button>
+  </div>
+  <div class="btn-group">
+    <button id="light-toggle">Toggle Spot</button>
+    <input type="color" id="light-color" title="Light Color">
+    <input type="range" id="light-int" min="0" max="5" step="0.1">
+  </div>
+  <div class="btn-group">
+    <button id="mat-gloss">Glossy</button>
+    <button id="mat-matte">Matte</button>
+  </div>
+</div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>

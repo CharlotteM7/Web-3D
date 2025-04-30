@@ -159,14 +159,6 @@ h1, h2, h3, h4, h5 {
 
 /* ========== CANVAS AND 3D AREA ========== */
 
-#mainCokeImage{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
 
 #threeContainer {
   width: 100%;
@@ -190,6 +182,42 @@ h1, h2, h3, h4, h5 {
 .controls-row {
   margin-top: 20px;
 }
+
+.control-panel .btn-group {
+  display: flex;
+}
+.control-panel button,
+.control-panel input[type="color"],
+.control-panel input[type="range"] {
+  font-size: 0.875rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #007bff;
+  background: #fff;
+  color: #007bff;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.control-panel button:hover,
+.control-panel input[type="color"]:hover,
+.control-panel input[type="range"]:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+.control-panel input[type="color"] {
+  padding: 0;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+}
+
+.control-panel input[type="range"] {
+  width: 6rem;
+  margin: 0 0.25rem;
+}
+
 
 /* ========== CARDS ========== */
 .card {

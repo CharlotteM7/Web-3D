@@ -3,7 +3,7 @@ function loadGallery(drink) {
   const galleryDiv = $(galleryId);
   galleryDiv.empty(); // clear old thumbnails
 
-  // 🆕 Create a nicer title
+  // title
   const drinkName = drink.charAt(0).toUpperCase() + drink.slice(1);
   const header = $('<h2>')
     .text(`${drinkName} Image Gallery`)
@@ -18,12 +18,12 @@ function loadGallery(drink) {
         .addClass('img-thumbnail m-2')
         .css({
           'max-width': '150px',
-          'opacity': 0 // Start hidden
+          'opacity': 0 
         });
       
       galleryDiv.append(img);
 
-      // 🆕 Animate the image fading in
+      // Fade in effect
       img.animate({opacity: 1}, 500); // 500ms fade-in
     });
   }).fail(function(jqxhr, textStatus, error) {

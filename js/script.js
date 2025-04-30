@@ -14,6 +14,7 @@ let scene,
   sound,
   secondSound,
   loader,
+  controls,
   firstModelPath,
   secondModelPath,
   currentCanvas,
@@ -36,6 +37,13 @@ async function fetchDrinkData(brand) {
     return {};
   }
 }
+
+const cameraPresets = {
+  front: { pos: new THREE.Vector3(  0,  0, 20), look: new THREE.Vector3(0,0,0), type: 'persp' },
+  side:  { pos: new THREE.Vector3( 20,  0,  0), look: new THREE.Vector3(0,0,0), type: 'persp' },
+  top:   { pos: new THREE.Vector3(  0, 20,  0), look: new THREE.Vector3(0,0,0), type: 'persp' },
+  ortho: { pos: new THREE.Vector3( 50, 50, 50), look: new THREE.Vector3(0,0,0), type: 'ortho' },
+};
 
 // Handle brand switching
 function swapContent(id) {
@@ -112,6 +120,8 @@ $(function () {
     .fail(() => console.error("Failed to load brand list"));
 });
 
+
+
 // Viewer Setup
 function setupViewer(canvas, guiContainer) {
   clock = new THREE.Clock();
@@ -127,6 +137,8 @@ function setupViewer(canvas, guiContainer) {
   camera.position.set(-5, 25, 20);
   camera.add(new THREE.AudioListener());
 
+
+//Lights
   lights = {};
   lights.spot = new THREE.SpotLight();
   lights.spot.position.set(0, 20, 0);
@@ -175,7 +187,11 @@ function setupViewer(canvas, guiContainer) {
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-  new THREE.OrbitControls(camera, renderer.domElement).update();
+  
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 0, 0);  
+controls.update();
+
 
   loader = new THREE.GLTFLoader();
   currentCanvas = canvas;
@@ -184,7 +200,7 @@ function setupViewer(canvas, guiContainer) {
 }
 
 // Model Loading
-async function loadModel(modelPath, brandKey) {
+function loadModel(modelPath) {
   // 1) Remove any existing model instance
   if (loadedModel) {
     scene.remove(loadedModel);
@@ -248,6 +264,47 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+// switch camera
+function switchCamera(view) {
+  const p = cameraPresets[view];
+  if (!p) return;
+
+  // 1) Recreate the camera on top of the existing one
+  if (p.type === 'ortho') {
+    camera = new THREE.OrthographicCamera(
+      currentCanvas.clientWidth  / -10, 
+      currentCanvas.clientWidth  /  10,
+      currentCanvas.clientHeight /  10,
+      currentCanvas.clientHeight / -10,
+      1, 1000
+    );
+  } else {
+    camera = new THREE.PerspectiveCamera(
+      60,
+      currentCanvas.clientWidth / currentCanvas.clientHeight,
+      0.1,
+      1000
+    );
+  }
+
+  // 2) Position & aim it
+  camera.position.copy(p.pos);
+  camera.lookAt(p.look);
+
+  // 3) Tell the renderer in case the aspect or frustum changed
+  renderer.setSize(
+    currentCanvas.clientWidth, 
+    currentCanvas.clientHeight
+  );
+
+  // 4) Tear down the old controls and build new ones for this camera
+  controls.dispose?.();                             // if your version supports dispose()
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.copy(p.look);
+  controls.update();
+}
+
+
 // Sounds
 function setupSounds(data) {
   const audioLoader = new THREE.AudioLoader();
@@ -306,3 +363,37 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
       : "Dark Mode";
   }
 });
+
+// Camera buttons
+document.getElementById('cam-front').addEventListener('click', () => switchCamera('front'));
+document.getElementById('cam-side' ).addEventListener('click', () => switchCamera('side'));
+document.getElementById('cam-top'  ).addEventListener('click', () => switchCamera('top'));
+document.getElementById('cam-ortho').addEventListener('click', () => switchCamera('ortho'));
+
+// Light buttons
+document.getElementById('light-toggle').addEventListener('click', () => {
+  lights.spot.visible = !lights.spot.visible;
+});
+
+document.getElementById('light-color').addEventListener('input', e => {
+  lights.spot.color.set(e.target.value);
+});
+
+document.getElementById('light-int').addEventListener('input', e => {
+  lights.spot.intensity = parseFloat(e.target.value);
+});
+
+//Texture buttons
+document.getElementById('mat-gloss').addEventListener('click', () => {
+  loadedModel.traverse(obj => {
+    if (obj.isMesh) obj.material.roughness = 0.1;
+  });
+});
+document.getElementById('mat-matte').addEventListener('click', () => {
+  loadedModel.traverse(obj => {
+    if (obj.isMesh) obj.material.roughness = 1.0;
+  });
+});
+
+
+
