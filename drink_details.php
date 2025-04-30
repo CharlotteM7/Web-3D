@@ -1,26 +1,26 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: application/json');
+
 try {
-  // Open the same SQLite DB
-  $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
-  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $brand = $_GET['brand'] ?? '';
+    if (!$brand) throw new Exception("No brand specified");
 
-  if (empty($_GET['brand'])) {
-    throw new Exception('No brand specified');
-  }
-  $brand = $_GET['brand'];
+    // Connect to DB
+    $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "DB Path: " . __DIR__ . '/db/test.db';
 
-  // Fetch all columns for this brand
-  $stmt = $db->prepare('SELECT * FROM drinks WHERE brand = ?');
-  $stmt->execute([$brand]);
-  $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  if (!$row) {
-    throw new Exception("Drink not found: $brand");
-  }
+    // Prepare and execute query
+    $stmt = $db->prepare("SELECT * FROM Model_3D WHERE brandName = ?");
+    $stmt->execute([$brand]);
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  echo json_encode($row);
+    echo json_encode($result[0] ?? []);
 } catch (Exception $e) {
-  http_response_code(500);
-  echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['error' => $e->getMessage()]);
+    http_response_code(500);
 }

@@ -3,6 +3,8 @@ try {
     // Open the same SQLite DB
     $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "DB Path: " . __DIR__ . '/db/test.db';
+
 
     // Insert three drinks if they don't already exist
     $stmt = $db->prepare("

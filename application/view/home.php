@@ -17,7 +17,7 @@
 
     <!-- Custom CSS -->
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -62,7 +62,7 @@
 <header class="hero-section position-relative vh-100 d-flex align-items-center justify-content-center text-center overflow-hidden">
   
   <video id="heroVideo" class="hero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay loop muted playsinline>
-    <source src="assets/video/dpsplash.mp4" type="video/mp4">
+    <source src="/assets/video/dpsplash.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -78,7 +78,7 @@
       <div class="row text-center">
         <div class="col-md-4 mb-4">
           <div class="card h-100 shadow-sm">
-            <img src="assets/images/coca_cola.jpg" class="card-img-top" alt="Coca Cola">
+            <img src="/assets/images/coca_cola.jpg" class="card-img-top" alt="Coca Cola">
             <div class="card-body">
               <h5 class="card-title">Coca Cola</h5>
               <p class="card-text">Classic taste, classic style. Now in 3D!</p>
@@ -89,7 +89,7 @@
         </div>
         <div class="col-md-4 mb-4">
           <div class="card h-100 shadow-sm">
-            <img src="assets/images/sprite.jpg" class="card-img-top" alt="Sprite">
+            <img src="/assets/images/sprite.jpg" class="card-img-top" alt="Sprite">
             <div class="card-body">
               <h5 class="card-title">Sprite</h5>
               <p class="card-text">Lemon-lime refreshment, reimagined.</p>
@@ -100,7 +100,7 @@
         </div>
         <div class="col-md-4 mb-4">
           <div class="card h-100 shadow-sm">
-            <img src="assets/images/dr_pepper.jpg" class="card-img-top" alt="Dr Pepper">
+            <img src="/assets/images/dr_pepper.jpg" class="card-img-top" alt="Dr Pepper">
             <div class="card-body">
               <h5 class="card-title">Dr Pepper</h5>
               <p class="card-text">23 flavours, infinite imagination.</p>
@@ -277,6 +277,7 @@
   <!-- Scripts -->
   <script src="/js/script.js"></script>
   <script src="/gallery/gallery.js"></script>
+  
 </body>
 
 </html>
