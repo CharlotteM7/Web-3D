@@ -51,8 +51,9 @@ class Controller
      */
     public function apiInsertData()
     {
-        $message = $this->model->dbInsertData();
-        $this->load->view('viewMessage', ['message' => $message]);
+        $msg = $this->model->dbInsertData();
+        header('Content-Type: text/plain');
+        echo $msg;
     }
 
     /**
@@ -61,7 +62,8 @@ class Controller
     public function apiGetData()
     {
         $records = $this->model->dbGetData();
-        $this->load->view('view3DAppData', ['records' => $records]);
+        header('Content-Type: application/json');
+        echo json_encode($records);
     }
 
     public function apiGetDrink()
