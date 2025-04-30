@@ -43,7 +43,7 @@ function swapContent(id) {
   if (["coke", "sprite", "pepper"].includes(id)) {
     fetchDrinkData(id).then((data) => {
       if (!data.modelPath) return console.warn("No data for", id);
-      
+
       models = [data.modelPath, data.secondModelPath].filter(Boolean);
       currentModelIndex = 0;
 
@@ -62,7 +62,7 @@ function swapContent(id) {
 
       animateBtn?.addEventListener("click", () => {
         if (actions.length) {
-          actions.forEach(action => {
+          actions.forEach((action) => {
             action.reset().setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
             action.play();
           });
@@ -79,7 +79,7 @@ function swapContent(id) {
 
       wireframeBtn?.addEventListener("click", () => {
         isWireframe = !isWireframe;
-        scene.traverse(obj => {
+        scene.traverse((obj) => {
           if (obj.isMesh) obj.material.wireframe = isWireframe;
         });
       });
@@ -112,7 +112,12 @@ function setupViewer(canvas, guiContainer) {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfaf0e6);
 
-  camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(
+    60,
+    canvas.clientWidth / canvas.clientHeight,
+    0.1,
+    1000
+  );
   camera.position.set(-5, 25, 20);
   camera.add(new THREE.AudioListener());
 
@@ -120,10 +125,22 @@ function setupViewer(canvas, guiContainer) {
   lights.spot = new THREE.SpotLight();
   lights.spot.position.set(0, 20, 0);
   lights.spotHelper = new THREE.SpotLightHelper(lights.spot);
-  scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 4), lights.spot, lights.spotHelper);
+  scene.add(
+    new THREE.HemisphereLight(0xffffbb, 0x080820, 4),
+    lights.spot,
+    lights.spotHelper
+  );
 
   params = {
-    spot: { enable: false, color: 0xffffff, distance: 20, angle: Math.PI / 2, penumbra: 0, helper: false, moving: false }
+    spot: {
+      enable: false,
+      color: 0xffffff,
+      distance: 20,
+      angle: Math.PI / 2,
+      penumbra: 0,
+      helper: false,
+      moving: false,
+    },
   };
 
   const gui = new dat.GUI({ autoPlace: false });
@@ -131,12 +148,22 @@ function setupViewer(canvas, guiContainer) {
   guiContainer.appendChild(gui.domElement);
   const spot = gui.addFolder("Spot");
   spot.open();
-  spot.add(params.spot, "enable").onChange(v => lights.spot.visible = v);
-  spot.addColor(params.spot, "color").onChange(v => lights.spot.color = new THREE.Color(v));
-  spot.add(params.spot, "distance", 0, 20).onChange(v => lights.spot.distance = v);
-  spot.add(params.spot, "angle", 0.1, 6.28).onChange(v => lights.spot.angle = v);
-  spot.add(params.spot, "penumbra", 0, 1).onChange(v => lights.spot.penumbra = v);
-  spot.add(params.spot, "helper").onChange(v => lights.spotHelper.visible = v);
+  spot.add(params.spot, "enable").onChange((v) => (lights.spot.visible = v));
+  spot
+    .addColor(params.spot, "color")
+    .onChange((v) => (lights.spot.color = new THREE.Color(v)));
+  spot
+    .add(params.spot, "distance", 0, 20)
+    .onChange((v) => (lights.spot.distance = v));
+  spot
+    .add(params.spot, "angle", 0.1, 6.28)
+    .onChange((v) => (lights.spot.angle = v));
+  spot
+    .add(params.spot, "penumbra", 0, 1)
+    .onChange((v) => (lights.spot.penumbra = v));
+  spot
+    .add(params.spot, "helper")
+    .onChange((v) => (lights.spotHelper.visible = v));
   spot.add(params.spot, "moving");
 
   renderer = new THREE.WebGLRenderer({ canvas });
@@ -184,12 +211,12 @@ function setupSounds(data) {
   secondSound = new THREE.Audio(camera.children[0]);
 
   if (data.soundPath) {
-    audioLoader.load(data.soundPath, buffer => {
+    audioLoader.load(data.soundPath, (buffer) => {
       sound.setBuffer(buffer).setLoop(false).setVolume(1.0);
     });
   }
   if (data.secondSoundPath) {
-    audioLoader.load(data.secondSoundPath, buffer => {
+    audioLoader.load(data.secondSoundPath, (buffer) => {
       secondSound.setBuffer(buffer).setLoop(false).setVolume(1.0);
     });
   }
@@ -197,7 +224,7 @@ function setupSounds(data) {
 
 // Wireframe toggle
 function toggleWireframe(enable) {
-  scene.traverse(obj => {
+  scene.traverse((obj) => {
     if (obj.isMesh) obj.material.wireframe = enable;
   });
 }
@@ -229,8 +256,8 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
   }
 
   if (toggle) {
-    toggle.textContent = body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
+    toggle.textContent = body.classList.contains("dark-mode")
+      ? "Light Mode"
+      : "Dark Mode";
   }
 });
-
-

@@ -259,7 +259,7 @@
           <p>Included keyboard navigation, contrast-checked colour schemes, labelled buttons, and alt-text where
             possible.</p>
 
-          
+
         </div>
       </div>
     </section>

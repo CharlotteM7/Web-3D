@@ -1,17 +1,20 @@
 <?php
-class Model {
-    private PDO    $db;
+class Model
+{
+    private PDO $db;
     private $dbPath;
     public PDO $dbhandle;
 
-    public function __construct() {
-        $this->dbPath = __DIR__ . '/../../db/test.db'; 
+    public function __construct()
+    {
+        $this->dbPath = __DIR__ . '/../../db/test.db';
         $this->dbhandle = new PDO('sqlite:' . $this->dbPath);
         $this->dbhandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
 
-    public function dbCreateTable(): string {
+    public function dbCreateTable(): string
+    {
         try {
             $pdo = new PDO('sqlite:' . $this->dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -32,11 +35,12 @@ class Model {
         }
     }
 
-    public function dbInsertData(): string {
+    public function dbInsertData(): string
+    {
         try {
             $pdo = new PDO('sqlite:' . $this->dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
             // Prepare the INSERT statement (INSERT OR IGNORE to avoid duplicates)
             $stmt = $pdo->prepare("
                 INSERT OR IGNORE INTO drinks
@@ -44,93 +48,97 @@ class Model {
                 VALUES
                   (:brand, :modelPath, :secondModelPath, :soundPath, :secondSoundPath, :animation)
             ");
-    
+
             // Define your seed data here:
             $drinks = [
                 [
-                    'brand'           => 'coke',
-                    'modelPath'       => 'models/coke.glb',
+                    'brand' => 'coke',
+                    'modelPath' => 'models/coke.glb',
                     'secondModelPath' => 'models/coke_extra.glb',
-                    'soundPath'       => 'sounds/coke.mp3',
+                    'soundPath' => 'sounds/coke.mp3',
                     'secondSoundPath' => 'sounds/coke_pop.mp3',
-                    'animation'       => 1
+                    'animation' => 1
                 ],
                 [
-                    'brand'           => 'sprite',
-                    'modelPath'       => 'models/sprite.glb',
+                    'brand' => 'sprite',
+                    'modelPath' => 'models/sprite.glb',
                     'secondModelPath' => '',
-                    'soundPath'       => 'sounds/sprite.mp3',
+                    'soundPath' => 'sounds/sprite.mp3',
                     'secondSoundPath' => '',
-                    'animation'       => 0
+                    'animation' => 0
                 ],
                 [
-                    'brand'           => 'pepper',
-                    'modelPath'       => 'models/pepper.glb',
+                    'brand' => 'pepper',
+                    'modelPath' => 'models/pepper.glb',
                     'secondModelPath' => '',
-                    'soundPath'       => 'sounds/pepper.mp3',
+                    'soundPath' => 'sounds/pepper.mp3',
                     'secondSoundPath' => '',
-                    'animation'       => 1
+                    'animation' => 1
                 ]
             ];
-    
+
             // Execute the INSERT for each entry
             foreach ($drinks as $d) {
                 $stmt->execute([
-                    ':brand'           => $d['brand'],
-                    ':modelPath'       => $d['modelPath'],
+                    ':brand' => $d['brand'],
+                    ':modelPath' => $d['modelPath'],
                     ':secondModelPath' => $d['secondModelPath'],
-                    ':soundPath'       => $d['soundPath'],
+                    ':soundPath' => $d['soundPath'],
                     ':secondSoundPath' => $d['secondSoundPath'],
-                    ':animation'       => $d['animation'],
+                    ':animation' => $d['animation'],
                 ]);
             }
-    
+
             return "✅ Seed data inserted.";
         } catch (PDOException $e) {
             return "❌ Seed error: " . $e->getMessage();
         }
     }
-    
+
     /**
- * Fetch all rows from the drinks table.
- *
- * @return array  Each element is an associative array of a drink record.
- */
-public function dbGetData(): array {
-    try {
-        $pdo = new PDO('sqlite:' . $this->dbPath);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $pdo->query("SELECT * FROM drinks");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // On error, return an empty array
-        return [];
+     * Fetch all rows from the drinks table.
+     *
+     * @return array  Each element is an associative array of a drink record.
+     */
+    public function dbGetData(): array
+    {
+        try {
+            $pdo = new PDO('sqlite:' . $this->dbPath);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $pdo->query("SELECT * FROM drinks");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            // On error, return an empty array
+            return [];
+        }
     }
-}
 
 
     /** 
      * Return an array of all distinct brand names 
      */
-    public function getBrands(): array {
+    public function getBrands(): array
+    {
         $pdo = new PDO('sqlite:' . $this->dbPath);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $pdo->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-public function dbGetDrinkDetails($brand) {
+    public function dbGetDrinkDetails($brand)
+    {
         $stmt = $this->dbhandle->prepare("SELECT * FROM drinks WHERE brand = ?");
         $stmt->execute([$brand]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
-    
-    public function dbGetBrandList() {
+
+
+    public function dbGetBrandList()
+    {
         $stmt = $this->dbhandle->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
-    
+
 
 
 
