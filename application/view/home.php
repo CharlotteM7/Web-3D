@@ -135,7 +135,7 @@
           </div>
           <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
             <div id="button-panel">
-              <button id="btn-coke" class="btn btn-primary m-2">Add Ice</button>
+              <button id="btn-coke" class="btn btn-primary m-2">Animate</button>
               <button id="toggleWireframe-coke" class="btn btn-secondary m-2">Toggle Wireframe</button>
               <button id="Rotate-coke" class="btn btn-secondary m-2">Rotate</button>
             </div>
@@ -146,19 +146,19 @@
           </div>
           <div class="control-panel">
   <div class="btn-group">
-    <button id="cam-front">Front</button>
-    <button id="cam-side">Side</button>
-    <button id="cam-top">Top</button>
-    <button id="cam-ortho">Ortho</button>
+    <button id="cam-front-coke">Front</button>
+    <button id="cam-side-coke">Side</button>
+    <button id="cam-top-coke">Top</button>
+    <button id="cam-ortho-coke">Ortho</button>
   </div>
   <div class="btn-group">
-    <button id="light-toggle">Toggle Spot</button>
-    <input type="color" id="light-color" title="Light Color">
-    <input type="range" id="light-int" min="0" max="5" step="0.1">
+    <button id="light-toggle-coke">Toggle Spot</button>
+    <input type="color" id="light-color-coke" title="Light Color">
+    <input type="range" id="light-coke" min="0" max="5" step="0.1">
   </div>
   <div class="btn-group">
-    <button id="mat-gloss">Glossy</button>
-    <button id="mat-matte">Matte</button>
+    <button id="mat-gloss-coke">Glossy</button>
+    <button id="mat-matte-coke">Matte</button>
   </div>
 </div>
           <div id="gui-container" class="ms-4"></div>
@@ -188,19 +188,19 @@
           </div>
           <div class="control-panel">
   <div class="btn-group">
-    <button id="cam-front">Front</button>
-    <button id="cam-side">Side</button>
-    <button id="cam-top">Top</button>
-    <button id="cam-ortho">Ortho</button>
+    <button id="cam-front-sprite">Front</button>
+    <button id="cam-side-sprite">Side</button>
+    <button id="cam-top-sprite">Top</button>
+    <button id="cam-ortho-sprite">Ortho</button>
   </div>
   <div class="btn-group">
-    <button id="light-toggle">Toggle Spot</button>
-    <input type="color" id="light-color" title="Light Color">
-    <input type="range" id="light-int" min="0" max="5" step="0.1">
+    <button id="light-toggle-sprite">Toggle Spot</button>
+    <input type="color" id="light-color-sprite" title="Light Color">
+    <input type="range" id="light-int-sprite" min="0" max="5" step="0.1">
   </div>
   <div class="btn-group">
-    <button id="mat-gloss">Glossy</button>
-    <button id="mat-matte">Matte</button>
+    <button id="mat-gloss-sprite">Glossy</button>
+    <button id="mat-matte-sprite">Matte</button>
   </div>
 </div>
 
@@ -234,19 +234,19 @@
           </div>
           <div class="control-panel">
   <div class="btn-group">
-    <button id="cam-front">Front</button>
-    <button id="cam-side">Side</button>
-    <button id="cam-top">Top</button>
-    <button id="cam-ortho">Ortho</button>
+    <button id="cam-front-pepper">Front</button>
+    <button id="cam-side-pepper">Side</button>
+    <button id="cam-top-pepper">Top</button>
+    <button id="cam-ortho-pepper">Ortho</button>
   </div>
   <div class="btn-group">
-    <button id="light-toggle">Toggle Spot</button>
-    <input type="color" id="light-color" title="Light Color">
-    <input type="range" id="light-int" min="0" max="5" step="0.1">
+    <button id="light-toggle-pepper">Toggle Spot</button>
+    <input type="color" id="light-color-pepper" title="Light Color">
+    <input type="range" id="light-int-pepper" min="0" max="5" step="0.1">
   </div>
   <div class="btn-group">
-    <button id="mat-gloss">Glossy</button>
-    <button id="mat-matte">Matte</button>
+    <button id="mat-gloss-pepper">Glossy</button>
+    <button id="mat-matte-pepper">Matte</button>
   </div>
 </div>
           <div id="gui-container" class="ms-4"></div>

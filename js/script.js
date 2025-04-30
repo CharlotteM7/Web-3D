@@ -38,68 +38,114 @@ async function fetchDrinkData(brand) {
   }
 }
 
-const cameraPresets = {
-  front: { pos: new THREE.Vector3(  0,  0, 20), look: new THREE.Vector3(0,0,0), type: 'persp' },
-  side:  { pos: new THREE.Vector3( 20,  0,  0), look: new THREE.Vector3(0,0,0), type: 'persp' },
-  top:   { pos: new THREE.Vector3(  0, 20,  0), look: new THREE.Vector3(0,0,0), type: 'persp' },
-  ortho: { pos: new THREE.Vector3( 50, 50, 50), look: new THREE.Vector3(0,0,0), type: 'ortho' },
-};
-
 // Handle brand switching
-function swapContent(id) {
+async function swapContent(id) {
+  // Remember which brand is active
   currentBrandId = id;
 
+  // Show/hide the correct content panel
   document.querySelectorAll(".content").forEach((sec) => {
-    sec.classList.toggle("active", sec.id === id);
-    sec.style.display = sec.id === id ? "block" : "none";
+    const active = sec.id === id;
+    sec.classList.toggle("active", active);
+    sec.style.display = active ? "block" : "none";
   });
 
-  if (["coke", "sprite", "pepper"].includes(id)) {
-    fetchDrinkData(id).then((data) => {
-      if (!data.modelPath) return console.warn("No data for", id);
+  // Only proceed for drink panels
+  if (!["coke", "sprite", "pepper"].includes(id)) return;
 
-      models = [data.modelPath, data.secondModelPath].filter(Boolean);
-      currentModelIndex = 0;
-
-      const container = document.querySelector(`#${id} canvas`);
-      const guiCt = document.querySelector(`#${id} #gui-container`);
-
-      setupViewer(container, guiCt);
-      loadModel(models[currentModelIndex]);
-      setupSounds(data);
-      loadGallery(id);
-
-      // Hook buttons specific to this drink
-      const animateBtn = document.getElementById(`btn-${id}`);
-      const rotateBtn = document.getElementById(`Rotate-${id}`);
-      const wireframeBtn = document.getElementById(`toggleWireframe-${id}`);
-
-      animateBtn?.addEventListener("click", () => {
-        if (actions.length) {
-          actions.forEach((action) => {
-            action.reset().setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
-            action.play();
-          });
-          if (currentModelIndex === 0 && sound) sound.play();
-          if (currentModelIndex === 1 && secondSound) secondSound.play();
-        }
-      });
-
-      rotateBtn?.addEventListener("click", () => {
-        if (loadedModel) {
-          loadedModel.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 8);
-        }
-      });
-
-      wireframeBtn?.addEventListener("click", () => {
-        isWireframe = !isWireframe;
-        scene.traverse((obj) => {
-          if (obj.isMesh) obj.material.wireframe = isWireframe;
-        });
-      });
-    });
+  // Fetch the drink data
+  const data = await fetchDrinkData(id);
+  if (!data.modelPath) {
+    console.warn("No data for", id);
+    return;
   }
-}
+
+  // Build models array and reset index
+  models = [data.modelPath, data.secondModelPath].filter(Boolean);
+  currentModelIndex = 0;
+
+  // Set up Three.js viewer for this panel
+  const container = document.querySelector(`#${id} canvas`);
+  const guiCt     = document.querySelector(`#${id} #gui-container`);
+  setupViewer(container, guiCt);
+
+  // Load first model, sounds, and gallery
+  loadModel(models[currentModelIndex]);
+  setupSounds(data);
+  loadGallery(id);
+
+  // Grab all controls for this brand
+  const animateBtn     = document.getElementById(`btn-${id}`);
+  const rotateBtn      = document.getElementById(`Rotate-${id}`);
+  const wireframeBtn   = document.getElementById(`toggleWireframe-${id}`);
+  const camFrontBtn    = document.getElementById(`cam-front-${id}`);
+  const camSideBtn     = document.getElementById(`cam-side-${id}`);
+  const camTopBtn      = document.getElementById(`cam-top-${id}`);
+  const camOrthoBtn    = document.getElementById(`cam-ortho-${id}`);
+  const lightToggleBtn = document.getElementById(`light-toggle-${id}`);
+  const lightColorIn   = document.getElementById(`light-color-${id}`);
+  const lightIntRange  = document.getElementById(`light-int-${id}`);
+  const glossBtn       = document.getElementById(`mat-gloss-${id}`);
+  const matteBtn       = document.getElementById(`mat-matte-${id}`);
+
+  // Animate
+  animateBtn?.addEventListener("click", () => {
+    if (actions.length) {
+      actions.forEach((action) => {
+        action.reset().setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
+        action.play();
+      });
+      if (currentModelIndex === 0 && sound)       sound.play();
+      if (currentModelIndex === 1 && secondSound) secondSound.play();
+    }
+  });
+
+  // Rotate
+  rotateBtn?.addEventListener("click", () => {
+    if (loadedModel) {
+      loadedModel.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 8);
+    }
+  });
+
+  // Wireframe toggle
+  wireframeBtn?.addEventListener("click", () => {
+    isWireframe = !isWireframe;
+    scene.traverse((obj) => {
+      if (obj.isMesh) obj.material.wireframe = isWireframe;
+    });
+  });
+
+  // Camera presets
+  camFrontBtn?.addEventListener("click", () => switchCamera("front"));
+  camSideBtn?.addEventListener("click", () => switchCamera("side"));
+  camTopBtn?.addEventListener("click", () => switchCamera("top"));
+  camOrthoBtn?.addEventListener("click", () => switchCamera("ortho"));
+
+  // Light controls
+  lightToggleBtn?.addEventListener("click", () => {
+    lights.spot.visible = !lights.spot.visible;
+  });
+  lightColorIn?.addEventListener("input", (e) => {
+    lights.spot.color.set(e.target.value);
+  });
+  lightIntRange?.addEventListener("input", (e) => {
+    lights.spot.intensity = parseFloat(e.target.value);
+  });
+
+  // Material swaps
+  glossBtn?.addEventListener("click", () => {
+    loadedModel.traverse((obj) => {
+      if (obj.isMesh) obj.material.roughness = 0.1;
+    });
+  });
+  matteBtn?.addEventListener("click", () => {
+    loadedModel.traverse((obj) => {
+      if (obj.isMesh) obj.material.roughness = 1.0;
+    });
+  });
+
+}   
+
 
 $(function () {
   $.getJSON("index.php?route=apiGetBrands")
@@ -120,8 +166,6 @@ $(function () {
     .fail(() => console.error("Failed to load brand list"));
 });
 
-
-
 // Viewer Setup
 function setupViewer(canvas, guiContainer) {
   clock = new THREE.Clock();
@@ -137,8 +181,7 @@ function setupViewer(canvas, guiContainer) {
   camera.position.set(-5, 25, 20);
   camera.add(new THREE.AudioListener());
 
-
-//Lights
+  //Lights
   lights = {};
   lights.spot = new THREE.SpotLight();
   lights.spot.position.set(0, 20, 0);
@@ -187,11 +230,10 @@ function setupViewer(canvas, guiContainer) {
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-  
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.target.set(0, 0, 0);  
-controls.update();
 
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 0, 0);
+  controls.update();
 
   loader = new THREE.GLTFLoader();
   currentCanvas = canvas;
@@ -226,30 +268,53 @@ function loadModel(modelPath) {
     // onLoad
     (gltf) => {
       const original = gltf.scene;
-      scene.add(original);
 
-      // cache the original scene and its animations
+      // 1) Normalise scale & position
+      original.scale.set(1, 1, 1);
+      original.position.set(0, 0, 0);
+
+      // 2) Compute its bounding box & sphere
+      const box = new THREE.Box3().setFromObject(original);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      const sphere = box.getBoundingSphere(new THREE.Sphere());
+
+      console.log(`Bounds:`, size, `Center:`, center, `Radius:`, sphere.radius);
+
+      // 3) Recenter the model so its geometric centre sits at (0,0,0)
+      original.position.sub(center);
+
+      // 4) Figure out a camera Z distance to frame the sphere
+      const fov = camera.fov * (Math.PI / 180);
+      const camZ = Math.abs(sphere.radius / Math.sin(fov / 2)) * 1.2;
+
+      // 5) Move the camera and point it at origin
+      camera.position.set(0, 0, camZ);
+      camera.lookAt(0, 0, 0);
+
+      // 6) Update OrbitControls to target the origin
+      controls.target.set(0, 0, 0);
+      controls.update();
+
+      // 7) Finally add to scene & cache as before
+      scene.add(original);
       loadedModels[modelPath] = {
         scene: original,
         animations: gltf.animations,
       };
-
-      // track it for later removal
       loadedModel = original;
 
-      // set up the mixer & actions
       mixer = new THREE.AnimationMixer(loadedModel);
       actions = gltf.animations.map((clip) => mixer.clipAction(clip));
     },
 
     // onProgress
-    xhr => {
-      const pct = ((xhr.loaded/xhr.total)*100).toFixed(0);
+    (xhr) => {
+      const pct = ((xhr.loaded / xhr.total) * 100).toFixed(0);
       console.log(`Loading ${modelPath}: ${pct}%`);
     },
-    err => console.error(`Error loading ${modelPath}`, err)
+    (err) => console.error(`Error loading ${modelPath}`, err)
   );
-
 }
 
 // Animation loop
@@ -264,19 +329,43 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// switch camera
+// Camera presets (keep these at top-level too)
+const cameraPresets = {
+  front: {
+    pos: new THREE.Vector3(0, 0, 20),
+    look: new THREE.Vector3(0, 0, 0),
+    type: "persp",
+  },
+  side: {
+    pos: new THREE.Vector3(20, 0, 0),
+    look: new THREE.Vector3(0, 0, 0),
+    type: "persp",
+  },
+  top: {
+    pos: new THREE.Vector3(0, 20, 0),
+    look: new THREE.Vector3(0, 0, 0),
+    type: "persp",
+  },
+  ortho: {
+    pos: new THREE.Vector3(50, 50, 50),
+    look: new THREE.Vector3(0, 0, 0),
+    type: "ortho",
+  },
+};
+
 function switchCamera(view) {
   const p = cameraPresets[view];
   if (!p) return;
 
-  // 1) Recreate the camera on top of the existing one
-  if (p.type === 'ortho') {
+  // 1) Rebuild the camera based on preset type
+  if (p.type === "ortho") {
     camera = new THREE.OrthographicCamera(
-      currentCanvas.clientWidth  / -10, 
-      currentCanvas.clientWidth  /  10,
-      currentCanvas.clientHeight /  10,
+      currentCanvas.clientWidth / -10,
+      currentCanvas.clientWidth / 10,
+      currentCanvas.clientHeight / 10,
       currentCanvas.clientHeight / -10,
-      1, 1000
+      1,
+      1000
     );
   } else {
     camera = new THREE.PerspectiveCamera(
@@ -287,23 +376,19 @@ function switchCamera(view) {
     );
   }
 
-  // 2) Position & aim it
+  // 2) Position & aim at origin
   camera.position.copy(p.pos);
   camera.lookAt(p.look);
 
-  // 3) Tell the renderer in case the aspect or frustum changed
-  renderer.setSize(
-    currentCanvas.clientWidth, 
-    currentCanvas.clientHeight
-  );
+  // 3) Resize the renderer’s output to match the canvas
+  renderer.setSize(currentCanvas.clientWidth, currentCanvas.clientHeight);
 
-  // 4) Tear down the old controls and build new ones for this camera
-  controls.dispose?.();                             // if your version supports dispose()
+  // 4) Tear down the old controls and hook up new ones
+  if (controls.dispose) controls.dispose(); // free old listeners
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target.copy(p.look);
   controls.update();
 }
-
 
 // Sounds
 function setupSounds(data) {
@@ -333,15 +418,13 @@ function toggleWireframe(enable) {
 // Button Listeners
 document.getElementById("prev-model")?.addEventListener("click", () => {
   if (models.length < 2) return;
-  currentModelIndex =
-    (currentModelIndex - 1 + models.length) % models.length;
+  currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
   loadModel(models[currentModelIndex]);
 });
 
 document.getElementById("next-model")?.addEventListener("click", () => {
   if (models.length < 2) return;
-  currentModelIndex =
-    (currentModelIndex + 1) % models.length;
+  currentModelIndex = (currentModelIndex + 1) % models.length;
   loadModel(models[currentModelIndex]);
 });
 
@@ -363,37 +446,3 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
       : "Dark Mode";
   }
 });
-
-// Camera buttons
-document.getElementById('cam-front').addEventListener('click', () => switchCamera('front'));
-document.getElementById('cam-side' ).addEventListener('click', () => switchCamera('side'));
-document.getElementById('cam-top'  ).addEventListener('click', () => switchCamera('top'));
-document.getElementById('cam-ortho').addEventListener('click', () => switchCamera('ortho'));
-
-// Light buttons
-document.getElementById('light-toggle').addEventListener('click', () => {
-  lights.spot.visible = !lights.spot.visible;
-});
-
-document.getElementById('light-color').addEventListener('input', e => {
-  lights.spot.color.set(e.target.value);
-});
-
-document.getElementById('light-int').addEventListener('input', e => {
-  lights.spot.intensity = parseFloat(e.target.value);
-});
-
-//Texture buttons
-document.getElementById('mat-gloss').addEventListener('click', () => {
-  loadedModel.traverse(obj => {
-    if (obj.isMesh) obj.material.roughness = 0.1;
-  });
-});
-document.getElementById('mat-matte').addEventListener('click', () => {
-  loadedModel.traverse(obj => {
-    if (obj.isMesh) obj.material.roughness = 1.0;
-  });
-});
-
-
-
