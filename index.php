@@ -1,4 +1,10 @@
 <?php
 // Bootstrap our MVC
-require __DIR__ . '/application/mvc.php';
+$file = __DIR__ . '/mvc.php';
+if (file_exists($file)) {
+    require_once $file;
+} else {
+    die("Routing file not found!");
+}
+
 ?>
