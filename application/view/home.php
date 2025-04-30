@@ -257,13 +257,45 @@
   </div>
 
 
+
   <!-- Gallery Section -->
-  <div id="gallerySection" class="content">
-    <section class="container my-5">
-      <h2 class="text-center">3D Image Gallery</h2>
-      <div id="gallery" class="d-flex flex-wrap justify-content-center"></div>
-    </section>
+<section id="gallerySection" class="content container my-5">
+  <div id="gallery" class="d-flex flex-wrap justify-content-center">
+    <!-- JS will inject gallery items here -->
   </div>
+</section>
+
+<!-- Hero Section -->
+<section class="galleryhero-section position-relative vh-100 overflow-hidden">
+  <!-- Dark overlay -->
+  <div class="galleryhero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+
+  <!-- Background video -->
+  <video
+    id="galleryheroVideo"
+    class="galleryhero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+    autoplay
+    loop
+    muted
+    playsinline
+  >
+    <source src="/assets/video/spritepour.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Hero content -->
+  <div
+    id="galleryheroContent"
+    class="galleryhero-content position-relative text-center text-white px-3"
+    style="z-index:1;"
+  >
+    <h1 class="display-4 fw-bold">Image Gallery</h1>
+    <p class="lead">All of them</p>
+  </div>
+</section>
+
+
+  
 
   <!-- About Section -->
   <div id="about" class="content">
