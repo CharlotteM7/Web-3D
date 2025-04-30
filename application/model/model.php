@@ -1,20 +1,14 @@
 <?php
 class Model {
     private PDO    $db;
-    private string $dbPath;
+    private $dbPath;
+    public PDO $dbhandle;
 
     public function __construct() {
-    
-        $this->dbPath = __DIR__ . '/../../db/test.db';
-    
-        try {
-            $this->db = new PDO('sqlite:' . $this->dbPath);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("DB connection failed: " . $e->getMessage());
-        }
+        $this->dbPath = __DIR__ . '/../../db/test.db'; 
+        $this->dbhandle = new PDO('sqlite:' . $this->dbPath);
+        $this->dbhandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    
 
 
     public function dbCreateTable(): string {
@@ -125,8 +119,18 @@ public function dbGetData(): array {
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
+public function dbGetDrinkDetails($brand) {
+        $stmt = $this->dbhandle->prepare("SELECT * FROM drinks WHERE brand = ?");
+        $stmt->execute([$brand]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     
-
+    
+    public function dbGetBrandList() {
+        $stmt = $this->dbhandle->query("SELECT DISTINCT brand FROM drinks");
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+    
 
 
 

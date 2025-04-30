@@ -1,13 +1,14 @@
 <?php
-// Turn on error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once 'application/controller/controller.php';
+require_once 'application/model/model.php';
+require_once 'application/view/load.php';
 
-// Autoload our core components
-require __DIR__ . '/controller/controller.php';
-require __DIR__ . '/model/model.php';
-require __DIR__ . '/view/load.php';
+$pageURI = $_GET['route'] ?? 'home';
 
-// Instantiate the controller
-$controller = new Controller();
-?>
+$controller = new Controller(null);
+
+if (!method_exists($controller, $pageURI)) {
+    $controller->home();
+} else {
+    $controller->$pageURI();
+}

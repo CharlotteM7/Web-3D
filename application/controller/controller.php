@@ -3,16 +3,11 @@ class Controller {
     private $load;
     private $model;
 
-    public function __construct($action = 'home') {
-        $this->load  = new Load();
+    public function __construct($autoHome = 'home') {
+        $this->load = new Load();
         $this->model = new Model();
-
-        // Call the requested action (method) if it exists:
-        if (method_exists($this, $action)) {
-            $this->$action();
-        } else {
-            header("HTTP/1.0 404 Not Found");
-            echo "404 – action not found";
+        if ($autoHome) {
+            $this->$autoHome(); // Only call home if not suppressed
         }
     }
 
@@ -39,9 +34,11 @@ class Controller {
  * Create the drinks table.
  */
 public function apiCreateTable() {
-    $message = $this->model->dbCreateTable();
-    $this->load->view('viewMessage', ['message' => $message]);
+    $msg = $this->model->dbCreateTable();
+    header('Content-Type: text/plain');
+    echo $msg;
 }
+
 
 /**
  * Seed the drinks table.
@@ -58,5 +55,20 @@ public function apiGetData() {
     $records = $this->model->dbGetData();
     $this->load->view('view3DAppData', ['records' => $records]);
 }
+
+public function apiGetDrink() {
+    $brand = $_GET['brand'] ?? '';
+    $data = $this->model->dbGetDrinkDetails($brand);
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
+public function apiGetBrands() {
+    $data = $this->model->dbGetBrandList();
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
+
 
 }

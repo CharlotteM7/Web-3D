@@ -23,13 +23,15 @@ let count = 0;
 
 async function fetchDrinkData(brand) {
   try {
-    const resp = await fetch(`drink_details.php?brand=${brand}`);
-    return await resp.json();
+    const resp = await fetch(`index.php?route=apiGetDrink&brand=${brand}`);
+    const data = await resp.json();
+    return data;
   } catch (err) {
     console.error("Error fetching details for", brand, err);
     return {};
   }
 }
+
 
 function swapContent(id) {
   document.querySelectorAll(".content").forEach((sec) => {
@@ -54,7 +56,7 @@ function swapContent(id) {
 }
 
 $(function () {
-  $.getJSON("/list_brands.php")
+  $.getJSON("index.php?route=apiGetBrands")
     .done((brands) => {
       const $menu = $("#drinkDropdown").empty();
       brands.forEach((b) => {
