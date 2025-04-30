@@ -3,7 +3,7 @@ try {
     // Open the same SQLite DB
     $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "DB Path: " . __DIR__ . '/db/test.db';
+
 
 
     // Create the drinks table if it doesn't exist

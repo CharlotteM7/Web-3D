@@ -11,11 +11,11 @@ try {
     // Connect to DB
     $db = new PDO('sqlite:' . __DIR__ . '/db/test.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "DB Path: " . __DIR__ . '/db/test.db';
+ 
 
 
     // Prepare and execute query
-    $stmt = $db->prepare("SELECT * FROM Model_3D WHERE brandName = ?");
+    $stmt = $db->prepare("SELECT * FROM drinks WHERE brand = ?");
     $stmt->execute([$brand]);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
