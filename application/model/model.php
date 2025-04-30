@@ -53,25 +53,25 @@ class Model
             $drinks = [
                 [
                     'brand' => 'coke',
-                    'modelPath' => 'models/coke.glb',
-                    'secondModelPath' => 'models/coke_extra.glb',
-                    'soundPath' => 'sounds/coke.mp3',
-                    'secondSoundPath' => 'sounds/coke_pop.mp3',
+                    'modelPath' => 'assets/3D/cokeCan.glb',
+                    'secondModelPath' => 'assets/3D/cokeCancrush.glb',
+                    'soundPath' => 'assets/sounds/open.mp3',
+                    'secondSoundPath' => 'assets/sounds/crush.mp3',
                     'animation' => 1
                 ],
                 [
                     'brand' => 'sprite',
-                    'modelPath' => 'models/sprite.glb',
+                    'modelPath' => 'assets/3D/spriteIceDrop.glb',
                     'secondModelPath' => '',
-                    'soundPath' => 'sounds/sprite.mp3',
+                    'soundPath' => '',
                     'secondSoundPath' => '',
-                    'animation' => 0
+                    'animation' => 1
                 ],
                 [
                     'brand' => 'pepper',
-                    'modelPath' => 'models/pepper.glb',
+                    'modelPath' => 'assets/3D/candrop.glb',
                     'secondModelPath' => '',
-                    'soundPath' => 'sounds/pepper.mp3',
+                    'soundPath' => '',
                     'secondSoundPath' => '',
                     'animation' => 1
                 ]

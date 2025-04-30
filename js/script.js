@@ -22,6 +22,10 @@ let scene,
 let count = 0;
 let models = [];
 
+const loadedModels = {};
+loader = new THREE.GLTFLoader();
+loadedModel = null;
+
 // Fetch drink data
 async function fetchDrinkData(brand) {
   try {
@@ -35,6 +39,8 @@ async function fetchDrinkData(brand) {
 
 // Handle brand switching
 function swapContent(id) {
+  currentBrandId = id;
+
   document.querySelectorAll(".content").forEach((sec) => {
     sec.classList.toggle("active", sec.id === id);
     sec.style.display = sec.id === id ? "block" : "none";
@@ -55,7 +61,7 @@ function swapContent(id) {
       setupSounds(data);
       loadGallery(id);
 
-      // ✅ Hook buttons specific to this drink
+      // Hook buttons specific to this drink
       const animateBtn = document.getElementById(`btn-${id}`);
       const rotateBtn = document.getElementById(`Rotate-${id}`);
       const wireframeBtn = document.getElementById(`toggleWireframe-${id}`);
@@ -178,18 +184,56 @@ function setupViewer(canvas, guiContainer) {
 }
 
 // Model Loading
-function loadModel(modelPath) {
-  if (loadedModel) scene.remove(loadedModel);
+async function loadModel(modelPath, brandKey) {
+  // 1) Remove any existing model instance
+  if (loadedModel) {
+    scene.remove(loadedModel);
+    loadedModel = null;
+  }
 
-  loader.load(modelPath, (gltf) => {
-    loadedModel = gltf.scene;
-    loadedModel.position.set(0, 0, 0);
+  // 2) If we’ve already loaded this brand, clone & reuse
+  if (loadedModels[modelPath]) {
+    const { scene: originalScene, animations } = loadedModels[modelPath];
+    loadedModel = originalScene.clone(true);
     scene.add(loadedModel);
 
+    // re-attach animations to the clone
     mixer = new THREE.AnimationMixer(loadedModel);
-    actions = [];
-    gltf.animations.forEach((clip) => actions.push(mixer.clipAction(clip)));
-  });
+    actions = animations.map((clip) => mixer.clipAction(clip));
+    return;
+  }
+
+  // 3) First time load: fetch the GLB, add to scene, and cache it
+  loader.load(
+    modelPath,
+
+    // onLoad
+    (gltf) => {
+      const original = gltf.scene;
+      scene.add(original);
+
+      // cache the original scene and its animations
+      loadedModels[modelPath] = {
+        scene: original,
+        animations: gltf.animations,
+      };
+
+      // track it for later removal
+      loadedModel = original;
+
+      // set up the mixer & actions
+      mixer = new THREE.AnimationMixer(loadedModel);
+      actions = gltf.animations.map((clip) => mixer.clipAction(clip));
+    },
+
+    // onProgress
+    xhr => {
+      const pct = ((xhr.loaded/xhr.total)*100).toFixed(0);
+      console.log(`Loading ${modelPath}: ${pct}%`);
+    },
+    err => console.error(`Error loading ${modelPath}`, err)
+  );
+
 }
 
 // Animation loop
@@ -230,16 +274,17 @@ function toggleWireframe(enable) {
 }
 
 // Button Listeners
-
 document.getElementById("prev-model")?.addEventListener("click", () => {
   if (models.length < 2) return;
-  currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
+  currentModelIndex =
+    (currentModelIndex - 1 + models.length) % models.length;
   loadModel(models[currentModelIndex]);
 });
 
 document.getElementById("next-model")?.addEventListener("click", () => {
   if (models.length < 2) return;
-  currentModelIndex = (currentModelIndex + 1) % models.length;
+  currentModelIndex =
+    (currentModelIndex + 1) % models.length;
   loadModel(models[currentModelIndex]);
 });
 
