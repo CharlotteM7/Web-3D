@@ -20,19 +20,20 @@ let scene,
   currentModelIndex = 0;
 
 let count = 0;
+let models = [];
 
+// Fetch drink data
 async function fetchDrinkData(brand) {
   try {
     const resp = await fetch(`index.php?route=apiGetDrink&brand=${brand}`);
-    const data = await resp.json();
-    return data;
+    return await resp.json();
   } catch (err) {
     console.error("Error fetching details for", brand, err);
     return {};
   }
 }
 
-
+// Handle brand switching
 function swapContent(id) {
   document.querySelectorAll(".content").forEach((sec) => {
     sec.classList.toggle("active", sec.id === id);
@@ -42,15 +43,46 @@ function swapContent(id) {
   if (["coke", "sprite", "pepper"].includes(id)) {
     fetchDrinkData(id).then((data) => {
       if (!data.modelPath) return console.warn("No data for", id);
-      firstModelPath = data.modelPath;
-      secondModelPath = data.secondModelPath;
+      
+      models = [data.modelPath, data.secondModelPath].filter(Boolean);
+      currentModelIndex = 0;
+
       const container = document.querySelector(`#${id} canvas`);
       const guiCt = document.querySelector(`#${id} #gui-container`);
 
       setupViewer(container, guiCt);
-      loadModel(firstModelPath);
+      loadModel(models[currentModelIndex]);
       setupSounds(data);
       loadGallery(id);
+
+      // ✅ Hook buttons specific to this drink
+      const animateBtn = document.getElementById(`btn-${id}`);
+      const rotateBtn = document.getElementById(`Rotate-${id}`);
+      const wireframeBtn = document.getElementById(`toggleWireframe-${id}`);
+
+      animateBtn?.addEventListener("click", () => {
+        if (actions.length) {
+          actions.forEach(action => {
+            action.reset().setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
+            action.play();
+          });
+          if (currentModelIndex === 0 && sound) sound.play();
+          if (currentModelIndex === 1 && secondSound) secondSound.play();
+        }
+      });
+
+      rotateBtn?.addEventListener("click", () => {
+        if (loadedModel) {
+          loadedModel.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 8);
+        }
+      });
+
+      wireframeBtn?.addEventListener("click", () => {
+        isWireframe = !isWireframe;
+        scene.traverse(obj => {
+          if (obj.isMesh) obj.material.wireframe = isWireframe;
+        });
+      });
     });
   }
 }
@@ -60,11 +92,10 @@ $(function () {
     .done((brands) => {
       const $menu = $("#drinkDropdown").empty();
       brands.forEach((b) => {
-        const label = b.charAt(0).toUpperCase() + b.slice(1);
         $("<a>")
           .addClass("dropdown-item")
           .attr("href", "#")
-          .text(label)
+          .text(b.charAt(0).toUpperCase() + b.slice(1))
           .on("click", (e) => {
             e.preventDefault();
             swapContent(b);
@@ -75,85 +106,43 @@ $(function () {
     .fail(() => console.error("Failed to load brand list"));
 });
 
+// Viewer Setup
 function setupViewer(canvas, guiContainer) {
   clock = new THREE.Clock();
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfaf0e6);
 
-  camera = new THREE.PerspectiveCamera(
-    60,
-    canvas.clientWidth / canvas.clientHeight,
-    0.1,
-    1000
-  );
+  camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
   camera.position.set(-5, 25, 20);
-
-  const listener = new THREE.AudioListener();
-  camera.add(listener);
-
-  const ambient = new THREE.HemisphereLight(0xffffbb, 0x080820, 4);
-  scene.add(ambient);
+  camera.add(new THREE.AudioListener());
 
   lights = {};
   lights.spot = new THREE.SpotLight();
-  lights.spot.visible = true;
   lights.spot.position.set(0, 20, 0);
   lights.spotHelper = new THREE.SpotLightHelper(lights.spot);
-  lights.spotHelper.visible = false;
-  scene.add(lights.spotHelper);
-  scene.add(lights.spot);
+  scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 4), lights.spot, lights.spotHelper);
 
   params = {
-    spot: {
-      enable: false,
-      color: 0xffffff,
-      distance: 20,
-      angle: Math.PI / 2,
-      penumbra: 0,
-      helper: false,
-      moving: false,
-    },
+    spot: { enable: false, color: 0xffffff, distance: 20, angle: Math.PI / 2, penumbra: 0, helper: false, moving: false }
   };
 
   const gui = new dat.GUI({ autoPlace: false });
   guiContainer.innerHTML = "";
   guiContainer.appendChild(gui.domElement);
-
   const spot = gui.addFolder("Spot");
   spot.open();
-  spot.add(params.spot, "enable").onChange((value) => {
-    lights.spot.visible = value;
-  });
-  spot
-    .addColor(params.spot, "color")
-    .onChange((value) => (lights.spot.color = new THREE.Color(value)));
-  spot
-    .add(params.spot, "distance")
-    .min(0)
-    .max(20)
-    .onChange((value) => (lights.spot.distance = value));
-  spot
-    .add(params.spot, "angle")
-    .min(0.1)
-    .max(6.28)
-    .onChange((value) => (lights.spot.angle = value));
-  spot
-    .add(params.spot, "penumbra")
-    .min(0)
-    .max(1)
-    .onChange((value) => (lights.spot.penumbra = value));
-  spot
-    .add(params.spot, "helper")
-    .onChange((value) => (lights.spotHelper.visible = value));
+  spot.add(params.spot, "enable").onChange(v => lights.spot.visible = v);
+  spot.addColor(params.spot, "color").onChange(v => lights.spot.color = new THREE.Color(v));
+  spot.add(params.spot, "distance", 0, 20).onChange(v => lights.spot.distance = v);
+  spot.add(params.spot, "angle", 0.1, 6.28).onChange(v => lights.spot.angle = v);
+  spot.add(params.spot, "penumbra", 0, 1).onChange(v => lights.spot.penumbra = v);
+  spot.add(params.spot, "helper").onChange(v => lights.spotHelper.visible = v);
   spot.add(params.spot, "moving");
 
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.target.set(1, 2, 0);
-  controls.update();
+  new THREE.OrbitControls(camera, renderer.domElement).update();
 
   loader = new THREE.GLTFLoader();
   currentCanvas = canvas;
@@ -161,87 +150,87 @@ function setupViewer(canvas, guiContainer) {
   animate();
 }
 
+// Model Loading
 function loadModel(modelPath) {
-  if (loadedModel) {
-    scene.remove(loadedModel);
-  }
+  if (loadedModel) scene.remove(loadedModel);
 
-  loader.load(modelPath, function (gltf) {
-    const model = gltf.scene;
-    model.position.set(0, 0, 0);
-    scene.add(model);
-    loadedModel = model;
+  loader.load(modelPath, (gltf) => {
+    loadedModel = gltf.scene;
+    loadedModel.position.set(0, 0, 0);
+    scene.add(loadedModel);
 
-    mixer = new THREE.AnimationMixer(model);
-    const animations = gltf.animations;
+    mixer = new THREE.AnimationMixer(loadedModel);
     actions = [];
-    animations.forEach((clip) => {
-      const action = mixer.clipAction(clip);
-      actions.push(action);
-    });
+    gltf.animations.forEach((clip) => actions.push(mixer.clipAction(clip)));
   });
 }
 
-function setupSounds(drinkData) {
-  const audioLoader = new THREE.AudioLoader();
-  const listener = new THREE.AudioListener();
-  camera.add(listener);
-
-  sound = new THREE.Audio(listener);
-
-  if (drinkData.soundPath) {
-    audioLoader.load(drinkData.soundPath, function (buffer) {
-      sound.setBuffer(buffer);
-      sound.setLoop(false);
-      sound.setVolume(1.0);
-    });
-  }
-
-  if (drinkData.secondSoundPath) {
-    secondSound = new THREE.Audio(listener);
-    audioLoader.load(drinkData.secondSoundPath, function (buffer) {
-      secondSound.setBuffer(buffer);
-      secondSound.setLoop(false);
-      secondSound.setVolume(1.0);
-    });
-  }
-}
-
+// Animation loop
 function animate() {
   requestAnimationFrame(animate);
-
-  if (mixer) {
-    mixer.update(clock.getDelta());
-  }
-
-  renderer.render(scene, camera);
-
-  const time = clock.getElapsedTime();
-  const delta = Math.sin(time) * 5;
+  if (mixer) mixer.update(clock.getDelta());
   if (params.spot.moving) {
+    const delta = Math.sin(clock.getElapsedTime()) * 5;
     lights.spot.position.x = delta;
     lights.spotHelper.update();
   }
+  renderer.render(scene, camera);
 }
 
-function countUp() {
-  count++;
-  document.getElementById("counter").textContent = count;
+// Sounds
+function setupSounds(data) {
+  const audioLoader = new THREE.AudioLoader();
+  sound = new THREE.Audio(camera.children[0]);
+  secondSound = new THREE.Audio(camera.children[0]);
+
+  if (data.soundPath) {
+    audioLoader.load(data.soundPath, buffer => {
+      sound.setBuffer(buffer).setLoop(false).setVolume(1.0);
+    });
+  }
+  if (data.secondSoundPath) {
+    audioLoader.load(data.secondSoundPath, buffer => {
+      secondSound.setBuffer(buffer).setLoop(false).setVolume(1.0);
+    });
+  }
 }
 
-function changeLook() {
+// Wireframe toggle
+function toggleWireframe(enable) {
+  scene.traverse(obj => {
+    if (obj.isMesh) obj.material.wireframe = enable;
+  });
+}
+
+// Button Listeners
+
+document.getElementById("prev-model")?.addEventListener("click", () => {
+  if (models.length < 2) return;
+  currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
+  loadModel(models[currentModelIndex]);
+});
+
+document.getElementById("next-model")?.addEventListener("click", () => {
+  if (models.length < 2) return;
+  currentModelIndex = (currentModelIndex + 1) % models.length;
+  loadModel(models[currentModelIndex]);
+});
+
+document.getElementById("themeToggle")?.addEventListener("click", () => {
   const body = document.body;
   const nav = document.querySelector(".navbar");
   const toggle = document.getElementById("themeToggle");
 
   body.classList.toggle("dark-mode");
+
   if (nav) {
     nav.classList.toggle("bg-dark", !body.classList.contains("dark-mode"));
     nav.classList.toggle("bg-primary", body.classList.contains("dark-mode"));
   }
+
   if (toggle) {
-    toggle.textContent = body.classList.contains("dark-mode")
-      ? "Light Mode"
-      : "Dark Mode";
+    toggle.textContent = body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
   }
-}
+});
+
+
