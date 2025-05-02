@@ -241,6 +241,7 @@ function setupViewer(canvas, guiContainer) {
   animate();
 }
 
+
 // Model Loading
 function loadModel(modelPath) {
   // 1) Remove any existing model instance

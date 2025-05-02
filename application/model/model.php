@@ -18,28 +18,38 @@ class Model
         try {
             $pdo = new PDO('sqlite:' . $this->dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            // 1) Drop the table if it already exists
+            $pdo->exec("DROP TABLE IF EXISTS drinks;");
+    
+            // 2) Create a fresh drinks table
             $pdo->exec("
-                CREATE TABLE IF NOT EXISTS drinks (
-                  id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  brand TEXT UNIQUE NOT NULL,
-                  modelPath TEXT,
-                  secondModelPath TEXT,
-                  soundPath TEXT,
-                  secondSoundPath TEXT,
-                  animation INTEGER DEFAULT 0
+                CREATE TABLE drinks (
+                    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+                    brand            TEXT UNIQUE NOT NULL,
+                    modelPath        TEXT,
+                    secondModelPath  TEXT,
+                    soundPath        TEXT,
+                    secondSoundPath  TEXT,
+                    animation        INTEGER DEFAULT 0
                 );
             ");
+    
             return "✅ Table `drinks` is ready.";
         } catch (PDOException $e) {
             return "❌ Error creating table: " . $e->getMessage();
         }
     }
+    
 
     public function dbInsertData(): string
     {
         try {
             $pdo = new PDO('sqlite:' . $this->dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Wipe any old seed data
+        $pdo->exec("DELETE FROM drinks;");
 
             // Prepare the INSERT statement (INSERT OR IGNORE to avoid duplicates)
             $stmt = $pdo->prepare("
@@ -61,7 +71,7 @@ class Model
                 ],
                 [
                     'brand' => 'sprite',
-                    'modelPath' => 'assets/3D/spriteice.glb',
+                    'modelPath' => 'assets/3D/spriteiceanimation.glb',
                     'secondModelPath' => '',
                     'soundPath' => '',
                     'secondSoundPath' => '',

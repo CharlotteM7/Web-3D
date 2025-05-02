@@ -249,6 +249,10 @@
     <button id="mat-matte-pepper">Matte</button>
   </div>
 </div>
+<div id="model-nav">
+            <button id="prev-model">⬅️</button>
+            <button id="next-model">➡️</button>
+          </div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
