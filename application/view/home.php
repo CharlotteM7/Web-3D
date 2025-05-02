@@ -297,50 +297,63 @@
 
   <!-- About Section -->
   <div id="about" class="content">
-    <section class="py-5">
-      <div class="container text-center">
-        <div class="container mt-4">
-          <h1 class="mb-4">About This Web 3D Application</h1>
+  <section class="container mt-5">
+  <h1>About This 3D Web Application</h1>
 
-          <h2>Technologies Used</h2>
-          <ul>
-            <li>HTML5, CSS3, JavaScript (ES6+)</li>
-            <li>Bootstrap 5 for responsive layout</li>
-            <li>Three.js for 3D model rendering and interactivity</li>
-            <li>dat.GUI for real-time lighting controls</li>
-            <li>jQuery</li>
-          </ul>
+  <h2>Project Overview</h2>
+  <p>This interactive 3D Web App showcases three Coca-Cola brand products: Coca-Cola, Sprite, and Dr Pepper. Each brand includes detailed 3D models that users can manipulate in real-time using Three.js. The application is built using a modular MVC framework with PHP, SQLite, AJAX, and JSON, allowing dynamic interaction and media retrieval.</p>
 
-          <h2>Design and Implementation</h2>
-          <p>This application uses a mobile-first responsive layout and includes navigation, media content,
-            and interactive 3D elements. It is built as a Single Page Application (SPA) using JavaScript content
-            swapping and Three.js rendering pipelines.</p>
+  <h2>Technologies Used</h2>
+  <ul>
+    <li>HTML5 / CSS3 / JavaScript</li>
+    <li>Three.js for 3D rendering and interaction</li>
+    <li>GLTFLoader for model integration</li>
+    <li>Bootstrap 5 for layout and responsiveness</li>
+    <li>PHP MVC Framework with SQLite database</li>
+    <li>AJAX + JSON for asynchronous data fetching</li>
+  </ul>
 
-          <h2>Interactivity Features</h2>
-          <ul>
-            <li>Load and switch between GLTF models</li>
-            <li>Play animations with audio cues</li>
-            <li>Lighting and camera manipulation</li>
-            <li>Wireframe toggling and object rotation</li>
-          </ul>
+  <h2>3D Models and Interactivity</h2>
+  <p>The application includes five models: two versions of Coca-Cola, two for Dr Pepper, and one for Sprite. Users can rotate, animate, switch materials (gloss/matte), change cameras, and toggle lighting via a responsive control panel. All models are dynamically loaded and efficiently managed using a single rendering context with swapping logic to optimise performance.</p>
 
-          <h2>Testing Strategy</h2>
-          <p>Tested using Chrome DevTools for:</p>
-          <ul>
-            <li>Cross-browser compatibility (Chrome, Firefox, Edge)</li>
-            <li>Responsive behaviour on desktop, tablet, and mobile views</li>
-            <li>Keyboard accessibility</li>
-            <li>Functional testing of all interactive features</li>
-          </ul>
+  <h2>Design Rationale</h2>
+  <p>The layout follows a fluid, responsive grid using Bootstrap. A modern sans-serif font and brand-inspired colour scheme were selected to align with Coca-Cola's identity. Cards and sections are clearly delineated for ease of navigation. Dark mode was implemented to improve usability and accessibility in low-light environments.</p>
 
-          <h2>Accessibility Considerations</h2>
-          <p>Included keyboard navigation, contrast-checked colour schemes, labelled buttons, and alt-text where
-            possible.</p>
+  <h2>Accessibility Considerations</h2>
+  <ul>
+    <li>Dark mode toggle improves contrast for low-vision users</li>
+    <li>Semantic HTML5 structure used for better screen reader compatibility</li>
+    <li>All buttons and inputs are keyboard-accessible and properly labelled</li>
+    <li>Text and background colours tested for sufficient contrast</li>
+  </ul>
 
+  <h2>Testing and User Feedback</h2>
+  <p>Several forms of testing were used during development:</p>
+  <ul>
+    <li><strong>Functional Testing:</strong> All buttons and features were tested on desktop and mobile to ensure model switching, animation triggers, and sound playback worked correctly.</li>
+    <li><strong>Responsiveness:</strong> The app was tested using Chrome DevTools and physical devices (iPhone 16, Apple tablet). Adjustments were made for canvas scaling, card overflow, and dropdown behaviour.</li>
+    <li><strong>User Feedback:</strong>  </li>
+    <li><strong>Browser Testing:</strong> Tested on Chrome, Firefox, and Edge to ensure cross-browser compatibility.</li>
+    <li><strong>Accessibility Checks:</strong> Keyboard navigation tested with Tab key; contrast verified with [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)</li>
+  </ul>
 
-        </div>
-      </div>
-    </section>
+  <h2>Deeper Understanding and Technical Extensions</h2>
+  <p>The application goes significantly beyond the lab tutorials by implementing:</p>
+  <ul>
+    <li>A fully structured MVC pattern with PHP and SQLite backend</li>
+    <li>Dynamic data and gallery loading using AJAX and JSON</li>
+    <li>Scene and camera management with support for orthographic and perspective views</li>
+    <li>Material and lighting manipulation via GUI and button inputs</li>
+    <li>Dark mode, animated gallery image load-in, and dynamic 3D model swapping</li>
+  </ul>
+
+  <h2>Links and Resources</h2>
+  <ul>
+    <li><strong>GitHub Codebase:</strong> <a href="https://github.com/yourusername/3dapp-code">https://github.com/yourusername/3dapp-code</a></li>
+    <li><strong>Credits:</strong> All third-party libraries and images are cited in the References section of this site.</li>
+  </ul>
+</section>
+
   </div>
 
   <!-- Footer -->
