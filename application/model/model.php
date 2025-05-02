@@ -61,7 +61,7 @@ class Model
                 ],
                 [
                     'brand' => 'sprite',
-                    'modelPath' => 'assets/3D/spriteIceDrop.glb',
+                    'modelPath' => 'assets/3D/spriteice.glb',
                     'secondModelPath' => '',
                     'soundPath' => '',
                     'secondSoundPath' => '',
@@ -69,8 +69,8 @@ class Model
                 ],
                 [
                     'brand' => 'pepper',
-                    'modelPath' => 'assets/3D/candrop.glb',
-                    'secondModelPath' => '',
+                    'modelPath' => 'assets/3D/cantobottle.glb',
+                    'secondModelPath' => 'assets/3D/canroll.glb',
                     'soundPath' => '',
                     'secondSoundPath' => '',
                     'animation' => 1

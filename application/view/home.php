@@ -261,7 +261,7 @@
   <!-- Gallery Section -->
 <section id="gallerySection" class="content container my-5">
   <div id="gallery" class="d-flex flex-wrap justify-content-center">
-    <!-- JS will inject gallery items here -->
+  
   </div>
 </section>
 
