@@ -50,10 +50,9 @@ async function swapContent(id) {
     sec.style.display = active ? "block" : "none";
   });
 
-  
   if (id === "gallerySection") {
     ["coke", "sprite", "pepper"].forEach(loadDrinkGallery);
-  }  
+  }
 
   // Only proceed for drink panels
   if (!["coke", "sprite", "pepper"].includes(id)) return;
@@ -71,30 +70,28 @@ async function swapContent(id) {
 
   // Set up Three.js viewer for this panel
   const container = document.querySelector(`#${id} canvas`);
-  const guiCt     = document.querySelector(`#${id} #gui-container`);
+  const guiCt = document.querySelector(`#${id} #gui-container`);
   setupViewer(container, guiCt);
 
   // Load first model, sounds, and gallery
   loadModel(models[currentModelIndex]);
   setupSounds(data);
 
-
   // Grab all controls for this brand
-  const animateBtn     = document.getElementById(`btn-${id}`);
-  const rotateBtn      = document.getElementById(`Rotate-${id}`);
-  const wireframeBtn   = document.getElementById(`toggleWireframe-${id}`);
-  const camFrontBtn    = document.getElementById(`cam-front-${id}`);
-  const camSideBtn     = document.getElementById(`cam-side-${id}`);
-  const camTopBtn      = document.getElementById(`cam-top-${id}`);
-  const camOrthoBtn    = document.getElementById(`cam-ortho-${id}`);
+  const animateBtn = document.getElementById(`btn-${id}`);
+  const rotateBtn = document.getElementById(`Rotate-${id}`);
+  const wireframeBtn = document.getElementById(`toggleWireframe-${id}`);
+  const camFrontBtn = document.getElementById(`cam-front-${id}`);
+  const camSideBtn = document.getElementById(`cam-side-${id}`);
+  const camTopBtn = document.getElementById(`cam-top-${id}`);
+  const camOrthoBtn = document.getElementById(`cam-ortho-${id}`);
   const lightToggleBtn = document.getElementById(`light-toggle-${id}`);
-  const lightColorIn   = document.getElementById(`light-color-${id}`);
-  const lightIntRange  = document.getElementById(`light-int-${id}`);
-  const glossBtn       = document.getElementById(`mat-gloss-${id}`);
-  const matteBtn       = document.getElementById(`mat-matte-${id}`);
+  const lightColorIn = document.getElementById(`light-color-${id}`);
+  const lightIntRange = document.getElementById(`light-int-${id}`);
+  const glossBtn = document.getElementById(`mat-gloss-${id}`);
+  const matteBtn = document.getElementById(`mat-matte-${id}`);
   const prevBtn = document.getElementById(`prev-model-${id}`);
   const nextBtn = document.getElementById(`next-model-${id}`);
-
 
   // Animate
   animateBtn?.addEventListener("click", () => {
@@ -103,7 +100,7 @@ async function swapContent(id) {
         action.reset().setLoop(THREE.LoopOnce, 1).clampWhenFinished = true;
         action.play();
       });
-      if (currentModelIndex === 0 && sound)       sound.play();
+      if (currentModelIndex === 0 && sound) sound.play();
       if (currentModelIndex === 1 && secondSound) secondSound.play();
     }
   });
@@ -129,7 +126,7 @@ async function swapContent(id) {
     currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
     loadModel(models[currentModelIndex]);
   });
-  
+
   nextBtn?.addEventListener("click", () => {
     if (models.length < 2) return;
     currentModelIndex = (currentModelIndex + 1) % models.length;
@@ -164,9 +161,7 @@ async function swapContent(id) {
       if (obj.isMesh) obj.material.roughness = 1.0;
     });
   });
-
-}   
-
+}
 
 $(function () {
   $.getJSON("index.php?route=apiGetBrands")
@@ -261,7 +256,6 @@ function setupViewer(canvas, guiContainer) {
 
   animate();
 }
-
 
 // Model Loading
 function loadModel(modelPath) {
@@ -469,12 +463,28 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
   }
 });
 
-
-  document.querySelectorAll('.toggle-notes-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', !expanded);
-    });
+document.querySelectorAll(".toggle-notes-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const expanded = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", !expanded);
   });
+});
 
+document.addEventListener("click", function (e) {
+  const img = e.target.closest(".gallery-thumb");
+  if (!img) return;
 
+  const group = img.dataset.group;
+  const index = parseInt(img.dataset.index, 10);
+  const images = groupedImages[group];
+
+  const inner = document.getElementById("carousel-inner");
+  inner.innerHTML = "";
+
+  images.forEach((src, i) => {
+    const item = document.createElement("div");
+    item.className = "carousel-item" + (i === index ? " active" : "");
+    item.innerHTML = `<img src="${src}" class="d-block w-100" alt="${group} image ${i + 1}">`;
+    inner.appendChild(item);
+  });
+});

@@ -12,16 +12,15 @@ class Model
         $this->dbhandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-
     public function dbCreateTable(): string
     {
         try {
             $pdo = new PDO('sqlite:' . $this->dbPath);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
             // 1) Drop the table if it already exists
             $pdo->exec("DROP TABLE IF EXISTS drinks;");
-    
+
             // 2) Create a fresh drinks table
             $pdo->exec("
                 CREATE TABLE drinks (
@@ -34,13 +33,12 @@ class Model
                     animation        INTEGER DEFAULT 0
                 );
             ");
-    
+
             return "✅ Table `drinks` is ready.";
         } catch (PDOException $e) {
             return "❌ Error creating table: " . $e->getMessage();
         }
     }
-    
 
     public function dbInsertData(): string
     {
@@ -49,7 +47,7 @@ class Model
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Wipe any old seed data
-        $pdo->exec("DELETE FROM drinks;");
+            $pdo->exec("DELETE FROM drinks;");
 
             // Prepare the INSERT statement (INSERT OR IGNORE to avoid duplicates)
             $stmt = $pdo->prepare("
@@ -123,7 +121,6 @@ class Model
         }
     }
 
-
     /** 
      * Return an array of all distinct brand names 
      */
@@ -142,18 +139,17 @@ class Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
     public function dbGetBrandList()
     {
         $stmt = $this->dbhandle->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
-
-    public function dbGetGalleryImages($drink) {
+    public function dbGetGalleryImages($drink)
+    {
         $dir = "gallery/$drink";
         $images = [];
-    
+
         if (is_dir($dir)) {
             foreach (scandir($dir) as $file) {
                 if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
@@ -161,12 +157,9 @@ class Model
                 }
             }
         }
-    
+
         return $images;
     }
-    
-
-
 
 
 
