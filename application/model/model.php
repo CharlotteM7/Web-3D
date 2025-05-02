@@ -150,7 +150,21 @@ class Model
     }
 
 
-
+    public function dbGetGalleryImages($drink) {
+        $dir = "gallery/$drink";
+        $images = [];
+    
+        if (is_dir($dir)) {
+            foreach (scandir($dir) as $file) {
+                if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
+                    $images[] = "$dir/$file";
+                }
+            }
+        }
+    
+        return $images;
+    }
+    
 
 
 

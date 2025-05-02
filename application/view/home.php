@@ -57,13 +57,11 @@
     </div>
   </nav>
 
-
   <!-- Hero Section -->
   <div id="home" class="content active">
     <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
     <header
       class="hero-section position-relative vh-100 d-flex align-items-center justify-content-center text-center overflow-hidden">
-
       <video id="heroVideo" class="hero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay
         loop muted playsinline>
         <source src="/assets/video/dpsplash.mp4" type="video/mp4">
@@ -117,7 +115,6 @@
     </section>
   </div>
 
-
   <div class="text-center my-4">
     <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
 
@@ -141,31 +138,31 @@
             </div>
           </div>
           <div id="model-nav">
-            <button id="prev-model">⬅️</button>
-            <button id="next-model">➡️</button>
+            <button id="prev-model-coke">⬅️</button>
+            <button id="next-model-coke">➡️</button>
           </div>
           <div class="control-panel">
-  <div class="btn-group">
-    <button id="cam-front-coke">Front</button>
-    <button id="cam-side-coke">Side</button>
-    <button id="cam-top-coke">Top</button>
-    <button id="cam-ortho-coke">Ortho</button>
-  </div>
-  <div class="btn-group">
-    <button id="light-toggle-coke">Toggle Spot</button>
-    <input type="color" id="light-color-coke" title="Light Color">
-    <input type="range" id="light-coke" min="0" max="5" step="0.1">
-  </div>
-  <div class="btn-group">
-    <button id="mat-gloss-coke">Glossy</button>
-    <button id="mat-matte-coke">Matte</button>
-  </div>
-</div>
+            <div class="btn-group">
+              <button id="cam-front-coke">Front</button>
+              <button id="cam-side-coke">Side</button>
+              <button id="cam-top-coke">Top</button>
+              <button id="cam-ortho-coke">Ortho</button>
+            </div>
+            <div class="btn-group">
+              <button id="light-toggle-coke">Toggle Spot</button>
+              <input type="color" id="light-color-coke" title="Light Color">
+              <input type="range" id="light-coke" min="0" max="5" step="0.1">
+            </div>
+            <div class="btn-group">
+              <button id="mat-gloss-coke">Glossy</button>
+              <button id="mat-matte-coke">Matte</button>
+            </div>
+          </div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
-    <div id="gallery-coke" class="d-flex flex-wrap justify-content-center mt-4"></div>
+
   </div>
 
   <!-- Sprite Section -->
@@ -181,38 +178,34 @@
           </div>
           <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
             <div id="button-panel">
-              <button id="btn-sprite" class="btn btn-primary m-2">Add Ice</button>
+              <button id="btn-sprite" class="btn btn-primary m-2">Animate</button>
               <button id="toggleWireframe-sprite" class="btn btn-secondary m-2">Toggle Wireframe</button>
               <button id="Rotate-sprite" class="btn btn-secondary m-2">Rotate</button>
             </div>
           </div>
           <div class="control-panel">
-  <div class="btn-group">
-    <button id="cam-front-sprite">Front</button>
-    <button id="cam-side-sprite">Side</button>
-    <button id="cam-top-sprite">Top</button>
-    <button id="cam-ortho-sprite">Ortho</button>
-  </div>
-  <div class="btn-group">
-    <button id="light-toggle-sprite">Toggle Spot</button>
-    <input type="color" id="light-color-sprite" title="Light Color">
-    <input type="range" id="light-int-sprite" min="0" max="5" step="0.1">
-  </div>
-  <div class="btn-group">
-    <button id="mat-gloss-sprite">Glossy</button>
-    <button id="mat-matte-sprite">Matte</button>
-  </div>
-</div>
-
-
-
+            <div class="btn-group">
+              <button id="cam-front-sprite">Front</button>
+              <button id="cam-side-sprite">Side</button>
+              <button id="cam-top-sprite">Top</button>
+              <button id="cam-ortho-sprite">Ortho</button>
+            </div>
+            <div class="btn-group">
+              <button id="light-toggle-sprite">Toggle Spot</button>
+              <input type="color" id="light-color-sprite" title="Light Color">
+              <input type="range" id="light-int-sprite" min="0" max="5" step="0.1">
+            </div>
+            <div class="btn-group">
+              <button id="mat-gloss-sprite">Glossy</button>
+              <button id="mat-matte-sprite">Matte</button>
+            </div>
+          </div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
-    <div id="gallery-sprite" class="d-flex flex-wrap justify-content-center mt-4"></div>
-  </div>
 
+  </div>
 
   <!-- Dr Pepper Section -->
   <div id="pepper" class="content">
@@ -227,86 +220,85 @@
           </div>
           <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
             <div id="button-panel">
-              <button id="btn-pepper" class="btn btn-primary m-2">Add Ice</button>
+              <button id="btn-pepper" class="btn btn-primary m-2">Animate</button>
               <button id="toggleWireframe-pepper" class="btn btn-secondary m-2">Toggle Wireframe</button>
               <button id="Rotate-pepper" class="btn btn-secondary m-2">Rotate</button>
             </div>
           </div>
           <div class="control-panel">
-  <div class="btn-group">
-    <button id="cam-front-pepper">Front</button>
-    <button id="cam-side-pepper">Side</button>
-    <button id="cam-top-pepper">Top</button>
-    <button id="cam-ortho-pepper">Ortho</button>
-  </div>
-  <div class="btn-group">
-    <button id="light-toggle-pepper">Toggle Spot</button>
-    <input type="color" id="light-color-pepper" title="Light Color">
-    <input type="range" id="light-int-pepper" min="0" max="5" step="0.1">
-  </div>
-  <div class="btn-group">
-    <button id="mat-gloss-pepper">Glossy</button>
-    <button id="mat-matte-pepper">Matte</button>
-  </div>
-</div>
-<div id="model-nav">
-            <button id="prev-model">⬅️</button>
-            <button id="next-model">➡️</button>
+            <div class="btn-group">
+              <button id="cam-front-pepper">Front</button>
+              <button id="cam-side-pepper">Side</button>
+              <button id="cam-top-pepper">Top</button>
+              <button id="cam-ortho-pepper">Ortho</button>
+            </div>
+            <div class="btn-group">
+              <button id="light-toggle-pepper">Toggle Spot</button>
+              <input type="color" id="light-color-pepper" title="Light Color">
+              <input type="range" id="light-int-pepper" min="0" max="5" step="0.1">
+            </div>
+            <div class="btn-group">
+              <button id="mat-gloss-pepper">Glossy</button>
+              <button id="mat-matte-pepper">Matte</button>
+            </div>
+          </div>
+          <div id="model-nav">
+            <button id="prev-model-pepper">⬅️</button>
+            <button id="next-model-pepper">➡️</button>
           </div>
           <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
-    <div id="gallery-pepper" class="d-flex flex-wrap justify-content-center mt-4"></div>
-  </div>
 
+  </div>
 
 
   <!-- Gallery Section -->
-<section id="gallerySection" class="content container my-5">
-  <div id="gallery" class="d-flex flex-wrap justify-content-center">
-  
-  </div>
-</section>
+  <section id="gallerySection" class="content">
+    <div class="container py-5">
+      <!-- Hero Section -->
+      <section class="galleryhero-section position-relative vh-100 overflow-hidden">
+        <!-- Dark overlay -->
+        <div class="galleryhero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
 
-<!-- Hero Section -->
-<section class="galleryhero-section position-relative vh-100 overflow-hidden">
-  <!-- Dark overlay -->
-  <div class="galleryhero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
+        <!-- Background video -->
+        <video id="galleryheroVideo"
+          class="galleryhero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay loop muted
+          playsinline>
+          <source src="/assets/video/spritepour.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-  <!-- Background video -->
-  <video
-    id="galleryheroVideo"
-    class="galleryhero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-    autoplay
-    loop
-    muted
-    playsinline
-  >
-    <source src="/assets/video/spritepour.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+        <!-- Hero content -->
+        <div id="galleryheroContent" class="galleryhero-content position-relative text-center text-white px-3"
+          style="z-index:1;">
+          <h1 class="display-4 fw-bold">Image Gallery</h1>
+          <p class="lead">All of them</p>
+        </div>
+      </section>
 
-  <!-- Hero content -->
-  <div
-    id="galleryheroContent"
-    class="galleryhero-content position-relative text-center text-white px-3"
-    style="z-index:1;"
-  >
-    <h1 class="display-4 fw-bold">Image Gallery</h1>
-    <p class="lead">All of them</p>
-  </div>
-</section>
+      <div id="gallery-coke" class="mb-5">
+        <h2 class="text-center">Coke</h2>
+        <div class="row justify-content-center"></div>
+      </div>
 
+      <div id="gallery-sprite" class="mb-5">
+        <h2 class="text-center">Sprite</h2>
+        <div class="row justify-content-center"></div>
+      </div>
 
-  
+      <div id="gallery-pepper" class="mb-5">
+        <h2 class="text-center">Dr Pepper</h2>
+        <div class="row justify-content-center"></div>
+      </div>
+    </div>
+  </section>
 
   <!-- About Section -->
   <div id="about" class="content">
     <section class="py-5">
       <div class="container text-center">
-
-
         <div class="container mt-4">
           <h1 class="mb-4">About This Web 3D Application</h1>
 

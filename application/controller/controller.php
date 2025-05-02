@@ -82,5 +82,13 @@ class Controller
     }
 
 
-
+    public function apiGetGallery() {
+        header('Content-Type: application/json');
+    
+        $drink = $_GET['drink'] ?? '';
+        $images = $this->model->dbGetGalleryImages($drink);
+    
+        echo json_encode($images);
+    }
+    
 }

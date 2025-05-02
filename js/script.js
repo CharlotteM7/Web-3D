@@ -50,6 +50,11 @@ async function swapContent(id) {
     sec.style.display = active ? "block" : "none";
   });
 
+  
+  if (id === "gallerySection") {
+    ["coke", "sprite", "pepper"].forEach(loadDrinkGallery);
+  }  
+
   // Only proceed for drink panels
   if (!["coke", "sprite", "pepper"].includes(id)) return;
 
@@ -72,7 +77,7 @@ async function swapContent(id) {
   // Load first model, sounds, and gallery
   loadModel(models[currentModelIndex]);
   setupSounds(data);
-  loadGallery(id);
+
 
   // Grab all controls for this brand
   const animateBtn     = document.getElementById(`btn-${id}`);
@@ -87,6 +92,9 @@ async function swapContent(id) {
   const lightIntRange  = document.getElementById(`light-int-${id}`);
   const glossBtn       = document.getElementById(`mat-gloss-${id}`);
   const matteBtn       = document.getElementById(`mat-matte-${id}`);
+  const prevBtn = document.getElementById(`prev-model-${id}`);
+  const nextBtn = document.getElementById(`next-model-${id}`);
+
 
   // Animate
   animateBtn?.addEventListener("click", () => {
@@ -113,6 +121,19 @@ async function swapContent(id) {
     scene.traverse((obj) => {
       if (obj.isMesh) obj.material.wireframe = isWireframe;
     });
+  });
+
+  // Model switch toggle
+  prevBtn?.addEventListener("click", () => {
+    if (models.length < 2) return;
+    currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
+    loadModel(models[currentModelIndex]);
+  });
+  
+  nextBtn?.addEventListener("click", () => {
+    if (models.length < 2) return;
+    currentModelIndex = (currentModelIndex + 1) % models.length;
+    loadModel(models[currentModelIndex]);
   });
 
   // Camera presets

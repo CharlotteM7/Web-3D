@@ -1,32 +1,24 @@
-function loadGallery(drink) {
-  const galleryId = `#gallery-${drink}`;
-  const galleryDiv = $(galleryId);
-  galleryDiv.empty(); // clear old thumbnails
+function loadDrinkGallery(drink) {
+  const container = $(`#gallery-${drink} .row`);
+  container.empty();
 
-  // title
-  const drinkName = drink.charAt(0).toUpperCase() + drink.slice(1);
-  const header = $('<h2>')
-    .text(`${drinkName} Image Gallery`)
-    .addClass('text-center w-100 mb-4');
-  galleryDiv.append(header);
+  $.getJSON(`index.php?route=apiGetGallery&drink=${drink}`, function (images) {
+    if (images.length === 0) {
+      container.append(`<p class="text-muted text-center">No images found for ${drink}.</p>`);
+      return;
+    }
 
-  $.getJSON(`gallery/hook.php?drink=${drink}`, function(images) {
-    $.each(images, function(index, imgPath) {
-      const cleanPath = imgPath.replace('../', '');
-      const img = $('<img>')
-        .attr('src', cleanPath)
-        .addClass('img-thumbnail m-2')
-        .css({
-          'max-width': '150px',
-          'opacity': 0 
-        });
-      
-      galleryDiv.append(img);
-
-      // Fade in effect
-      img.animate({opacity: 1}, 500); // 500ms fade-in
+    images.forEach((imgPath) => {
+      const img = $("<img>")
+        .attr("src", imgPath)
+        .addClass("img-thumbnail m-2")
+        .css({ maxWidth: "150px", opacity: 0 });
+      container.append(img);
+      img.animate({ opacity: 1 }, 400);
     });
-  }).fail(function(jqxhr, textStatus, error) {
-    console.error(`Error loading gallery for ${drink}:`, textStatus, error);
   });
+
 }
+  window.loadDrinkGallery = loadDrinkGallery;
+
+
