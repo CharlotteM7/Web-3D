@@ -468,3 +468,13 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
       : "Dark Mode";
   }
 });
+
+
+  document.querySelectorAll('.toggle-notes-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', !expanded);
+    });
+  });
+
+

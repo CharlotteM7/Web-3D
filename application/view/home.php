@@ -119,139 +119,223 @@
     <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
 
   </div>
-  <!-- Coke Section -->
-  <div id="coke" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Coca-Cola</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-coke" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Coca Cola"></canvas>
+
+<!-- Coke Section -->
+<div id="coke" class="content">
+  <div class="container py-5">
+    <div class="card shadow">
+      <div class="card-header text-center">
+        <h1 class="mb-0">Coca-Cola</h1>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- 3D Viewer Column -->
+          <div class="col-lg-8 col-12 order-lg-1">
+            <div id="canvasWrapper-coke" class="three-canvas-wrapper mb-4">
+              <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Coca Cola"></canvas>
+            </div>
+
+            <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+              <div id="button-panel">
+                <button id="btn-coke" class="btn btn-primary m-2">Animate</button>
+                <button id="toggleWireframe-coke" class="btn btn-secondary m-2">Toggle Wireframe</button>
+                <button id="Rotate-coke" class="btn btn-secondary m-2">Rotate</button>
+              </div>
+            </div>
+
+            <div id="model-nav" class="mt-3">
+              <button id="prev-model-coke">⬅️</button>
+              <button id="next-model-coke">➡️</button>
+            </div>
+
+            <div class="control-panel mt-3">
+              <div class="btn-group">
+                <button id="cam-front-coke">Front</button>
+                <button id="cam-side-coke">Side</button>
+                <button id="cam-top-coke">Top</button>
+                <button id="cam-ortho-coke">Ortho</button>
+              </div>
+              <div class="btn-group">
+                <button id="light-toggle-coke">Toggle Spot</button>
+                <input type="color" id="light-color-coke" title="Light Color">
+                <input type="range" id="light-coke" min="0" max="5" step="0.1">
+              </div>
+              <div class="btn-group">
+                <button id="mat-gloss-coke">Glossy</button>
+                <button id="mat-matte-coke">Matte</button>
+              </div>
+            </div>
+
+            <div id="gui-container" class="ms-4 mt-3"></div>
           </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn-coke" class="btn btn-primary m-2">Animate</button>
-              <button id="toggleWireframe-coke" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate-coke" class="btn btn-secondary m-2">Rotate</button>
+
+          <!-- Model Notes Column -->
+          <div class="col-lg-4 col-12 order-lg-2 mt-4 mt-lg-0">
+            <div class="model-notes-wrapper">
+              <!-- Toggle button only shown on small screens -->
+              <button class="toggle-notes-btn" aria-controls="notes-coke" aria-expanded="false">
+                Show Model Notes
+              </button>
+
+              <div class="model-notes" id="notes-coke">
+                <h5 class="fw-bold">Model Production Notes</h5>
+                <p>
+                  The Coca-Cola can and bottle were modelled in Blender with clean geometry and a low-poly approach for performance. UV unwrapping was carefully adjusted to match label alignment, and branding textures were optimised for web delivery.
+                </p>
+                <p>
+                  Both models were exported as GLB files and can be swapped dynamically in the viewer. Users can control lighting, camera angles, animation, and material styles using the UI or buttons.
+                </p>
+              </div>
             </div>
           </div>
-          <div id="model-nav">
-            <button id="prev-model-coke">⬅️</button>
-            <button id="next-model-coke">➡️</button>
-          </div>
-          <div class="control-panel">
-            <div class="btn-group">
-              <button id="cam-front-coke">Front</button>
-              <button id="cam-side-coke">Side</button>
-              <button id="cam-top-coke">Top</button>
-              <button id="cam-ortho-coke">Ortho</button>
-            </div>
-            <div class="btn-group">
-              <button id="light-toggle-coke">Toggle Spot</button>
-              <input type="color" id="light-color-coke" title="Light Color">
-              <input type="range" id="light-coke" min="0" max="5" step="0.1">
-            </div>
-            <div class="btn-group">
-              <button id="mat-gloss-coke">Glossy</button>
-              <button id="mat-matte-coke">Matte</button>
-            </div>
-          </div>
-          <div id="gui-container" class="ms-4"></div>
+        
         </div>
       </div>
     </div>
-
   </div>
+</div>
 
-  <!-- Sprite Section -->
-  <div id="sprite" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Sprite</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-sprite" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Sprite"></canvas>
+
+<!-- Sprite Section -->
+<div id="sprite" class="content">
+  <div class="container py-5">
+    <div class="card shadow">
+      <div class="card-header text-center">
+        <h1 class="mb-0">Sprite</h1>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- 3D Viewer Column -->
+          <div class="col-lg-8 col-12 order-lg-1">
+            <div id="canvasWrapper-sprite" class="three-canvas-wrapper mb-4">
+              <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Sprite"></canvas>
+            </div>
+
+            <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+              <div id="button-panel">
+                <button id="btn-sprite" class="btn btn-primary m-2">Animate</button>
+                <button id="toggleWireframe-sprite" class="btn btn-secondary m-2">Toggle Wireframe</button>
+                <button id="Rotate-sprite" class="btn btn-secondary m-2">Rotate</button>
+              </div>
+            </div>
+
+            <div class="control-panel mt-3">
+              <div class="btn-group">
+                <button id="cam-front-sprite">Front</button>
+                <button id="cam-side-sprite">Side</button>
+                <button id="cam-top-sprite">Top</button>
+                <button id="cam-ortho-sprite">Ortho</button>
+              </div>
+              <div class="btn-group">
+                <button id="light-toggle-sprite">Toggle Spot</button>
+                <input type="color" id="light-color-sprite" title="Light Color">
+                <input type="range" id="light-int-sprite" min="0" max="5" step="0.1">
+              </div>
+              <div class="btn-group">
+                <button id="mat-gloss-sprite">Glossy</button>
+                <button id="mat-matte-sprite">Matte</button>
+              </div>
+            </div>
+
+            <div id="gui-container" class="ms-4 mt-3"></div>
           </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn-sprite" class="btn btn-primary m-2">Animate</button>
-              <button id="toggleWireframe-sprite" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate-sprite" class="btn btn-secondary m-2">Rotate</button>
+
+          <!-- Model Notes Column -->
+          <div class="col-lg-4 col-12 order-lg-2 mt-4 mt-lg-0">
+            <div class="model-notes-wrapper">
+              <button class="toggle-notes-btn" aria-controls="notes-sprite" aria-expanded="false">
+                Show Model Notes
+              </button>
+
+              <div class="model-notes" id="notes-sprite">
+                <h5 class="fw-bold">Model Production Notes</h5>
+                <p>
+                  The Sprite bottle model was created in Blender using a higher-poly base with curved surface detail. Transparency and reflective material properties were adjusted using Three.js to simulate a glass effect.
+                </p>
+                <p>
+                  Label textures were aligned using cylindrical UV mapping and tested in multiple lighting setups. The viewer allows switching between bottle and can versions, light control, and predefined camera views.
+                </p>
+              </div>
             </div>
           </div>
-          <div class="control-panel">
-            <div class="btn-group">
-              <button id="cam-front-sprite">Front</button>
-              <button id="cam-side-sprite">Side</button>
-              <button id="cam-top-sprite">Top</button>
-              <button id="cam-ortho-sprite">Ortho</button>
-            </div>
-            <div class="btn-group">
-              <button id="light-toggle-sprite">Toggle Spot</button>
-              <input type="color" id="light-color-sprite" title="Light Color">
-              <input type="range" id="light-int-sprite" min="0" max="5" step="0.1">
-            </div>
-            <div class="btn-group">
-              <button id="mat-gloss-sprite">Glossy</button>
-              <button id="mat-matte-sprite">Matte</button>
-            </div>
-          </div>
-          <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
-
   </div>
+</div>
 
-  <!-- Dr Pepper Section -->
-  <div id="pepper" class="content">
-    <div class="container py-5">
-      <div class="card shadow">
-        <div class="card-header text-center">
-          <h1 class="mb-0">Dr Pepper</h1>
-        </div>
-        <div class="card-body text-center">
-          <div id="canvasWrapper-pepper" style="position: relative;">
-            <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Dr Pepper"></canvas>
+<!-- Dr Pepper Section -->
+<div id="pepper" class="content">
+  <div class="container py-5">
+    <div class="card shadow">
+      <div class="card-header text-center">
+        <h1 class="mb-0">Dr Pepper</h1>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- 3D Viewer Column -->
+          <div class="col-lg-8 col-12 order-lg-1">
+            <div id="canvasWrapper-pepper" class="three-canvas-wrapper mb-4">
+              <canvas id="threeContainer" class="w-100 rounded" title="3D Viewer - Dr Pepper"></canvas>
+            </div>
+
+            <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
+              <div id="button-panel">
+                <button id="btn-pepper" class="btn btn-primary m-2">Animate</button>
+                <button id="toggleWireframe-pepper" class="btn btn-secondary m-2">Toggle Wireframe</button>
+                <button id="Rotate-pepper" class="btn btn-secondary m-2">Rotate</button>
+              </div>
+            </div>
+
+            <div class="control-panel mt-3">
+              <div class="btn-group">
+                <button id="cam-front-pepper">Front</button>
+                <button id="cam-side-pepper">Side</button>
+                <button id="cam-top-pepper">Top</button>
+                <button id="cam-ortho-pepper">Ortho</button>
+              </div>
+              <div class="btn-group">
+                <button id="light-toggle-pepper">Toggle Spot</button>
+                <input type="color" id="light-color-pepper" title="Light Color">
+                <input type="range" id="light-int-pepper" min="0" max="5" step="0.1">
+              </div>
+              <div class="btn-group">
+                <button id="mat-gloss-pepper">Glossy</button>
+                <button id="mat-matte-pepper">Matte</button>
+              </div>
+            </div>
+
+            <div id="model-nav" class="mt-3">
+              <button id="prev-model-pepper">⬅️</button>
+              <button id="next-model-pepper">➡️</button>
+            </div>
+
+            <div id="gui-container" class="ms-4 mt-3"></div>
           </div>
-          <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
-            <div id="button-panel">
-              <button id="btn-pepper" class="btn btn-primary m-2">Animate</button>
-              <button id="toggleWireframe-pepper" class="btn btn-secondary m-2">Toggle Wireframe</button>
-              <button id="Rotate-pepper" class="btn btn-secondary m-2">Rotate</button>
+
+          <!-- Model Notes Column -->
+          <div class="col-lg-4 col-12 order-lg-2 mt-4 mt-lg-0">
+            <div class="model-notes-wrapper">
+              <button class="toggle-notes-btn" aria-controls="notes-pepper" aria-expanded="false">
+                Show Model Notes
+              </button>
+
+              <div class="model-notes" id="notes-pepper">
+                <h5 class="fw-bold">Model Production Notes</h5>
+                <p>
+                  This 3D Dr Pepper can was created in Blender using a low-poly cylinder base mesh. The UV unwrapping was done manually to ensure proper texture alignment with the branding and barcode.
+                </p>
+                <p>
+                  Two variants (standard and stylised) were exported to GLB and loaded dynamically. The model supports material changes (gloss/matte), spotlight interaction, and animation triggered by JavaScript.
+                </p>
+              </div>
             </div>
           </div>
-          <div class="control-panel">
-            <div class="btn-group">
-              <button id="cam-front-pepper">Front</button>
-              <button id="cam-side-pepper">Side</button>
-              <button id="cam-top-pepper">Top</button>
-              <button id="cam-ortho-pepper">Ortho</button>
-            </div>
-            <div class="btn-group">
-              <button id="light-toggle-pepper">Toggle Spot</button>
-              <input type="color" id="light-color-pepper" title="Light Color">
-              <input type="range" id="light-int-pepper" min="0" max="5" step="0.1">
-            </div>
-            <div class="btn-group">
-              <button id="mat-gloss-pepper">Glossy</button>
-              <button id="mat-matte-pepper">Matte</button>
-            </div>
-          </div>
-          <div id="model-nav">
-            <button id="prev-model-pepper">⬅️</button>
-            <button id="next-model-pepper">➡️</button>
-          </div>
-          <div id="gui-container" class="ms-4"></div>
         </div>
       </div>
     </div>
-
   </div>
+</div>
 
 
   <!-- Gallery Section -->
@@ -349,9 +433,37 @@
 
   <h2>Links and Resources</h2>
   <ul>
-    <li><strong>GitHub Codebase:</strong> <a href="https://github.com/yourusername/3dapp-code">https://github.com/yourusername/3dapp-code</a></li>
+    <li><strong>GitHub Codebase:</strong> <a href="https://github.com/charlottem7/Web-3D">https://github.com/yourusername/3dapp-code</a></li>
     <li><strong>Credits:</strong> All third-party libraries and images are cited in the References section of this site.</li>
   </ul>
+  <h2>References and Credits</h2>
+
+  <h4>Libraries and Frameworks</h4>
+  <ul>
+    <li>Three.js – <a href="https://threejs.org/" target="_blank">https://threejs.org/</a></li>
+    <li>Bootstrap 5 – <a href="https://getbootstrap.com/" target="_blank">https://getbootstrap.com/</a></li>
+    <li>jQuery – <a href="https://jquery.com/" target="_blank">https://jquery.com/</a></li>
+    <li>GLTFLoader from Three.js</li>
+  </ul>
+
+  <h4>Textures and Media</h4>
+  <ul>
+    <li>Coca-Cola branding textures – self-created using licensed source images for educational use</li>
+    <li>Gallery images – rendered in Blender using self-created 3D models</li>
+    <li>Home and gallery videos – created by author using Blender and royalty-free background</li>
+    <li>Audio – <a href="https://freesound.org/" target="_blank">Freesound.org</a>, attribution where required</li>
+  </ul>
+
+  <h4>Tutorials / Code References</h4>
+  <ul>
+    <li>Three.js documentation – <a href="https://threejs.org/docs/" target="_blank">https://threejs.org/docs/</a></li>
+    <li>Dan Creed & Imran Khan, Mobile 3D Labs (University of Sussex)</li>
+    <li>GLTF animation and model switching – adapted from examples on <a href="https://threejs.org/examples/" target="_blank">Three.js examples</a></li>
+  </ul>
+
+
+
+
 </section>
 
   </div>

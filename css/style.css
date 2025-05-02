@@ -241,6 +241,41 @@ h1, h2, h3, h4, h5 {
   margin-top: 10px;
 }
 
+
+/* Wrapper for notes toggle section */
+.model-notes-wrapper {
+  margin-top: 1rem;
+}
+
+/* Default: hide notes content and show button */
+.toggle-notes-btn {
+  display: block;
+  width: 100%;
+  background-color: #eee;
+  border: none;
+  padding: 0.75rem;
+  font-weight: bold;
+  font-family: 'Oswald', sans-serif;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.model-notes {
+  display: none;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Toggle active state using 'aria-expanded' */
+.toggle-notes-btn[aria-expanded="true"] + .model-notes {
+  display: block;
+}
+
+
+
 /* ========== FOOTER ========== */
 footer {
   background-color: #111;
@@ -367,11 +402,26 @@ button.btn {
   #threeContainer {
     height: 500px;
   }
+  .toggle-notes-btn {
+    display: none;
+  }
+
+  .model-notes {
+    display: block !important;
+  }
 }
 
 /* Extra Large Devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   #threeContainer {
     height: 600px;
+  }
+
+  .toggle-notes-btn {
+    display: none;
+  }
+
+  .model-notes {
+    display: block !important;
   }
 }
