@@ -479,6 +479,10 @@
         can rotate, animate, switch materials (gloss/matte), change cameras, and toggle lighting via a responsive
         control panel. All models are dynamically loaded and efficiently managed using a single rendering context with
         swapping logic to optimise performance.</p>
+      <p> Custom 3D-modelled videos are featured on both the homepage and gallery page. These animations were created in
+        Blender using fluid simulation
+        modifiers applied to self-made models. The rendered clips enhance immersion and reinforce brand aesthetics.</p>
+
 
       <h2>Design Rationale</h2>
       <p>The layout follows a fluid, responsive grid using Bootstrap. A modern sans-serif font and brand-inspired colour
@@ -489,7 +493,7 @@
       <ul>
         <li>Dark mode toggle improves contrast for low-vision users</li>
         <li>Semantic HTML5 structure used for better screen reader compatibility</li>
-        <li>All buttons and inputs are keyboard-accessible and properly labelled</li>
+        <li>All buttons and inputs are properly labelled</li>
         <li>Text and background colours tested for sufficient contrast</li>
       </ul>
 
@@ -500,9 +504,14 @@
           model switching, animation triggers, and sound playback worked correctly.</li>
         <li><strong>Responsiveness:</strong> The app was tested using Chrome DevTools and physical devices (iPhone 16,
           Apple tablet). Adjustments were made for canvas scaling, card overflow, and dropdown behaviour.</li>
-        <li><strong>User Feedback:</strong> </li>
+        <li><strong>User Feedback: Informal user testing was conducted with participants who provided feedback on
+            interface clarity,
+            button spacing and mobile layout. This led to adjustments in gallery sizing and button spacing.</strong>
+        </li>
         <li><strong>Browser Testing:</strong> Tested on Chrome, Firefox, and Edge to ensure cross-browser compatibility.
         </li>
+        <li><strong>Regression Testing:</strong> After introducing model switching, buttons were re-tested to verify
+          animations and controls still functioned as expected.</li>
         <li><strong>Accessibility Checks:</strong> Dark mode option, ARIA labels and contrast verified with
           <a href="https://webaim.org/resources/contrastchecker" target="_blank">WebAIM Contrast Checker</a>
         </li>
@@ -524,7 +533,6 @@
         <li><strong>Onedrive:</strong> Link to onedrive</li>
       </ul>
       <h2>References and Credits</h2>
-
       <h4>Libraries and Frameworks</h4>
       <ul>
         <li>Three.js – <a href="https://threejs.org/" target="_blank">https://threejs.org/</a></li>
@@ -550,7 +558,8 @@
         <li>Three.js documentation – <a href="https://threejs.org/docs/" target="_blank">https://threejs.org/docs/</a>
         </li>
         <li>Dan Creed & Imran Khan, Mobile 3D Labs (University of Sussex) module material</li>
-        <li>Modal carousel - <a href= "https://www.w3schools.com/howto/howto_css_modals.asp" target="_blank">W3 Schools</a></li>
+        <li>Modal carousel - <a href="https://www.w3schools.com/howto/howto_css_modals.asp" target="_blank">W3
+            Schools</a></li>
         <li>Condensation effect on can model – <a href="https://www.youtube.com/watch?v=9ybdZDSOEsI&t=1238s"
             target="_blank">YouTube-
             Cas Raven 3D</a>
@@ -560,7 +569,6 @@
             target="_blank">YouTube-Malin.mp4</a>
         <li>Ice cubes in Sprite model – <a href="https://www.youtube.com/watch?v=uCHm70ElHbM"
             target="_blank">YouTube-Malin.mp4</a>
-
       </ul>
 
       <h4>Statement of Originally</h4>
@@ -571,7 +579,7 @@
     </section>
   </div>
 
-    <!-- Dark Mode Button -->
+  <!-- Dark Mode Button -->
   <div class="text-center my-4">
     <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
   </div>
@@ -588,7 +596,7 @@
           <a href="mailto:cm2013@sussex.ac.uk" class="ms-3">
             <i class="fas fa-envelope fa-lg"></i>
           </a>
-        </div>   <br>
+        </div> <br>
         <p>&copy; 2025 Mobile Web 3D Application. All Rights Reserved.</p>
 
       </div>
