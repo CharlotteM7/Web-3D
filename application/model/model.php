@@ -1,4 +1,8 @@
 <?php
+/**
+* Model class for handling database operations for the Web 3D App.
+* Uses PDO with SQLite to manage drink data.
+*/
 class Model
 {
     private PDO $db;
@@ -7,11 +11,15 @@ class Model
 
     public function __construct()
     {
-        $this->dbPath = __DIR__ . '/../../db/test.db';
+        $this->dbPath = __DIR__ . '/../../db/test.db'; // Path to the SQLite database
         $this->dbhandle = new PDO('sqlite:' . $this->dbPath);
         $this->dbhandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+
+    /**
+     * Drops and recreates the drinks table.
+     */
     public function dbCreateTable(): string
     {
         try {
@@ -39,7 +47,9 @@ class Model
             return "❌ Error creating table: " . $e->getMessage();
         }
     }
-
+    /**
+     * Inserts seed data into the drinks table.
+     */
     public function dbInsertData(): string
     {
         try {
@@ -131,20 +141,27 @@ class Model
         $stmt = $pdo->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
-
+    /**
+     * Gets details of a specific drink by brand.
+     */
     public function dbGetDrinkDetails($brand)
     {
         $stmt = $this->dbhandle->prepare("SELECT * FROM drinks WHERE brand = ?");
         $stmt->execute([$brand]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
+    /**
+     * Gets a list of all drink brand names.
+     */
     public function dbGetBrandList()
     {
         $stmt = $this->dbhandle->query("SELECT DISTINCT brand FROM drinks");
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
-
+    /**
+     * Gets image paths for a drink's gallery based on drink brand.
+     * Assumes the folder naming convention matches the brand name.
+     */
     public function dbGetGalleryImages($drink)
     {
         $dir = "gallery/$drink";

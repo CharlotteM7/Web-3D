@@ -1,3 +1,11 @@
+<!--
+  Project: Mobile Web 3D App
+  Page: Home View (loaded via MVC controller)
+  Description: Sets up the initial layout including header, libraries, styles, and main navigation
+  Author: Charlotte Mackay
+
+-->
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -33,20 +41,26 @@
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" role="navigation" aria-label="Main navigation">
     <div class="container">
-      <a class="navbar-brand" href="#">My 3D Drinks</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <div class="navbar-brand text-white d-flex flex-column align-items-start">
+        <span class="brand-title">My Coca-Cola Brand</span>
+        <small class="brand-tagline">Interactive 3D Product Showcase</small>
+      </div>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('home')">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('about')">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#" onclick="swapContent('gallerySection')">Gallery</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="drinksDropdown" role="button"
-              data-bs-toggle="dropdown">Drinks</a>
+            <a class="nav-link dropdown-toggle" href="#" id="drinksDropdown" role="button" data-bs-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false" aria-controls="drinksDropdownMenu">Drinks</a>
             <ul class="dropdown-menu" aria-labelledby="drinksDropdown" id="drinkDropdown">
             </ul>
           </li>
@@ -108,9 +122,7 @@
       </div>
     </section>
   </div>
-  <div class="text-center my-4">
-    <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
-  </div>
+  <!-- End of Hero Section -->
   <!-- Coke Section -->
   <div id="coke" class="content">
     <div class="container py-5">
@@ -127,12 +139,12 @@
               </div>
               <div class="controls-row d-flex flex-wrap justify-content-center gap-2 mt-4">
                 <div id="button-panel">
-                  <button id="btn-coke" class="btn btn-outline-primary">Animate</button>
+                  <button id="btn-coke" class="btn btn-secondary m-2">Animate</button>
                   <button id="toggleWireframe-coke" class="btn btn-secondary m-2">Toggle Wireframe</button>
                   <button id="Rotate-coke" class="btn btn-secondary m-2">Rotate</button>
                 </div>
               </div>
-              <div id="model-nav" class="mt-3">
+              <div id="model-nav" class="arrow-controls mt-3">
                 <button id="prev-model-coke">⬅️</button>
                 <button id="next-model-coke">➡️</button>
               </div>
@@ -174,17 +186,21 @@
                 <button class="toggle-notes-btn" aria-controls="notes-coke" aria-expanded="false">
                   Show Model Notes
                 </button>
-
                 <div class="model-notes" id="notes-coke">
                   <h5 class="fw-bold">Model Production Notes</h5>
                   <p>
-                    The Coca-Cola can and bottle were modelled in Blender with clean geometry and a low-poly approach
-                    for performance. UV unwrapping was carefully adjusted to match label alignment, and branding
-                    textures were optimised for web delivery.
+                    The Coke can models were created in Blender using a cylinder base mesh, refined through extrusion
+                    and scaling to form the top lip and base rim
+                    Loop cuts were applied to create additional edge detail and to support smooth curvature around the
+                    can's top and bottom.
+                    An image texture was used for the can "label", with a UV map applied to ensure correct alignment.
+                    The UV map was created by unwrapping the cylinder and adjusting the seams to match the label design.
                   </p>
                   <p>
-                    Both models were exported as GLB files and can be swapped dynamically in the viewer. Users can
-                    control lighting, camera angles, animation, and material styles using the UI or buttons.
+                    Different animations were created for the two models, one to show the can being opened,
+                    and another to show the can being crushed. This crush effect was achieved in Blender using the
+                    sculpting tool to introduce bends,
+                    folds, and creases that reflect a crumpled aluminium surface.
                   </p>
                 </div>
               </div>
@@ -257,13 +273,25 @@
                 <div class="model-notes" id="notes-sprite">
                   <h5 class="fw-bold">Model Production Notes</h5>
                   <p>
-                    The Sprite bottle model was created in Blender using a higher-poly base with curved surface detail.
-                    Transparency and reflective material properties were adjusted using Three.js to simulate a glass
-                    effect.
+                    The Sprite can model was created in a similar manner to the Coke can, using a cylinder base mesh.
+                    The ice cubes were modelled using a a simple cube
+                    primitive. To create a more realistic, irregular ice-like shape, the ice cube material was created
+                    using Blender’s Principled BSDF shader with a
+                    physically based approach to simulate the translucent and rough surface of real ice. A combination
+                    of <strong>Noise Textures</strong> and <strong>Color Ramps</strong>
+                    was used to modulate both the alpha transparency and bump mapping. The <strong>Transmission</strong>
+                    value was set to 1.0 to enable full light passage,
+                    and the <strong>Transmission Roughness</strong> was adjusted to diffuse the transmitted light,
+                    mimicking the cloudy look of ice.
                   </p>
                   <p>
-                    Label textures were aligned using cylindrical UV mapping and tested in multiple lighting setups. The
-                    viewer allows switching between bottle and can versions, light control, and predefined camera views.
+                    The ice cubes were then animated to fall around the can using Blender's transform keyframes and
+                    animation tools. To manage multiple actions cleanly
+                    and ensure the correct timing and structure were preserved during export, the animation data was
+                    pushed to Blender’s <strong>Nonlinear Animation (NLA)
+                      editor</strong>. This provided a modular and non-destructive way to control each animated element
+                    within the scene, and helped ensure compatibility
+                    with the web-based playback environment.
                   </p>
                 </div>
               </div>
@@ -295,11 +323,12 @@
                   <button id="Rotate-pepper" class="btn btn-secondary m-2">Rotate</button>
                 </div>
               </div>
-              <div id="model-nav" class="mt-3">
+              <div id="model-nav" class="arrow-controls mt-3">
                 <button id="prev-model-pepper">⬅️</button>
                 <button id="next-model-pepper">➡️</button>
               </div>
               <div class="control-panel mt-4">
+                <!-- Camera Controls -->
                 <div class="mb-3">
                   <label class="form-label fw-bold">Camera Views</label>
                   <div class="btn-group flex-wrap">
@@ -309,6 +338,7 @@
                     <button id="cam-ortho-pepper" class="btn btn-outline-primary">Ortho</button>
                   </div>
                 </div>
+                <!-- Light Controls -->
                 <div class="mb-3">
                   <label class="form-label fw-bold">Lighting</label>
                   <div class="d-flex flex-wrap align-items-center gap-2">
@@ -317,6 +347,7 @@
                     <input type="range" id="light-int-pepper" min="0" max="5" step="0.1" style="max-width: 150px;">
                   </div>
                 </div>
+                <!-- Material Controls -->
                 <div class="mb-3">
                   <label class="form-label fw-bold">Material Style</label>
                   <div class="btn-group">
@@ -334,17 +365,29 @@
                 <button class="toggle-notes-btn" aria-controls="notes-pepper" aria-expanded="false">
                   Show Model Notes
                 </button>
-
                 <div class="model-notes" id="notes-pepper">
                   <h5 class="fw-bold">Model Production Notes</h5>
                   <p>
-                    This 3D Dr Pepper can was created in Blender using a low-poly cylinder base mesh. The UV unwrapping
-                    was done manually to ensure proper texture alignment with the branding and barcode.
+                    This Dr Pepper can model was created using a cylinder base mesh, similar to the Coke and Sprite
+                    models, but with the addition of condensation droplets generated using Blender’s <strong>Geometry
+                      Nodes</strong> system. A high-density set of randomised points was distributed across the can’s
+                    surface using the <strong>Distribute Points on Faces</strong> node. Each point served as an instance
+                    location for a base droplet mesh, originally created as a UV Sphere and stretched vertically via the
+                    <strong>Transform Geometry</strong> node to achieve a natural droplet shape. A <strong>Random
+                      Value</strong> node was used to introduce slight variations in droplet scale, helping to avoid
+                    uniformity and enhance realism.
                   </p>
                   <p>
-                    Two variants (standard and stylised) were exported to GLB and loaded dynamically. The model supports
-                    material changes (gloss/matte), spotlight interaction, and animation triggered by JavaScript.
+                    The bottle model also began as a cylinder and was extruded and scaled to form the neck, top, and
+                    “feet” of the bottle. <strong>Subdivision Surface</strong> modifiers were applied to smooth edges
+                    and create a more organic shape appropriate for a plastic bottle.
                   </p>
+                  <p>
+                    Each model features a separate animation. In the first, the can shrinks and disappears while the
+                    bottle grows into view. In the second, the can is positioned horizontally and animated to roll
+                    towards the camera. Both animations were implemented using transform keyframes within Blender.
+                  </p>
+
                 </div>
               </div>
             </div>
@@ -354,67 +397,60 @@
     </div>
   </div>
 
-
-<!-- Gallery Section -->
-<section id="gallerySection" class="content">
-  <div class="container py-5">
-
+  <!-- Gallery Section -->
+  <section id="gallerySection" class="content">
     <!-- Hero Section -->
-    <section class="galleryhero-section position-relative vh-100 overflow-hidden">
+    <section class="galleryhero-section position-relative overflow-hidden">
       <div class="galleryhero-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50"></div>
-
+      <div id="galleryheroContent" class="galleryhero-content position-relative text-center text-white px-3"
+        style="z-index:1;">
+        <h1 class="display-4 fw-bold">Image Gallery</h1>
+        <p class="lead">View all of our models</p>
+      </div>
       <video id="galleryheroVideo"
         class="galleryhero-video position-absolute top-0 start-0 w-100 h-100 object-fit-cover" autoplay loop muted
         playsinline>
         <source src="/assets/video/spritepour.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
-      <div id="galleryheroContent" class="galleryhero-content position-relative text-center text-white px-3" style="z-index:1;">
-        <h1 class="display-4 fw-bold">Image Gallery</h1>
-        <p class="lead">All of them</p>
-      </div>
     </section>
-
     <!-- Coke Gallery -->
     <div id="gallery-coke" class="mb-5">
       <h2 class="text-center">Coke</h2>
       <div class="row justify-content-center" id="cokeGallery"></div>
     </div>
-
     <!-- Sprite Gallery -->
     <div id="gallery-sprite" class="mb-5">
       <h2 class="text-center">Sprite</h2>
       <div class="row justify-content-center" id="spriteGallery"></div>
     </div>
-
     <!-- Dr Pepper Gallery -->
     <div id="gallery-pepper" class="mb-5">
       <h2 class="text-center">Dr Pepper</h2>
       <div class="row justify-content-center" id="pepperGallery"></div>
     </div>
-
-  </div>
-</section>
-
-<!-- Modal Carousel -->
-<div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content bg-dark border-0">
-      <div class="modal-body p-0">
-        <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner" id="carousel-inner"></div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </button>
+  </section>
+  <!-- Modal Carousel -->
+  <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true" aria-labelledby="galleryModalLabel"
+    role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-dark border-0">
+        <div class="modal-body p-0">
+          <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carousel-inner"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev"
+              aria-label="Previous image">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next"
+              aria-label="Next image">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <!-- About Section -->
@@ -467,8 +503,9 @@
         <li><strong>User Feedback:</strong> </li>
         <li><strong>Browser Testing:</strong> Tested on Chrome, Firefox, and Edge to ensure cross-browser compatibility.
         </li>
-        <li><strong>Accessibility Checks:</strong> Keyboard navigation tested with Tab key; contrast verified with
-          [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)</li>
+        <li><strong>Accessibility Checks:</strong> Dark mode option, ARIA labels and contrast verified with
+          <a href="https://webaim.org/resources/contrastchecker" target="_blank">WebAIM Contrast Checker</a>
+        </li>
       </ul>
 
       <h2>Deeper Understanding and Technical Extensions</h2>
@@ -478,15 +515,13 @@
         <li>Dynamic data and gallery loading using AJAX and JSON</li>
         <li>Scene and camera management with support for orthographic and perspective views</li>
         <li>Material and lighting manipulation via GUI and button inputs</li>
-        <li>Dark mode, animated gallery image load-in, and dynamic 3D model swapping</li>
       </ul>
 
       <h2>Links and Resources</h2>
       <ul>
-        <li><strong>GitHub Codebase:</strong> <a
-            href="https://github.com/charlottem7/Web-3D">https://github.com/charlottem7/Web-3D</a></li>
-        <li><strong>Credits:</strong> All third-party libraries and images are cited in the References section of this
-          site.</li>
+        <li><strong>GitHub Codebase:</strong> <a href="https://github.com/charlottem7/Web-3D"
+            target="_blank">https://github.com/charlottem7/Web-3D</a></li>
+        <li><strong>Onedrive:</strong> Link to onedrive</li>
       </ul>
       <h2>References and Credits</h2>
 
@@ -495,41 +530,67 @@
         <li>Three.js – <a href="https://threejs.org/" target="_blank">https://threejs.org/</a></li>
         <li>Bootstrap 5 – <a href="https://getbootstrap.com/" target="_blank">https://getbootstrap.com/</a></li>
         <li>jQuery – <a href="https://jquery.com/" target="_blank">https://jquery.com/</a></li>
-        <li>GLTFLoader from Three.js</li>
+        <li>GLTFLoader from Three.js <a href="https://threejs.org/docs/" target="_blank"></a></li>
       </ul>
 
       <h4>Textures and Media</h4>
       <ul>
-        <li>Coca-Cola branding textures – self-created using licensed source images for educational use</li>
-        <li>Gallery images – rendered in Blender using self-created 3D models</li>
-        <li>Home and gallery videos – created by author using Blender and royalty-free background</li>
-        <li>Audio – <a href="https://freesound.org/" target="_blank">Freesound.org</a>, attribution where required</li>
+        <li>Coca-Cola, Sprite, and Dr Pepper branding textures – created using publicly available imagery sourced via
+          Google Image Search.
+          All assets were used solely for educational purposes under fair use guidelines, and no assets were used for
+          commercial gain.</li>
+        <li>Gallery images – rendered in Blender using self-created 3D models adapted from referenced below YouTube
+          tutorials</li>
+        <li>Home and gallery videos – created by using Blender and adapted from referenced below YouTube tutorials</li>
+        <li>Audio – <a href="https://opengameart.org/" target="_blank">opengameart.org</a></li>
       </ul>
 
       <h4>Tutorials / Code References</h4>
       <ul>
         <li>Three.js documentation – <a href="https://threejs.org/docs/" target="_blank">https://threejs.org/docs/</a>
         </li>
-        <li>Dan Creed & Imran Khan, Mobile 3D Labs (University of Sussex)</li>
-        <li>GLTF animation and model switching – adapted from examples on <a href="https://threejs.org/examples/"
-            target="_blank">Three.js examples</a></li>
+        <li>Dan Creed & Imran Khan, Mobile 3D Labs (University of Sussex) module material</li>
+        <li>Modal carousel - <a href= "https://www.w3schools.com/howto/howto_css_modals.asp" target="_blank">W3 Schools</a></li>
+        <li>Condensation effect on can model – <a href="https://www.youtube.com/watch?v=9ybdZDSOEsI&t=1238s"
+            target="_blank">YouTube-
+            Cas Raven 3D</a>
+        <li>Water splash on home page video – <a href="https://www.youtube.com/watch?v=IJTIzna5TBs"
+            target="_blank">YouTube-Sost cgTeCH</a>
+        <li>Water pour animation on gallary page video – <a href="https://www.youtube.com/watch?v=hqz2WRTNQ5U"
+            target="_blank">YouTube-Malin.mp4</a>
+        <li>Ice cubes in Sprite model – <a href="https://www.youtube.com/watch?v=uCHm70ElHbM"
+            target="_blank">YouTube-Malin.mp4</a>
+
       </ul>
 
-
-
-
+      <h4>Statement of Originally</h4>
+      <p>This project is my own original work, created for the Mobile 3D Applications module at the University of
+        Sussex. All code, models, and media are either self-created or properly attributed to their respective sources.
+        The project was developed independently, with no external assistance beyond the provided course materials and
+        resources cited above.</p>
     </section>
+  </div>
 
+    <!-- Dark Mode Button -->
+  <div class="text-center my-4">
+    <button id="themeToggle" class="btn btn-outline-success">Dark Mode</button>
   </div>
 
   <!-- Footer -->
   <footer class="bg-dark text-light py-4">
     <div class="container text-center">
-      <p>&copy; 2025 Mobile Web 3D Application. All Rights Reserved.</p>
-      <div>
-      <a
-      href="https://github.com/charlottem7/Web-3D"target="_blank"><i class="fab fa-github fa-lg"></i></a>
-       
+      <div id="contact">
+        <p>Created by Charlotte Mackay for the Mobile 3D Applications module at the University of Sussex.</p>
+        <div>
+          <a href="https://github.com/charlottem7/Web-3D" target="_blank">
+            <i class="fab fa-github fa-lg"></i>
+          </a>
+          <a href="mailto:cm2013@sussex.ac.uk" class="ms-3">
+            <i class="fas fa-envelope fa-lg"></i>
+          </a>
+        </div>   <br>
+        <p>&copy; 2025 Mobile Web 3D Application. All Rights Reserved.</p>
+
       </div>
     </div>
   </footer>

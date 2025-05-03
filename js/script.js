@@ -1,33 +1,24 @@
-let scene,
-  camera,
-  renderer,
-  clock,
-  mixer,
-  actions = [],
-  mode,
-  isWireframe = false,
-  params,
-  lights,
-  loadedModel,
-  secondModelMixer,
-  secondModelActions = [],
-  sound,
-  secondSound,
-  loader,
-  controls,
-  firstModelPath,
-  secondModelPath,
-  currentCanvas,
-  currentModelIndex = 0;
+// Global variables for Three.js setup
+let scene, camera, renderer, clock, mixer;
+let actions = [], secondModelActions = [];
+let isWireframe = false;
+let params, lights, loadedModel, secondModelMixer;
+let sound, secondSound, loader, controls;
+let firstModelPath, secondModelPath;
+let currentCanvas, currentModelIndex = 0;
 
+// Tracks current model and loaded models cache
 let count = 0;
 let models = [];
-
 const loadedModels = {};
 loader = new THREE.GLTFLoader();
 loadedModel = null;
 
-// Fetch drink data
+/**
+ * Fetches drink metadata (model and sound paths) from the PHP backend.
+ * @param {string} brand - The drink brand ID.
+ * @returns {Promise<Object>} - Drink data JSON
+ */
 async function fetchDrinkData(brand) {
   try {
     const resp = await fetch(`index.php?route=apiGetDrink&brand=${brand}`);
@@ -38,7 +29,11 @@ async function fetchDrinkData(brand) {
   }
 }
 
-// Handle brand switching
+/**
+ * Loads the interface and models for a specific drink brand.
+ * Hides and shows content, binds event handlers, initialises viewer and models.
+ * @param {string} id - The drink brand ID.
+ */
 async function swapContent(id) {
   // Remember which brand is active
   currentBrandId = id;
@@ -50,11 +45,11 @@ async function swapContent(id) {
     sec.style.display = active ? "block" : "none";
   });
 
+  // If gallery section, load images for each brand
   if (id === "gallerySection") {
     ["coke", "sprite", "pepper"].forEach(loadDrinkGallery);
   }
-
-  // Only proceed for drink panels
+  
   if (!["coke", "sprite", "pepper"].includes(id)) return;
 
   // Fetch the drink data
@@ -182,7 +177,11 @@ $(function () {
     .fail(() => console.error("Failed to load brand list"));
 });
 
-// Viewer Setup
+/**
+ * Initialises the Three.js scene, camera, lighting and controls for a given canvas.
+ * @param {HTMLCanvasElement} canvas - The canvas for rendering.
+ * @param {HTMLElement} guiContainer - Container for dat.GUI controls.
+ */
 function setupViewer(canvas, guiContainer) {
   clock = new THREE.Clock();
   scene = new THREE.Scene();
@@ -207,7 +206,7 @@ function setupViewer(canvas, guiContainer) {
     lights.spot,
     lights.spotHelper
   );
-
+// GUI parameters
   params = {
     spot: {
       enable: false,
@@ -219,7 +218,7 @@ function setupViewer(canvas, guiContainer) {
       moving: false,
     },
   };
-
+// Setup dat.GUI panel
   const gui = new dat.GUI({ autoPlace: false });
   guiContainer.innerHTML = "";
   guiContainer.appendChild(gui.domElement);
@@ -243,6 +242,7 @@ function setupViewer(canvas, guiContainer) {
     .onChange((v) => (lights.spotHelper.visible = v));
   spot.add(params.spot, "moving");
 
+// Renderer and controls
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
@@ -257,15 +257,20 @@ function setupViewer(canvas, guiContainer) {
   animate();
 }
 
-// Model Loading
+/**
+ * Loads a GLTF 3D model into the scene.
+ * Caches results to avoid repeated loading.
+ * Automatically centres and scales the model.
+ * @param {string} modelPath - Path to the GLB model.
+ */
 function loadModel(modelPath) {
-  // 1) Remove any existing model instance
+  // Remove any existing model instance
   if (loadedModel) {
     scene.remove(loadedModel);
     loadedModel = null;
   }
 
-  // 2) If we’ve already loaded this brand, clone & reuse
+  // Use cached model if available
   if (loadedModels[modelPath]) {
     const { scene: originalScene, animations } = loadedModels[modelPath];
     loadedModel = originalScene.clone(true);
@@ -277,7 +282,7 @@ function loadModel(modelPath) {
     return;
   }
 
-  // 3) First time load: fetch the GLB, add to scene, and cache it
+  // First time load: fetch the GLB, add to scene, and cache it
   loader.load(
     modelPath,
 
@@ -285,34 +290,32 @@ function loadModel(modelPath) {
     (gltf) => {
       const original = gltf.scene;
 
-      // 1) Normalise scale & position
+      // Normalise scale & position
       original.scale.set(1, 1, 1);
       original.position.set(0, 0, 0);
 
-      // 2) Compute its bounding box & sphere
+      // Compute its bounding box & sphere
       const box = new THREE.Box3().setFromObject(original);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       const sphere = box.getBoundingSphere(new THREE.Sphere());
 
-      console.log(`Bounds:`, size, `Center:`, center, `Radius:`, sphere.radius);
-
-      // 3) Recenter the model so its geometric centre sits at (0,0,0)
+      // Recenter the model so its geometric centre sits at (0,0,0)
       original.position.sub(center);
 
-      // 4) Figure out a camera Z distance to frame the sphere
+      // Figure out a camera Z distance to frame the sphere
       const fov = camera.fov * (Math.PI / 180);
       const camZ = Math.abs(sphere.radius / Math.sin(fov / 2)) * 1.2;
 
-      // 5) Move the camera and point it at origin
+      // Move the camera and point it at origin
       camera.position.set(0, 0, camZ);
       camera.lookAt(0, 0, 0);
 
-      // 6) Update OrbitControls to target the origin
+      // Update OrbitControls to target the origin
       controls.target.set(0, 0, 0);
       controls.update();
 
-      // 7) Finally add to scene & cache as before
+      // Finally add to scene & cache as before
       scene.add(original);
       loadedModels[modelPath] = {
         scene: original,
@@ -324,16 +327,12 @@ function loadModel(modelPath) {
       actions = gltf.animations.map((clip) => mixer.clipAction(clip));
     },
 
-    // onProgress
-    (xhr) => {
-      const pct = ((xhr.loaded / xhr.total) * 100).toFixed(0);
-      console.log(`Loading ${modelPath}: ${pct}%`);
-    },
-    (err) => console.error(`Error loading ${modelPath}`, err)
   );
 }
 
-// Animation loop
+/**
+ * Begins render loop, updates mixer animations, and optionally moves spot light.
+ */
 function animate() {
   requestAnimationFrame(animate);
   if (mixer) mixer.update(clock.getDelta());
@@ -345,7 +344,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-// Camera presets (keep these at top-level too)
+// Camera presets
 const cameraPresets = {
   front: {
     pos: new THREE.Vector3(0, 0, 20),
@@ -373,7 +372,7 @@ function switchCamera(view) {
   const p = cameraPresets[view];
   if (!p) return;
 
-  // 1) Rebuild the camera based on preset type
+  // Rebuild the camera based on preset type
   if (p.type === "ortho") {
     camera = new THREE.OrthographicCamera(
       currentCanvas.clientWidth / -10,
@@ -392,21 +391,24 @@ function switchCamera(view) {
     );
   }
 
-  // 2) Position & aim at origin
+  // Position & aim at origin
   camera.position.copy(p.pos);
   camera.lookAt(p.look);
 
-  // 3) Resize the renderer’s output to match the canvas
+  // Resize the renderer’s output to match the canvas
   renderer.setSize(currentCanvas.clientWidth, currentCanvas.clientHeight);
 
-  // 4) Tear down the old controls and hook up new ones
+  // Tear down the old controls and hook up new ones
   if (controls.dispose) controls.dispose(); // free old listeners
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target.copy(p.look);
   controls.update();
 }
 
-// Sounds
+/**
+ * Sets up and loads positional audio for both models if present.
+ * @param {Object} data - Drink metadata with soundPath fields.
+ */
 function setupSounds(data) {
   const audioLoader = new THREE.AudioLoader();
   sound = new THREE.Audio(camera.children[0]);
@@ -431,19 +433,11 @@ function toggleWireframe(enable) {
   });
 }
 
-// Button Listeners
-document.getElementById("prev-model")?.addEventListener("click", () => {
-  if (models.length < 2) return;
-  currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
-  loadModel(models[currentModelIndex]);
-});
+/**
+ * Button Listener for toggling 
+ */
 
-document.getElementById("next-model")?.addEventListener("click", () => {
-  if (models.length < 2) return;
-  currentModelIndex = (currentModelIndex + 1) % models.length;
-  loadModel(models[currentModelIndex]);
-});
-
+//Dark mode toggle
 document.getElementById("themeToggle")?.addEventListener("click", () => {
   const body = document.body;
   const nav = document.querySelector(".navbar");
@@ -463,6 +457,7 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
   }
 });
 
+//Model notes toggle
 document.querySelectorAll(".toggle-notes-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     const expanded = btn.getAttribute("aria-expanded") === "true";
@@ -470,6 +465,7 @@ document.querySelectorAll(".toggle-notes-btn").forEach((btn) => {
   });
 });
 
+//Gallery image click handler
 document.addEventListener("click", function (e) {
   const img = e.target.closest(".gallery-thumb");
   if (!img) return;
