@@ -530,7 +530,10 @@
       <ul>
         <li><strong>GitHub Codebase:</strong> <a href="https://github.com/charlottem7/Web-3D"
             target="_blank">https://github.com/charlottem7/Web-3D</a></li>
-        <li><strong>Onedrive:</strong> Link to onedrive</li>
+        <li><strong>Onedrive:</strong> <a href="https://universityofsussex-my.sharepoint.com/:f:/r/personal/cm2013_sussex_ac_uk/Documents/Web-3D?csf=1&web=1&e=kZd0vO" 
+        target= "_blank">Codebase</a></li>
+       <li><strong>Onedrive:</strong> <a href="https://universityofsussex-my.sharepoint.com/:f:/r/personal/cm2013_sussex_ac_uk/Documents/Web-3D%20Blender%20Files?csf=1&web=1&e=xrMS62"
+        target= "_blank">Blender Files</a></li>
       </ul>
       <h2>References and Credits</h2>
       <h4>Libraries and Frameworks</h4>
@@ -538,7 +541,10 @@
         <li>Three.js – <a href="https://threejs.org/" target="_blank">https://threejs.org/</a></li>
         <li>Bootstrap 5 – <a href="https://getbootstrap.com/" target="_blank">https://getbootstrap.com/</a></li>
         <li>jQuery – <a href="https://jquery.com/" target="_blank">https://jquery.com/</a></li>
+        <li>SQLite – <a href="https://www.sqlite.org/index.html" target="_blank">https://sqlite.com/</a></li>
+        <li>PHP – <a href="https://www.php.net/" target="_blank">https://php.net/</a></li>
         <li>GLTFLoader from Three.js <a href="https://threejs.org/docs/" target="_blank"></a></li>
+
       </ul>
 
       <h4>Textures and Media</h4>
@@ -550,6 +556,7 @@
         <li>Gallery images – rendered in Blender using self-created 3D models adapted from referenced below YouTube
           tutorials</li>
         <li>Home and gallery videos – created by using Blender and adapted from referenced below YouTube tutorials</li>
+        <li>3D model Environment backgrounds - <a href="https://polyhaven.com/" target="_blank">polyhaven.com</a></li>
         <li>Audio – <a href="https://opengameart.org/" target="_blank">opengameart.org</a></li>
       </ul>
 
