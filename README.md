@@ -4,6 +4,8 @@ Users can view, rotate, animate, and swap between different models, explore gall
 
 You can view this application here: https://users.sussex.ac.uk/~cm2013/Web-3D/Web-3D/index.php#
 
+![image](https://github.com/user-attachments/assets/4e02f6a7-3950-4fde-8aaf-f5b1374fdcda)
+
 ## Features:
 - 3D model rendering with Three.js and GLTFLoader
 - Brand-based model cycling with sound effects
