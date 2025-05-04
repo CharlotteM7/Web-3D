@@ -2,6 +2,8 @@
 This interactive web application showcases 3D drink models using a custom MVC framework built with PHP, JavaScript, and Three.js. 
 Users can view, rotate, animate, and swap between different models, explore gallery images, and toggle dark mode.
 
+You can view this application here: https://users.sussex.ac.uk/~cm2013/Web-3D/Web-3D/index.php#
+
 ## Features:
 - 3D model rendering with Three.js and GLTFLoader
 - Brand-based model cycling with sound effects
