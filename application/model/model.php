@@ -81,7 +81,7 @@ class Model
                     'brand' => 'sprite',
                     'modelPath' => 'assets/3D/spriteiceanimation.glb',
                     'secondModelPath' => '',
-                    'soundPath' => '',
+                    'soundPath' => 'assets/sounds/iceSound.ogg',
                     'secondSoundPath' => '',
                     'animation' => 1
                 ],
@@ -90,7 +90,7 @@ class Model
                     'modelPath' => 'assets/3D/cantobottle.glb',
                     'secondModelPath' => 'assets/3D/canroll.glb',
                     'soundPath' => '',
-                    'secondSoundPath' => '',
+                    'secondSoundPath' => 'assets/sounds/rolling.ogg',
                     'animation' => 1
                 ]
             ];

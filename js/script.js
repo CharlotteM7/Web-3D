@@ -14,6 +14,9 @@ const loadedModels = {};
 loader = new THREE.GLTFLoader();
 loadedModel = null;
 
+const buttonClickSound = new Audio('assets/sounds/click.ogg');
+
+
 /**
  * Fetches drink metadata (model and sound paths) from the PHP backend.
  * @param {string} brand - The drink brand ID.
@@ -117,12 +120,16 @@ async function swapContent(id) {
 
   // Model switch toggle
   prevBtn?.addEventListener("click", () => {
+    buttonClickSound.currentTime = 0;
+    buttonClickSound.play();
     if (models.length < 2) return;
     currentModelIndex = (currentModelIndex - 1 + models.length) % models.length;
     loadModel(models[currentModelIndex]);
   });
 
   nextBtn?.addEventListener("click", () => {
+    buttonClickSound.currentTime = 0;
+    buttonClickSound.play(); 
     if (models.length < 2) return;
     currentModelIndex = (currentModelIndex + 1) % models.length;
     loadModel(models[currentModelIndex]);
